@@ -1,0 +1,42 @@
+<%- include('../layout/admin/header.ejs') -%>
+
+  <section class="content-main">
+    <div class="content-header">
+      <div>
+        <h2 class="content-title card-title">Edit Category</h2>
+      </div>
+      <div>
+        <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <form method="post">
+              <div class="mb-4">
+                <label for="product_name" class="form-label">Name</label>
+                <input name="name" type="text" value="<%=  Category.name %>" placeholder="Type here" class="form-control" id="product_name" />
+              </div>
+              <div class="mb-4">
+                <label class="form-label">Description</label>
+                <input name="description" type="text" value="<%=  Category.description %>" placeholder="Type here" class="form-control"  />
+              </div>
+              <input name="_id" type="text" value="<%=Category.id%>" hidden>
+              <div>
+                <button type="submit" class="btn btn-primary">
+                  Update category
+                </button>
+              </div>
+            </form>
+          </div>
+          <!-- .col// -->
+        </div>
+        <!-- .row // -->
+      </div>
+      <!-- card body .// -->
+    </div>
+    <!-- card .// -->
+  </section>
+
+  <%- include('../layout/admin/footer.ejs') -%>

@@ -1,0 +1,50 @@
+<%- include('../layout/admin/header.ejs') -%>
+
+  <section class="content-main">
+    <div class="content-header">
+      <div>
+        <h2 class="content-title card-title">Add Category</h2>
+      </div>
+      <div>
+        <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <form method="post" id="form">
+              <% if( typeof message != 'undefined' ) {%>
+                <h6 class="text-danger"><%= message %></h6>
+                <%}%> 
+              <div class="mb-4">
+                <label for="product_name" class="form-label">Name</label>
+                <input name="name" type="text" placeholder="Type here" class="form-control" id="name" />
+                <div class="error" id="error-name"></div>
+              </div>
+              <div class="mb-4">
+                <label class="form-label">Description</label>
+                <input name="description" type="text" placeholder="Type here" class="form-control" id="description" />
+                <div class="error" id="error-description"></div>
+              </div>
+              <div>
+                <button type="submit" class="btn btn-primary">
+                  Create category
+                </button>
+              </div>
+            </form>
+          </div>
+          <!-- .col// -->
+        </div>
+        <!-- .row // -->
+      </div>
+      <!-- card body .// -->
+    </div>
+    <!-- card .// -->
+    
+  </section>
+
+  <script src="/asset/js/categoryValidation.js"></script>
+
+
+  <%- include('../layout/admin/footer.ejs') -%>

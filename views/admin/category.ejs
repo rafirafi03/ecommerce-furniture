@@ -1,0 +1,137 @@
+<%- include('../layout/admin/header.ejs') -%>
+
+  <section class="content-main">
+    <div class="content-header">
+      <div>
+        <h2 class="content-title card-title">Categories</h2>
+      </div>
+      <div class="d-grid">
+        <a href="addCategory">
+          <button class="btn btn-primary">Add category</button>
+        </a>
+      </div>
+      <div>
+        <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th class="text-center">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" />
+                      </div>
+                    </th>
+                    <th>NO</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th class="text-end">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (let i=0; i < Category.length;i++) {%>
+                    <tr>
+                      <td class="text-center">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" />
+                        </div>
+                      </td>
+                      <td>
+                        <%= i+1 %>
+                      </td>
+                      <td><b>
+                          <%= Category[i].name %>
+                        </b></td>
+                      <td>
+                        <%= Category[i].description %>
+                      </td>
+                      <td>
+                        <% if (Category[i].isListed) { %>
+                          <button class="badge bg-success" style="border: none" onclick="block('<%=Category[i]._id%>')">
+                            Unlist
+                          </button>
+                          <% } else { %>
+                            <button class="badge bg-danger" style="border: none"
+                              onclick="block('<%=Category[i]._id%>')">
+                              List 
+                            </button>
+                            <% } %>
+                      </td>
+                      <td class="text-end">
+                        <div class="dropdown">
+                          <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm">
+                            <i class="material-icons md-more_horiz"></i>
+                          </a>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="editCategory?id=<%= Category[i]._id %>">Edit</a>
+                            <!-- <a class="dropdown-item text-danger" href="#">Delete</a> -->
+                          </div>
+                        </div>
+                        <!-- dropdown //end -->
+                      </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- .col// -->
+        </div>
+        <!-- .row // -->
+      </div>
+      <!-- card body .// -->
+    </div>
+    <!-- card .// -->
+    <div class="pagination-area mt-30 mb-50">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-start">
+          <li class="page-item active">
+            <a class="page-link" href="#">01</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">02</a></li>
+          <li class="page-item"><a class="page-link" href="#">03</a></li>
+          <li class="page-item">
+            <a class="page-link dot" href="#">...</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">16</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#"
+              ><i class="material-icons md-chevron_right"></i
+            ></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <script>
+
+    async function block(id) {
+      Swal.fire({
+  title: "Are you sure?",
+  text: "Confirm this action?",
+  showCancelButton: true,
+  confirmButtonColor: "green",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Confirm."
+}).then(async(result) => {
+  if (result.isConfirmed) {
+    const response = await fetch(`/admin/listCategory/${id}`, {
+        method: "POST",
+      });
+
+      if (response.status === 200) {
+        window.location.reload();
+      }
+  }
+});
+    }
+  </script>
+
+  <%- include('../layout/admin/footer.ejs') -%>
