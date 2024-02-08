@@ -1,63 +1,75 @@
 <%- include('../layout/admin/header.ejs') -%>
 
-            <section class="content-main">
-                <form method="post">
-                <div class="row">
-                    
-                    <div class="col-9">
-                        <div class="content-header">
-                            <h2 class="content-title">Edit Product</h2>
-                            <div>
-                                <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
-                                <button class="btn btn-md rounded font-sm hover-up" type="submit">Save</button>
-                            </div>
+    <section class="content-main">
+        <form id="editForm" method="post" action="/admin/editProducts?id=<%=product._id%>"
+            enctype="multipart/form-data">
+
+
+            <div class="row">
+
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Edit Product</h2>
+                        <div>
+                            <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                            <button class="btn btn-md rounded font-sm hover-up" type="submit">Save</button>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h4>Product Details</h4>
-                            </div>
-                            
-                            <div class="card-body">
-                                
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Product Name</label>
-                                        <input type="text" name="name" value="<%= product.name %>" placeholder="Type here" class="form-control" id="name" />
-                                    </div>
+                </div>
+                <div class="col-lg-6">
 
-                                    
-                                    <!-- <div class="mb-4">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Product Details</h4>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Product Name</label>
+                                <input type="text" name="name" value="<%= product.name %>" placeholder="Type here"
+                                    class="form-control" id="name" />
+                                <div class="error" id="error-editName"></div>
+                            </div>
+
+
+                            <!-- <div class="mb-4">
                                         <label class="form-label">Full description</label>
                                         <textarea placeholder="Type here" class="form-control" rows="4"></textarea>
                                     </div> -->
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="mb-4">
-                                                <label class="form-label">Quantity</label>
-                                                <div class="row gx-2">
-                                                    <input placeholder="0" value="<%= product.quantity %>" name="quantity" type="number" id="quantity" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mb-4">
-                                                <label class="form-label">Product Price</label>
-                                                <input placeholder="₹" value="<%= product.price %>" name="price" type="text" id="price" class="form-control" />
-                                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-4">
+                                        <label class="form-label">Quantity</label>
+                                        <div class="row gx-2">
+                                            <input placeholder="0" value="<%= product.quantity %>" name="quantity"
+                                                type="number" id="quantity" class="form-control" />
+                                            <div class="error" id="error-editQuantity"></div>
                                         </div>
 
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label">Category</label>
-                                            <select name="category" id="category" class="form-select">
-                                                <% for(let i=0;i< Category.length; i++) {%>
-                                                <option value="<%= product.Category%>"><%= Category[i].name %></option>
-                                                <% } %>
-                                            </select>
-                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-4">
+                                        <label class="form-label">Product Price</label>
+                                        <input placeholder="₹" value="<%= product.price %>" name="price" type="text"
+                                            id="price" class="form-control" />
+                                        <div class="error" id="error-editPrice"></div>
+                                    </div>
+                                </div>
 
-                                        <!-- <div class="col-lg-4">
+                                <div class="col-sm-6 mb-3">
+                                    <label class="form-label">Category</label>
+                                    <select name="category" id="category" class="form-select">
+                                        <% for(let i=0;i< Category.length; i++) {%>
+                                            <option value="<%= Category[i].name %>">
+                                                <%= Category[i].name %>
+                                            </option>
+                                            <% } %>
+                                    </select>
+                                </div>
+
+                                <!-- <div class="col-lg-4">
                                             <label class="form-label">Currency</label>
                                             <select class="form-select">
                                                 <option>USD</option>
@@ -65,21 +77,21 @@
                                                 <option>RUBL</option>
                                             </select>
                                         </div> -->
-                                    </div>
-                                    <!-- <div class="mb-4">
+                            </div>
+                            <!-- <div class="mb-4">
                                         <label class="form-label">Tax rate</label>
                                         <input type="text" placeholder="%" class="form-control" id="product_name" />
                                     </div> -->
-                                    <label class="form-check mb-4">
-                                        <input class="form-check-input" type="checkbox" value="" />
-                                        <span class="form-check-label"> Make a template </span>
-                                    </label>
-                                
-                            </div>
-                        
+                            <label class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" value="" />
+                                <span class="form-check-label"> Make a template </span>
+                            </label>
+
                         </div>
-                        <!-- card end// -->
-                        <!-- <div class="card mb-4">
+
+                    </div>
+                    <!-- card end// -->
+                    <!-- <div class="card mb-4">
                             <div class="card-header">
                                 <h4>Shipping</h4>
                             </div>
@@ -110,36 +122,54 @@
                                 </form>
                             </div>
                         </div> -->
-                        <!-- card end// -->
-                    
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h4>Media</h4>
-                            </div>
+                    <!-- card end// -->
+
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Media</h4>
+                        </div>
+                        <div class="card-body">
                             <div class="card-body">
                                 <div class="input-upload">
                                     <p class="text-start">Image 1</p>
-                                    <img src="/multerimages/<%= product.images.image1 %>" alt="" />
-                                    <input class="form-control" value="<%= product.images.image1 %>" type="file" name="image1" />
+                                    <img id="previewImage1" src="/multerimages/<%= product.images.image1 %>" alt="" />
+                                    <input class="form-control" type="file" name="image1"
+                                        onchange="previewImage(this, 'previewImage1')" />
+                                    <button class="btn btn-danger mt-3 mb-2 btn-xs" type="button"
+                                        onclick="removeImage('inputImage1', 'previewImage1')">Remove</button>
                                     <br>
+
                                     <p class="text-start">Image 2</p>
-                                    <img src="/multerimages/<%= product.images.image2 %>" alt="" />
-                                    <input class="form-control" value="<%= product.images.image2 %>" type="file" name="image2" />
+                                    <img id="previewImage2" src="/multerimages/<%= product.images.image2 %>" alt="" />
+                                    <input class="form-control" type="file" name="image2"
+                                        onchange="previewImage(this, 'previewImage2')" />
+                                    <button class="btn btn-danger mt-3 mb-2 btn-xs" type="button"
+                                        onclick="removeImage('inputImage2', 'previewImage2')">Remove</button>
                                     <br>
+
                                     <p class="text-start">Image 3</p>
-                                    <img src="/multerimages/<%= product.images.image3 %>" alt="" />
-                                    <input class="form-control" value="<%= product.images.image3 %>" type="file" name="image3" />
+                                    <img id="previewImage3" src="/multerimages/<%= product.images.image3 %>" alt="" />
+                                    <input class="form-control" type="file" name="image3"
+                                        onchange="previewImage(this, 'previewImage3')" />
+                                    <button class="btn btn-danger mt-3 mb-2 btn-xs" type="button"
+                                        onclick="removeImage('inputImage3', 'previewImage3')">Remove</button>
                                     <br>
+
                                     <p class="text-start">Image 4</p>
-                                    <img src="/multerimages/<%= product.images.image4 %>" alt="" />
-                                    <input class="form-control" value="<%= product.images.image4 %>" type="file" name="image4" />
+                                    <img id="previewImage4" src="/multerimages/<%= product.images.image4 %>" alt="" />
+                                    <input class="form-control" type="file" name="image4"
+                                        onchange="previewImage(this, 'previewImage4')" />
+                                    <button class="btn btn-danger mt-3 mb-2 btn-xs" type="button"
+                                        onclick="removeImage('inputImage4', 'previewImage4')">Remove</button>
+                                    <br>
                                 </div>
                             </div>
                         </div>
-                        <!-- card end// -->
-                        <!-- <div class="card mb-4">
+                    </div>
+                    <!-- card end// -->
+                    <!-- <div class="card mb-4">
                             <div class="card-header">
                                 <h4>Organization</h4>
                             </div>
@@ -163,12 +193,32 @@
                                 row.//
                             </div>
                         </div> -->
-                        <!-- card end// -->
-                    </div>
-                
+                    <!-- card end// -->
                 </div>
-            </form>
-            </section>
-            <!-- content-main end// -->
- 
-            <%- include('../layout/admin/footer.ejs') -%>
+
+            </div>
+        </form>
+    </section>
+    <!-- content-main end// -->
+
+    <script>
+        function previewImage(input, imgId) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#' + imgId).attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+
+        function removeImage(inputId, imgId) {
+            // Reset the file input and set the image source to the default value
+            $('#' + inputId).val('');
+            $('#' + imgId).attr('src', '/multerimages/default-placeholder.jpg'); // Replace with your default image path
+        }
+    </script>
+
+    <script src="/asset/js/editProductValidation.js"></script>
+
+    <%- include('../layout/admin/footer.ejs') -%>

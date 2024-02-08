@@ -28,14 +28,13 @@ const isLogout = async (req, res, next) => {
 const isBlocked = async (req,res,next) => {
     try {
         const userId = req.session.user_id;
-        console.log(userId,'jdgjcjb');
         const isBlocked = await user.findOne(
             {
                 _id:userId,
                 isBlocked:true 
             }
         );
-        console.log(isBlocked,'isvblo');
+
 
         if (isBlocked) {
             req.session.destroy();

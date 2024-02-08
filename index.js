@@ -9,9 +9,7 @@ const path = require("path");
 const nocache = require("nocache");
 const adminRoute = require("./routes/adminRoute");
 const userRoute = require("./routes/userRoute");
-
-// Define the MongoDB connection URL
-const dbUrl = "mongodb://127.0.0.1:27017/ecommerse";
+const dbUrl = process.env.dbUrl;
 
 // Connect to MongoDB with the specified options
 mongoose.connect(dbUrl);

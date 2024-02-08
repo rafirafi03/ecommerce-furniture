@@ -10252,7 +10252,7 @@ button:focus {
     background-color: #ebebeb; }
 
 .more-container {
-  margin-bottom: 7rem; }
+  margin-bottom: 2rem; }
 
 .icon-box-card {
   background-color: transparent;
@@ -13850,12 +13850,12 @@ button:focus {
 .card-dashboard {
   margin-bottom: 3rem;
   background-color: #f9f9f9;
-  border: .1rem solid #ebebeb; }
+  border: .1rem solid #cc9966; }
   .card-dashboard .card-title {
     letter-spacing: 0;
     margin-bottom: .5rem; }
   .card-dashboard .card-body {
-    padding: 4rem 2.8rem 2rem; }
+    padding: 0rem 2.8rem 2rem; }
 
 /*--------------------- 5.17.404 -------------------- */
 /* 404 - Error */
@@ -16884,6 +16884,19 @@ button:focus {
 
 .login-error {
   color: red;
+}
+
+.prfl-dtl {
+  color: #cc9966;
+}
+
+.address-h6 {
+  margin-bottom: 2px;
+}
+
+.address-h5 {
+  color: #cc9966;
+  margin-bottom: 2px;
 }
 
 input[type=number]::-webkit-inner-spin-button, 

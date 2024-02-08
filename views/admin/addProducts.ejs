@@ -126,21 +126,38 @@
                             </div>
                             <div class="card-body">
                                 <div class="input-upload">
-                                    <img src="asset/imgs/theme/upload.svg" alt="" />
+                                    <!-- Image 1 -->
+                                    <div class="uploaded-image mt-3" id="uploadedImage1"></div>
                                     <p class="text-start">Image 1</p>
-                                    <input class="form-control" type="file" name="image1" multiple />
+                                    <input class="form-control" type="file" name="image1" id="fileInput1" onchange="displayImage(this, 'uploadedImage1')" />
+                                    <button class="btn btn-xs mt-2" onclick="removeImage('fileInput1', 'uploadedImage1')">Remove</button>
                                     <br>
+
+                                    <!-- Image 2 -->
+                                    <div class="uploaded-image mt-3" id="uploadedImage2"></div>
                                     <p class="text-start">Image 2</p>
-                                    <input class="form-control" type="file" name="image2" />
+                                    <input class="form-control" type="file" name="image2" id="fileInput2" onchange="displayImage(this, 'uploadedImage2')" />
+                                    <button class="btn btn-xs mt-2" onclick="removeImage('fileInput2', 'uploadedImage2')">Remove</button>
                                     <br>
+
+                            
+                                    <!-- Image 3 -->
+                                    <div class="uploaded-image mt-3" id="uploadedImage3"></div>
                                     <p class="text-start">Image 3</p>
-                                    <input class="form-control" type="file" name="image3" />
+                                    <input class="form-control" type="file" name="image3" id="fileInput3" onchange="displayImage(this, 'uploadedImage3')" />
+                                    <button class="btn btn-xs mt-2" onclick="removeImage('fileInput3', 'uploadedImage3')">Remove</button>
                                     <br>
+
+                                    <!-- Image 4 -->
+                                    <div class="uploaded-image mt-3" id="uploadedImage4"></div>
                                     <p class="text-start">Image 4</p>
-                                    <input class="form-control" type="file" name="image4" />
-                                    
+                                    <input class="form-control" type="file" name="image4" id="fileInput4" onchange="displayImage(this, 'uploadedImage4')" />
+                                    <button class="btn btn-xs mt-2" onclick="removeImage('fileInput4', 'uploadedImage4')">Remove</button>
+                                    <br>
                                 </div>
                             </div>
+                            
+                            
                         </div>
                         <!-- card end// -->
                         <!-- <div class="card mb-4">
@@ -173,7 +190,33 @@
                 </div>
             </form>
             </section>
+            <script>
+                function displayImage(input, targetId) {
+                    const target = document.getElementById(targetId);
+                    target.innerHTML = ''; // Clear previous content
+            
+                    const files = input.files;
+                    for (const file of files) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            target.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+
+                function removeImage(inputId,targetId) {
+                const target = document.getElementById(targetId);
+                target.innerHTML = ''; // Clear content to remove the image
+
+                const input = document.getElementById(inputId);
+                input.value = '';
+            }
+            </script>
+            
             <!-- content-main end// -->
             <script src="/asset/js/productValidation.js"></script>
- 
+            
             <%- include('../layout/admin/footer.ejs') -%>

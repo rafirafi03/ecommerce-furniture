@@ -157,7 +157,7 @@ const verifyPost = async (req, res) => {
     let { otp,user_id } = req.body;
     const user = await UserOTPVerification.find();
     if (!otp) {
-      throw Error("Empty otp details are not allowed");
+     return res.render('user/otp',{message: "Incorrect OTP.",id:user_id})
     } else {
       const UserOTPVerificationRecords = await UserOTPVerification.find({
         userId: user_id,
@@ -176,14 +176,14 @@ const verifyPost = async (req, res) => {
           // user otp record has expired
           await UserOTPVerification.deleteMany({ user_id });
           return res.render("user/otp", {
-            message: "Code has expired. Please request again.",
+            message: "Code has expired. Please request again.",id:user_id
           });
         } else {
           const validOTP = await bcrypt.compare(otp, hashedOTP);
 
           if (!validOTP) {
             // supplied otp is wrong
-            return res.render("user/otp", { message: "Invalid OTP." });
+            return res.render("user/otp", { message: "Invalid OTP.",id:user_id });
           } else {
             // success
             await User.updateOne({ _id: user_id }, { verified: true });

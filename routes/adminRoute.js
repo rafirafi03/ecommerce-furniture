@@ -32,7 +32,7 @@ adminRoute.get('/addProducts',auth.isLogin,productController.loadAddProducts);
 adminRoute.post('/addProducts',multer.uploadproduct,productController.postAddProducts);
 adminRoute.post('/listProducts/:id',productController.listProducts);
 adminRoute.get('/editProducts',auth.isLogin,productController.loadEditProducts);
-adminRoute.post('/editProducts',auth.isLogin,productController.postEditProducts);
+adminRoute.post('/editProducts',multer.uploadproduct,productController.postEditProducts);
 adminRoute.get('/category',auth.isLogin,categoryController.loadCategory);
 adminRoute.post('/listCategory/:id',categoryController.listCategory);
 adminRoute.get('/addCategory',auth.isLogin,categoryController.loadAddCategory);
