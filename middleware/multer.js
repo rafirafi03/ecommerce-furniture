@@ -8,13 +8,7 @@ const storage=multer.diskStorage({
     }
 })
 
-const products = multer({ storage:storage});
-const uploadproduct = products.fields([
-    { name: "image1", maxCount: 1 },
-    { name: "image2", maxCount: 1 },
-    { name: "image3", maxCount: 1 },
-    { name: "image4", maxCount: 1 },
-   ])
+const uploadproduct = multer({ storage:storage}).array("images",4)
    
 module.exports = {
     uploadproduct

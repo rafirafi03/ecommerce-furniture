@@ -49,7 +49,8 @@
                         <%= i+1 %>
                       </td>
                       <td><b>
-                        <img style="max-width: 80px; max-height: 80px;" src="/multerimages/<%= product[i].images.image1 %>" alt="">
+                          <img style="max-width: 80px; max-height: 80px;"
+                            src="/multerimages/<%= product[i].images[0] %>" alt="">
                         </b></td>
                       <td>
                         <%= product[i].name %>
@@ -58,24 +59,25 @@
                         <%= product[i].quantity %>
                       </td>
                       <td>
-                        <%= product[i].category %>
+                        <%= product[i].category.name %>
                       </td>
                       <td class="text-success">
                         <%= product[i].price + "/-" %>
                       </td>
                       <td>
-                        
+
                         <% if (product[i].isListed) {%>
                           <button class="badge bg-success" style="border: none" onclick="block('<%=product[i]._id%>')">
                             Unlist
                           </button>
                           <% } else { %>
-                            <button class="badge bg-danger" style="border: none;" onclick="block('<%=product[i]._id%>')">
-                              List 
+                            <button class="badge bg-danger" style="border: none;"
+                              onclick="block('<%=product[i]._id%>')">
+                              List
                             </button>
                             <% } %>
-                          
-                            
+
+
                       </td>
                       <td class="text-end">
                         <div class="dropdown">
@@ -90,7 +92,7 @@
                         <!-- dropdown //end -->
                       </td>
                     </tr>
-                  <% } %>  
+                    <% } %>
                 </tbody>
               </table>
             </div>
@@ -115,9 +117,7 @@
           </li>
           <li class="page-item"><a class="page-link" href="#">16</a></li>
           <li class="page-item">
-            <a class="page-link" href="#"
-              ><i class="material-icons md-chevron_right"></i
-            ></a>
+            <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
           </li>
         </ul>
       </nav>
@@ -127,27 +127,27 @@
   <script>
     async function block(id) {
       Swal.fire({
-  title: "Are you sure?",
-  text: "Confirm this action?",
-  showCancelButton: true,
-  confirmButtonColor: "Green",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Confirm"
-}).then(async(result) => {
-  if (result.isConfirmed) {
-    const response = await fetch(`/admin/listProducts/${id}`,{
-        method: "POST",
+        title: "Are you sure?",
+        text: "Confirm this action?",
+        showCancelButton: true,
+        confirmButtonColor: "Green",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Confirm"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const response = await fetch(`/admin/listProducts/${id}`, {
+            method: "POST",
+          });
+
+          if (response.status === 200) {
+            window.location.reload();
+          }
+        }
       });
 
-      if (response.status === 200) {
-        window.location.reload();
-      }
-  }
-});
- 
     }
   </script>
 
-  
+
 
   <%- include('../layout/admin/footer.ejs') -%>

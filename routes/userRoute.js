@@ -8,6 +8,9 @@ const userController = require("../controllers/user/userController");
 const shopController = require('../controllers/user/shopController');
 const profileController = require('../controllers/user/profileController');
 const cartController = require('../controllers/user/cartController');
+const wishlistController = require('../controllers/user/wishlistController');
+const checkoutController = require('../controllers/user/checkoutController');
+
 
 userRoute.use(
   session({
@@ -40,7 +43,7 @@ userRoute.get("/otp",auth.isLogout,userController.loadOtp);
 // Route for otp verification
 userRoute.post("/otp",auth.isLogout, userController.verifyPost);
 
-userRoute.get('/resendOtp',userController.resendOtp);
+userRoute.get('/resendOtp',auth.isLogout,userController.resendOtp);
 
 
 // Route for product detail page
@@ -51,7 +54,7 @@ userRoute.get('/shopPage',auth.isBlocked,shopController.loadShop);
 
 
 // userRoute.post('/verifyOTP',userController.verifyPost)
-userRoute.get('/otp',userController.verifyOTP);
+// userRoute.get('/otp',auth.isLogout,userController.verifyOTP);
 
 userRoute.get('/profile',auth.isLogin,auth.isBlocked,profileController.loadProfile);
 
@@ -59,15 +62,29 @@ userRoute.post('/profile',profileController.editProfile);
 
 userRoute.post('/addAddress',profileController.addAddress);
 
-userRoute.get('/cart',cartController.loadCart);
+userRoute.get('/cart',auth.isLogin,cartController.loadCart);
 
 userRoute.post('/addToCart',cartController.addToCart);
 
 userRoute.delete('/cart/remove/:productId',cartController.removeFromCart);
 
+userRoute.get('/wishlist',auth.isLogin,wishlistController.loadWishlist);
+
+userRoute.post('/addToWishlist',wishlistController.addToWishlist);
+
+userRoute.delete('/wishlist/remove/:productId', wishlistController.removeFromWishlist);
+
+userRoute.get('/checkout',auth.isLogin,checkoutController.loadCheckout)
+
 userRoute.delete('/profile/address/:addressId', profileController.removeAddress);
 
-userRoute.get('/logout',profileController.logout);
+userRoute.patch('/quantity',cartController.quantity);
+
+userRoute.post('/checkoutAddAddress',checkoutController.addCheckoutAddress);
+
+userRoute.post('/order',auth.isLogin,checkoutController.order)
+
+userRoute.get('/logout',auth.isLogin,profileController.logout);
 
 // Route for the user logout
 // userRoute.get('/logout',userController.userLogout)

@@ -28,11 +28,6 @@
                                         <div class="error" id="error-name"></div>
                                     </div>
 
-                                    
-                                    <!-- <div class="mb-4">
-                                        <label class="form-label">Full description</label>
-                                        <textarea placeholder="Type here" class="form-control" rows="4"></textarea>
-                                    </div> -->
                                     <div class="row">
                                         <div class="col-lg-4">
                                             <div class="mb-4">
@@ -51,31 +46,22 @@
                                             </div>
                                             
                                         </div>
+                                        <% console.log(Category)%>
 
                                         <div class="col-sm-6 mb-3">
                                             <label class="form-label">Category</label>
                                             <select name="category" id="category" class="form-select">
-                                                <% for (let i=0;i< Category.length;i++) { %>
-                                                <option><%= Category[i].name %></option>
+                                            <% for (let i=0;i< Category.length;i++) { %>
+                                                <option value="<%= Category[i]._id%>"><%= Category[i].name %></option>
                                             <% } %> 
                                             </select>
                                             <div class="error" id="error-category"></div>
                                             
                                         </div>
 
-                                        <!-- <div class="col-lg-4">
-                                            <label class="form-label">Currency</label>
-                                            <select class="form-select">
-                                                <option>USD</option>
-                                                <option>EUR</option>
-                                                <option>RUBL</option>
-                                            </select>
-                                        </div> -->
+                                        
                                     </div>
-                                    <!-- <div class="mb-4">
-                                        <label class="form-label">Tax rate</label>
-                                        <input type="text" placeholder="%" class="form-control" id="product_name" />
-                                    </div> -->
+                                    
                                     <label class="form-check mb-4">
                                         <input class="form-check-input" type="checkbox" value="" />
                                         <span class="form-check-label"> Make a template </span>
@@ -85,136 +71,73 @@
                         
                         </div>
                         <!-- card end// -->
-                        <!-- <div class="card mb-4">
-                            <div class="card-header">
-                                <h4>Shipping</h4>
-                            </div>
-                            <div class="card-body">
-                                <form>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="mb-4">
-                                                <label for="product_name" class="form-label">Width</label>
-                                                <input type="text" placeholder="inch" class="form-control" id="product_name" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-4">
-                                                <label for="product_name" class="form-label">Height</label>
-                                                <input type="text" placeholder="inch" class="form-control" id="product_name" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Weight</label>
-                                        <input type="text" placeholder="gam" class="form-control" id="product_name" />
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Shipping fees</label>
-                                        <input type="text" placeholder="₹" class="form-control" id="product_name" />
-                                    </div>
-                                </form>
-                            </div>
-                        </div> -->
-                        <!-- card end// -->
+                        
                     
                     </div>
                     <div class="col-lg-3">
                         <div class="card mb-4">
                             <div class="card-header">
                                 <h4>Media</h4>
+                                <p>Select 4 images of the product.</p>
                             </div>
                             <div class="card-body">
                                 <div class="input-upload">
-                                    <!-- Image 1 -->
-                                    <div class="uploaded-image mt-3" id="uploadedImage1"></div>
-                                    <p class="text-start">Image 1</p>
-                                    <input class="form-control" type="file" name="image1" id="fileInput1" onchange="displayImage(this, 'uploadedImage1')" />
-                                    <button class="btn btn-xs mt-2" onclick="removeImage('fileInput1', 'uploadedImage1')">Remove</button>
-                                    <br>
-
-                                    <!-- Image 2 -->
-                                    <div class="uploaded-image mt-3" id="uploadedImage2"></div>
-                                    <p class="text-start">Image 2</p>
-                                    <input class="form-control" type="file" name="image2" id="fileInput2" onchange="displayImage(this, 'uploadedImage2')" />
-                                    <button class="btn btn-xs mt-2" onclick="removeImage('fileInput2', 'uploadedImage2')">Remove</button>
-                                    <br>
-
-                            
-                                    <!-- Image 3 -->
-                                    <div class="uploaded-image mt-3" id="uploadedImage3"></div>
-                                    <p class="text-start">Image 3</p>
-                                    <input class="form-control" type="file" name="image3" id="fileInput3" onchange="displayImage(this, 'uploadedImage3')" />
-                                    <button class="btn btn-xs mt-2" onclick="removeImage('fileInput3', 'uploadedImage3')">Remove</button>
-                                    <br>
-
-                                    <!-- Image 4 -->
-                                    <div class="uploaded-image mt-3" id="uploadedImage4"></div>
-                                    <p class="text-start">Image 4</p>
-                                    <input class="form-control" type="file" name="image4" id="fileInput4" onchange="displayImage(this, 'uploadedImage4')" />
-                                    <button class="btn btn-xs mt-2" onclick="removeImage('fileInput4', 'uploadedImage4')">Remove</button>
+                                    <!-- Image container -->
+                                    <div class="uploaded-images mt-3" id="uploadedImages"></div>
+                                    <input class="form-control" type="file" name="images" id="fileInput" onchange="displayImages(this, 'uploadedImages')" multiple />
                                     <br>
                                 </div>
                             </div>
-                            
-                            
                         </div>
-                        <!-- card end// -->
-                        <!-- <div class="card mb-4">
-                            <div class="card-header">
-                                <h4>Organization</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row gx-2">
-                                    
-                                    <div class="col-sm-6 mb-3">
-                                        <label class="form-label">Sub-category</label>
-                                        <select class="form-select">
-                                            <option>Nissan</option>
-                                            <option>Honda</option>
-                                            <option>Mercedes</option>
-                                            <option>Chevrolet</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Tags</label>
-                                        <input type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                row.//
-                            </div>
-                        </div> -->
-                        <!-- card end// -->
                     </div>
+                    
                 
                 </div>
             </form>
             </section>
+
             <script>
-                function displayImage(input, targetId) {
-                    const target = document.getElementById(targetId);
-                    target.innerHTML = ''; // Clear previous content
+            function displayImages(input, targetId) {
+    const target = document.getElementById(targetId);
+    target.innerHTML = ''; // Clear previous content
+
+    const files = input.files;
+    for (const file of files) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'uploaded-image-container';
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+
+            const cancelIcon = document.createElement('i');
+            cancelIcon.className = 'fas fa-times cancel-icon';
+            cancelIcon.onclick = function () {
+                removeImage(imageContainer, input);
+            };
+
+            const imageWrapper = document.createElement('div');
+            imageWrapper.className = 'image-wrapper';
+            imageWrapper.appendChild(img);
+            imageWrapper.appendChild(cancelIcon);
+
+            imageContainer.appendChild(imageWrapper);
+            target.appendChild(imageContainer);
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function removeImage(container, input) {
+    container.remove();
+
+    // Clear the corresponding file from the input
+    input.value = '';
+}
+
+        </script>
             
-                    const files = input.files;
-                    for (const file of files) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            target.appendChild(img);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                }
-
-                function removeImage(inputId,targetId) {
-                const target = document.getElementById(targetId);
-                target.innerHTML = ''; // Clear content to remove the image
-
-                const input = document.getElementById(inputId);
-                input.value = '';
-            }
-            </script>
             
             <!-- content-main end// -->
             <script src="/asset/js/productValidation.js"></script>

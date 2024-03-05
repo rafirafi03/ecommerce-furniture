@@ -11,27 +11,13 @@ const productSchema = new Schema ({
         required: true
     },
     category: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "category",
         required: true
     },
-    images:{
-        image1 : {
-            type: String,
-            required: true
-        },
-        image2 : {
-            type: String,
-            required: true
-        },
-        image3 : {
-            type: String,
-            required: true
-        },
-        image4 : {
-            type: String,
-            required: true
-        }
-    },
+    images:[{
+        type : String,
+    }],
     quantity: {
         type: Number,
         required: true

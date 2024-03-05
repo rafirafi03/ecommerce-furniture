@@ -4471,6 +4471,20 @@ body.dark .dropdown-menu .dropdown-item.text-danger {
   color: red;
 }
 
+.cancel-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  color: red; /* Customize color if needed */
+}
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+
 
 
 /*# sourceMappingURL=main.css.map */

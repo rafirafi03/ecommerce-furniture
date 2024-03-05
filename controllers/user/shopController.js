@@ -4,7 +4,7 @@ const product = require('../../models/productModel');
 const loadProductDetail = async (req,res) => {
     try {
       const id = req.query.id;
-      const products = await product.findOne({_id:id});
+      const products = await product.findOne({_id:id}).populate('category');
       res.render('user/productDetails',{products})
     } catch (error) {
       console.log(error.message);
@@ -16,7 +16,7 @@ const loadProductDetail = async (req,res) => {
 const loadShop = async (req,res) => {
   try {
     const id = req.query.id;
-    const products = await product.find({isListed:true});
+    const products = await product.find({isListed:true}).populate('category');
     res.render('user/shopPage',{products})
   } catch (error) {
     

@@ -5,9 +5,11 @@ const loadCart = async (req,res) => {
     try {
         const userId = req.session.user_id;
         const product = await cartModel.findOne({user:userId}).populate('product.productId');
-        res.render('user/cart',{product});
+
+        const subTotal = product.product.reduce((acc,curr)=> acc+curr.totalPrice ,0);
+        res.render('user/cart',{product,subTotal});
     } catch (error) {
-        
+        console.log(error.message);
     }
 }
 
@@ -35,10 +37,10 @@ const addToCart = async (req, res) => {
                 }
 
             } else {
-                res.status(400).json({ stock: true }); // Corrected HTTP status code
+               return res.status(400).json({ stock: true }); 
             }
         } else {
-            res.status(401).json({ failed: true }); // Corrected HTTP status code
+            res.status(401).json({ failed: true }); 
         }
 
     } catch (error) {
@@ -51,9 +53,6 @@ const removeFromCart = async (req,res) => {
     try {
         const userId = req.session.user_id;
         const productId = req.params.productId;
-
-        console.log(userId," ","userID")
-        console.log(productId, ' ', "prdcrtiD");
 
         await cartModel.findOneAndUpdate(
             { user: userId},
@@ -68,8 +67,83 @@ const removeFromCart = async (req,res) => {
     }
 }
 
+const quantity = async (req,res) => {
+    try {
+
+        let {id , quantity, productId} = req.body;
+
+        const userId = req.session.user_id
+
+        const product = await products.findOne({_id:productId})
+
+        const cartProduct = await cartModel.findOne({user: userId,'product.productId':productId}).populate('product.productId');
+
+        // const currQuantity =  userCart.product.find((item)=>{
+        //     return item._id.toString() === id.toString();
+        // })
+
+        const totalPrice = quantity * product.price
+
+
+        if (product.quantity < quantity) {
+            res.json({stockOut:true})
+        } else {
+            await cartModel.findOneAndUpdate(
+                { user: userId, 'product._id': id },
+                {
+                  $set: {
+                    'product.$.quantity': quantity,
+                    'product.$.totalPrice': totalPrice
+                  },
+                },
+                { new: true }
+              );
+    
+              
+    
+            res.json({status:true})
+        }
+        
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// const addShipping = async(req,res) => {
+
+//     try {
+//         const id = req.session.user_id
+
+//         console.log(id);
+
+//         console.log("ethiiiiiii");
+
+//     const option = req.body.option;
+//     const amount = req.body.amount;
+
+//     await cartModel.findOneAndUpdate(
+//         {user : id},
+//         {$set:{
+//             shippingMethod : option,
+//             shippingAmount : amount
+//         }},{new:true}
+//     )
+
+//     res.json({success:true})
+//     } catch (error) {
+//         console.log(error.message);
+//         res.status(500).render('500');
+//     }
+
+    
+// }
+
 module.exports = {
+
     addToCart,
     loadCart,
-    removeFromCart
+    removeFromCart,
+    quantity,
+    
 }

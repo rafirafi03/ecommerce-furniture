@@ -31,8 +31,7 @@ const resend = document.getElementById('resend-otp');
 
 function updateTimer() {
     // Add the following code for handling the resend action
-resend.addEventListener('click', async (event) => {
-    event.preventDefault();
+resend.addEventListener('click', async () => {
   
     try {
       // Make a request to the server to resend OTP
@@ -69,3 +68,29 @@ resend.addEventListener('click', async (event) => {
 
 
 setInterval(updateTimer, 1000);
+
+// Your existing code...
+
+// When sending OTP, store expiration time
+
+
+// Function to get remaining time
+function getRemainingTime() {
+  const expirationTime = req.session.otpExpirationTime;
+  if (!expirationTime) return 0; // If expiration time is not set, return 0
+  return Math.max(0, Math.ceil((expirationTime - Date.now()) / 1000)); // Return remaining time in seconds
+}
+
+// When the page loads, check if OTP is still valid
+window.addEventListener('load', function() {
+  const remainingTime = getRemainingTime();
+  if (remainingTime > 0) {
+    // Start the timer with remaining time
+    timeLeft = remainingTime;
+    updateTimer();
+  } else {
+    // OTP has expired
+    timerElement.textContent = 'Expired';
+    resend.style.display = 'block';
+  }
+});

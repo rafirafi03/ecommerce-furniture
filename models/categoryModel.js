@@ -6,10 +6,6 @@ const categoryShema = new Schema ({
         type: String,
         unique: true
     },
-    status: {
-        type: Boolean,
-        default: false
-    },
     description: {
         type: String,
     },

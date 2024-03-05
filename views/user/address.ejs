@@ -2,7 +2,7 @@
 <html lang="en">
 
 
-<!-- Mirrored from portotheme.com/html/molla/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 07 Jan 2024 09:06:04 GMT -->
+<!-- Mirrored from portotheme.com/html/molla/dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 07 Jan 2024 09:06:05 GMT -->
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Molla Store</title>
+    <title>Molla - Bootstrap eCommerce Template</title>
     <meta name="keywords" content="HTML5 Template">
     <meta name="description" content="Molla - Bootstrap eCommerce Template">
     <meta name="author" content="p-themes">
@@ -30,7 +30,11 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-bB3ePMiR8TdYiJTVK2xTpTzHrJHz9tCt21PCdUTeJzGnO2/tt6dxYwJ5gqjWAGp7z99Wvz//Tj7++Z3wpgjhTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+
 
 </head>
 
@@ -40,12 +44,23 @@
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
+                        <div class="header-dropdown">
+                            <a href="#">Usd</a>
+                            <div class="header-menu">
+                                <ul>
+                                    <li><a href="#">Eur</a></li>
+                                    <li><a href="#">Usd</a></li>
+                                </ul>
+                            </div><!-- End .header-menu -->
+                        </div><!-- End .header-dropdown -->
 
                         <div class="header-dropdown">
                             <a href="#">Eng</a>
                             <div class="header-menu">
                                 <ul>
                                     <li><a href="#">English</a></li>
+                                    <li><a href="#">French</a></li>
+                                    <li><a href="#">Spanish</a></li>
                                 </ul>
                             </div><!-- End .header-menu -->
                         </div><!-- End .header-dropdown -->
@@ -56,8 +71,9 @@
                             <li>
                                 <a href="#">Links</a>
                                 <ul>
-                                    <li><a href="tel:#"><i class="icon-phone"></i>Call: +91 9746807689</a></li>
-                                    <li><a href="/wishlist"><i class="icon-heart-o"></i>Wishlist</a></li>
+                                    <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
+                                    <li><a href="wishlist.html"><i class="icon-heart-o"></i>Wishlist
+                                            <span>(3)</span></a></li>
                                     <li><a href="about.html">About Us</a></li>
                                     <li><a href="contact.html">Contact Us</a></li>
                                 </ul>
@@ -86,6 +102,8 @@
                                 </li>
                                 <li>
                                     <a href="/shopPage" class="sf-with-ul">Shop</a>
+
+
                                 </li>
                                 <li>
                                     <a href="product.html" class="sf-with-ul">Product</a>
@@ -135,6 +153,7 @@
 
                                             <ul>
                                                 <li><a href="about.html">About 01</a></li>
+                                                <li><a href="about-2.html">About 02</a></li>
                                             </ul>
                                         </li>
                                         <li>
@@ -142,6 +161,7 @@
 
                                             <ul>
                                                 <li><a href="contact.html">Contact 01</a></li>
+                                                <li><a href="contact-2.html">Contact 02</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="login.html">Login</a></li>
@@ -263,7 +283,7 @@
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count"></span>
+                                <span class="cart-count">2</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
@@ -329,167 +349,132 @@
             </div><!-- End .header-middle -->
         </header><!-- End .header -->
 
-        <main class="main" >
+        <main class="main">
             <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
                 <div class="container">
-                    <h1 class="page-title">Shopping Cart<span>Shop</span></h1>
+                    <h1 class="page-title">My Account<span>Shop</span></h1>
                 </div><!-- End .container -->
             </div><!-- End .page-header -->
-            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
                 <div class="container">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
 
-            <div class="page-content" >
-                <div class="cart">
-                    <div class="container" >
-                        <% if(product && product.product && product.product.length> 0) { %>
-                            <div class="row" >
-                                <div class="col-lg-9" >
-                                    <table class="table table-cart table-mobile" >
-                                        <thead>
-                                            <tr>
-                                                <th>Product</th>
-                                                <th>Price</th>
-                                                <th>Stocks</th>
-                                                <th>Quantity</th>
-                                                <th>Total</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
+            <div class="page-content">
+                <div class="dashboard">
+                    <div class="container">
+                        <div class="row">
+                            <aside class="col-md-4 col-lg-3">
+                                <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab"
+                                            href="#tab-dashboard" role="tab" aria-controls="tab-dashboard"
+                                            aria-selected="true">User</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders"
+                                            role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-downloads-link" data-toggle="tab"
+                                            href="#tab-downloads" role="tab" aria-controls="tab-downloads"
+                                            aria-selected="false">Downloads</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address"
+                                            role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account"
+                                            role="tab" aria-controls="tab-account" aria-selected="false">Account
+                                            Details</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-resetPass-link" data-toggle="tab" href="#tab-resetPass"
+                                            role="tab" aria-controls="tab-resetPass" aria-selected="false">Reset
+                                            Password</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#" onclick="logout()">Sign Out</a>
+                                    </li>
+                                </ul>
+                            </aside><!-- End .col-lg-3 -->
 
-                                        <tbody >
-                                            <% product.product.forEach((prod,index)=> { %>
-                                                <tr >
-                                                    <td class="product-col">
-                                                        <div class="product">
-                                                            <figure class="product-media">
-                                                                <a href="#">
-                                                                    <img src="/multerimages/<%= prod.productId.images[0] %>"
-                                                                        alt="Product image">
-                                                                </a>
-                                                            </figure>
+                            <div class="col-md-8 col-lg-9">
+                                <div class="tab-content">  
 
-                                                            <h3 class="product-title">
-                                                                <a>
-                                                                    <%=prod.productId.name%>
-                                                                </a>
-                                                            </h3><!-- End .product-title -->
-                                                        </div><!-- End .product -->
-                                                    </td>
-                                                    <td class="price-col">
-                                                       ₹ <%=prod.price %>.00
-                                                    </td>
-                                                    <%if(prod.productId.quantity > 5) {%>
-                                                    <td class="stock-col">
-                                                        <span class="in-stock">In stock</span>
-                                                      </td>
-                                                    <%} else if(prod.productId.quantity < 6){%>
-                                                        <td class="stock-col">
-                                                            <span class="text-warning">Few left</span>
-                                                          </td>
-                                                    <%} else {%>
-                                                        <td class="stock-col">
-                                                            <span class="text-danger">Out of Stock</span>
-                                                          </td>
-                                                    <%}%>
-                                                    <td class="quantity-col">
-                                                        <div class="cart-product-quantity">
-                                                            <input id="in<%=index%>"
-                                                                onchange="quantityFnctn('<%=prod._id %>','<%=index%>','<%= prod.productId._id %>')"
-                                                                type="number" class="form-control" value="<%=prod.quantity%>" min="1"
-                                                                step="1"
-                                                                data-decimals="0" required>
+                                                        <div class="tab-pane fade" id="tab-addAddress" role="tabpanel"
+                                                            aria-labelledby="tab-addAddress-link">
+                                                            <form id="addAddress">
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <label>Full Name *</label>
+                                                                        <input type="text" name="fullName" id="fullName" class="form-control">
+                                                                    </div><!-- End .col-sm-6 -->
 
-                                                        </div><!-- End .cart-product-quantity -->
+                                                                    <div class="col-sm-6">
+                                                                        <label>Address *</label>
+                                                                        <input type="text" name="address" id="address" class="form-control">
+                                                                    </div><!-- End .col-sm-6 -->
+                                                                </div><!-- End .row -->
 
-                                                    </td>
-                                                    <td class="total-col">
-                                                       ₹ <%=prod.totalPrice %>
-                                                    </td>
-                                                    <td class="remove-col">
-                                                        <button class="btn-remove"
-                                                            data-product-id="<%= prod.productId._id %>"><i
-                                                                class="icon-close"></i></button>
-                                                    </td>
+                                                                
 
-                                                </tr>
-                                                <% }) %>
-                                        </tbody>
-                                    </table><!-- End .table table-wishlist -->
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <label>Email *</label>
+                                                                        <input type="text" name="email" id="email" class="form-control">
+                                                                    </div><!-- End .col-sm-6 -->
 
-                                    <div class="cart-bottom">
-                                        <div class="cart-discount">
-                                            <form action="#">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" required
-                                                        placeholder="coupon code">
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-primary-2" type="submit"><i
-                                                                class="icon-long-arrow-right"></i></button>
-                                                    </div><!-- .End .input-group-append -->
-                                                </div><!-- End .input-group -->
-                                            </form>
-                                        </div><!-- End .cart-discount -->
+                                                                    <div class="col-sm-6">
+                                                                        <label>Mobile *</label>
+                                                                        <input type="text" name="mobile" id="mobile" class="form-control">
+                                                                    </div><!-- End .col-sm-6 -->
+                                                                </div><!-- End .row -->
 
-                                        <a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i
-                                                class="icon-refresh"></i></a>
-                                    </div><!-- End .cart-bottom -->
-                                </div><!-- End .col-lg-9 -->
-                                <aside class="col-lg-3">
-                                    <div class="summary summary-cart">
-                                        <h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <label>Country *</label>
+                                                                        <input type="text" name="country" id="country" class="form-control">
+                                                                    </div><!-- End .col-sm-6 -->
 
-                                        <table class="table table-summary">
-                                            <tbody>
-                                                <tr class="summary-subtotal">
-                                                    <td>Subtotal:</td>
-                                                    <td id="sbtotl">₹ <%=subTotal%>.00</sub></td>
-                                                </tr><!-- End .summary-subtotal -->
+                                                                    <div class="col-sm-6">
+                                                                        <label>State *</label>
+                                                                        <input type="text" name="state" id="state" class="form-control">
+                                                                    </div><!-- End .col-sm-6 -->
+                                                                </div><!-- End .row -->
 
-                                                <!-- <tr class="summary-shipping">
-	                							<td>Shipping:</td>
-	                							<td>&nbsp;</td> -->
-	                						</tr>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <label>District *</label>
+                                                                        <input type="text" name="district" id="district" class="form-control">
+                                                                    </div><!-- End .col-sm-6 -->
 
-                                                <tr class="summary-total">
-                                                    <td>Total:</td>
-                                                    <td>₹ <%=subTotal%>.00</td>
-                                                </tr><!-- End .summary-total -->
-                                            </tbody>
-                                        </table><!-- End .table table-summary -->
+                                                                    <div class="col-sm-6">
+                                                                        <label>Pincode *</label>
+                                                                        <input type="text" name="pincode" id="pincode" class="form-control">
+                                                                    </div><!-- End .col-sm-6 -->
+                                                                </div><!-- End .row -->
 
-                                        <a href="/checkout"
-                                            class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
-                                            CHECKOUT</a>
-                                    </div><!-- End .summary -->
+                                                                <button type="submit" onclick="addAddress()"
+                                                                    class="btn btn-outline-primary-2">
+                                                                    <span>SAVE CHANGES</span>
+                                                                    <i class="icon-long-arrow-right"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div><!-- .End .tab-pane -->
 
-                                    <a href="shopPage" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE
-                                            SHOPPING</span><i class="icon-refresh"></i></a>
-                                </aside><!-- End .col-lg-3 -->
-                            </div><!-- End .row -->
-                            <% } else { %>
-                                <div>
-                                    <div>
-                                        <div class="card card-dashboard ml-5 text-center">
-                                            <div class="card-body">
-                                                <br>
-
-                                                <h5><i class="icon-shopping-cart"
-                                                        style="font-size: 50px;"></i><br><br>Your cart is empty</h5>
-                                            </div><!-- End .card-body -->
-                                        </div><!-- End .card-dashboard -->
-                                    </div><!-- End .col-lg-9 -->
-
-                                </div><!-- End .row -->
-                                <%}%>
+                                                        <!-- Edit address code -->
+                                                        
+                                </div>
+                            </div><!-- End .col-lg-9 -->
+                        </div><!-- End .row -->
                     </div><!-- End .container -->
-                </div><!-- End .cart -->
+                </div><!-- End .dashboard -->
             </div><!-- End .page-content -->
         </main><!-- End .main -->
 
@@ -596,27 +581,9 @@
                 <ul class="mobile-menu">
                     <li class="active">
                         <a href="/">Home</a>
-
-
                     </li>
                     <li>
-                        <a href="category.html">Shop</a>
-                        <ul>
-                            <li><a href="category-list.html">Shop List</a></li>
-                            <li><a href="category-2cols.html">Shop Grid 2 Columns</a></li>
-                            <li><a href="category.html">Shop Grid 3 Columns</a></li>
-                            <li><a href="category-4cols.html">Shop Grid 4 Columns</a></li>
-                            <li><a href="category-boxed.html"><span>Shop Boxed No Sidebar<span
-                                            class="tip tip-hot">Hot</span></span></a></li>
-                            <li><a href="category-fullwidth.html">Shop Fullwidth No Sidebar</a></li>
-                            <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
-                            <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span
-                                            class="tip tip-new">New</span></span></a></li>
-                            <li><a href="cart.html">Cart</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
-                            <li><a href="wishlist.html">Wishlist</a></li>
-                            <li><a href="#">Lookbook</a></li>
-                        </ul>
+                        <a href="shopPage">Shop</a>
                     </li>
                     <li>
                         <a href="product.html" class="sf-with-ul">Product</a>
@@ -729,129 +696,307 @@
         </div><!-- End .mobile-menu-wrapper -->
     </div><!-- End .mobile-menu-container -->
 
+    <!-- Sign in / Register Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="tab-pane fade" id="tab-editAddress" role="tabpanel"
+                aria-labelledby="tab-editAddress-link">
+                <form id="editAddress">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Full Name *</label>
+                            <input type="text" name="fullName" id="editFullName" class="form-control">
+                        </div><!-- End .col-sm-6 -->
 
+                        <div class="col-sm-6">
+                            <label>Address *</label>
+                            <input type="text" name="address" id="addressEdit" class="form-control">
+                        </div><!-- End .col-sm-6 -->
+                    </div><!-- End .row -->                                                           
 
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Email *</label>
+                            <input type="text" name="email" id="editEmail" class="form-control">
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-sm-6">
+                            <label>Mobile *</label>
+                            <input type="text" name="mobile" id="editMobile" class="form-control">
+                        </div><!-- End .col-sm-6 -->
+                    </div><!-- End .row -->
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Country *</label>
+                            <input type="text" name="country" id="editCountry" class="form-control">
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-sm-6">
+                            <label>State *</label>
+                            <input type="text" name="state" id="editState" class="form-control">
+                        </div><!-- End .col-sm-6 -->
+                    </div><!-- End .row -->
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>District *</label>
+                            <input type="text" name="district" id="editDistrict" class="form-control">
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-sm-6">
+                            <label>Pincode *</label>
+                            <input type="text" name="pincode" id="editPincode" class="form-control">
+                        </div><!-- End .col-sm-6 -->
+                    </div><!-- End .row -->
+
+                    <button type="submit"
+                        class="btn btn-outline-primary-2">
+                        <span>SAVE CHANGES</span>
+                        <i class="icon-long-arrow-right"></i>
+                    </button>
+                </form>
+            </div><!-- .End .tab-pane -->            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+          </div>
+        </div>
+      </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script defer src="assets/js/profileValidation.js"></script>
 
-    <!-- <script>
-        function addShipping(option,amount) {
-            console.log('dfghfkjhg,mnhgvkjhvc',option,amount);
 
-            fetch('/addShipping',{
-                method: 'PATCH',
+    <script>
+        function editAddressProfile(index) {
+    console.log(index, 'index');
+
+    // Ensure 'address' is defined and 'address.address' is an array
+    if (address && address.address && Array.isArray(address.address) && address.address.length > index) {
+        var selectedAddress = address.address[index];
+        console.log(selectedAddress, 'address');
+
+        // Set the values in the edit form
+        document.getElementById('editFullName').value = selectedAddress.fullName || '';
+        document.getElementById('addressEdit').value = selectedAddress.address || '';
+        document.getElementById('editEmail').value = selectedAddress.email || '';
+        document.getElementById('editMobile').value = selectedAddress.mobile || '';
+        document.getElementById('editCountry').value = selectedAddress.country || '';
+        document.getElementById('editState').value = selectedAddress.state || '';
+        document.getElementById('editDistrict').value = selectedAddress.district || '';
+        document.getElementById('editPincode').value = selectedAddress.pincode || '';
+
+        // Show the "Edit Address" tab
+        document.getElementById('tab-editAddress').classList.add('show', 'active');
+
+        // Optionally, you might want to hide the other tabs
+        document.getElementById('tab-address').classList.remove('show', 'active');
+    } else {
+        console.log('Invalid index or address array is undefined/empty');
+    }
+}
+
+
+    </script>
+
+
+    <script>
+
+        function logout() {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Do you want to logout?",
+                showCancelButton: true,
+                confirmButtonColor: "#cc9966",
+                cancelButtonColor: "black",
+                confirmButtonText: "Logout"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/logout'
+                }
+            });
+        }
+
+    </script>
+
+
+    <script>
+
+function editProfile() {
+  const form = document.getElementById('editForm');
+  const errorName = document.getElementById('error-name');
+  const errorMobile = document.getElementById('error-mobile');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Clear error messages
+    errorName.innerText = "";
+    errorMobile.innerText = "";
+
+    const name = document.getElementById('userName').value;
+    const mobile = document.getElementById('userMobile').value;
+
+    const isValid = validateInputs(name, mobile);
+
+    if (!isValid) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          mobile,
+          name
+        }),
+      });
+
+      if (!response.ok) {
+        console.log('Error editing profile');
+      } else {
+        // $('#editDiv').load('/profile' ,'#editDiv')
+        location.href = '/profile';
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+
+  function validateInputs(name, mobile) {
+    let isValid = true;
+
+    if (name.trim() === "") {
+      errorName.innerText = "Username is required.";
+      isValid = false;
+    }
+
+    if (mobile.trim() === "") {
+      errorMobile.innerText = "Mobile is required.";
+      isValid = false;
+    } else if (mobile.length !== 10) {
+      errorMobile.innerText = "Invalid mobile number.";
+      isValid = false;
+    }
+
+    return isValid;
+  }
+}
+
+
+    </script>
+
+    <script>
+
+        function addAddress(){
+            const fullName = document.getElementById('fullName').value;
+            const address = document.getElementById('address').value;
+            const email = document.getElementById('email').value;
+            const mobile = document.getElementById('mobile').value;
+            const country = document.getElementById('country').value;
+            const state = document.getElementById('state').value;
+            const district = document.getElementById('district').value;
+            const pincode = document.getElementById('pincode').value;
+
+            fetch('/addAddress',{
+                method: 'POST',
                 headers: {
-                    'content-Type':'application/json'
-                },
-                body: JSON.stringify({option,amount})
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        fullName,
+                        address,
+                        email,
+                        mobile,
+                        country,
+                        state,
+                        district,
+                        pincode
+                        
+                    }),
+
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success === true) {
-                    location.reload()
+            .then(respons =>{
+                if(!respons.add){
+                    console.log('error adding address')
+                }else{
+                    location.href = '/profile'
                 }
             })
         }
-    </script> -->
+    </script>
 
-    <script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert CDN -->
 
-        function quantityFnctn(id, index , productId) {
-
-            const quantity = document.getElementById(`in${index}`).value;
-
-            fetch('/quantity', {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id, quantity,productId })
-
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status===true) {
-                    
-                    location.reload()
-
-                    
-                } else if (data.stockOut===true) {
-                    Swal.fire({
-                    title: 'OOPS!!!',
-                    text: 'This product is out of stock.',
-                    icon: 'warning',
-                    confirmButtonColor: '#c96',
-                    confirmButtonText: '    Ok    '
-                }).then(()=>{
-                    location.reload();
+<script>
+    function deleteAddress(addressId) {
+        // Display SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor:'red',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If user confirms, send DELETE request
+                fetch(`/profile/address/${addressId}`, {
+                    method: 'DELETE',
+                    credentials: 'same-origin'
                 })
-            }
-            })
-
-        }
-    </script>
-
-
-
-    <script>
-
-                document.querySelectorAll('.btn-remove').forEach(button => {
-                button.addEventListener('click', async (event) => {
-                const productId = event.currentTarget.getAttribute('data-product-id');
-                console.log(productId);
-
-                // Display SweetAlert confirmation dialog
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'You are about to remove this product from your cart.',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#cc9966',
-                    confirmButtonText: 'Yes, remove it!'
-                }).then(async (result) => {
-                    if (result.isConfirmed) {
-                        try {
-                            const response = await fetch(`/cart/remove/${productId}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }
-                            })
-                            if (response.ok) {
-                                // Update the UI without reloading the page
-                                Swal.fire('Removed!', 'Your product has been removed from the cart.', 'success').then(() => {
-                                    window.location.reload()
-                                });
-
-                            } else {
-                                Swal.fire('Error!', 'Failed to remove product from cart.', 'error');
+                .then(response => {
+                    if (response.ok) {
+                        // Display success message with SweetAlert
+                        Swal.fire(
+                            'Deleted!',
+                            'Your address has been deleted.',
+                            'success'
+                        )
+                        .then(response => {
+                            if (response) {
+                                location.reload(); // Optionally reload the page
                             }
-                        } catch (error) {
-                            console.error('Error removing product from cart:', error);
-                            Swal.fire('Error!', 'Failed to remove product from cart.', 'error');
-                        }
+                            
+                        })
+                    } else {
+                        console.error('Error deleting address');
                     }
-                });d
-            });
+                })
+                .catch(error => {
+                    console.error('Error deleting address:', error);
+                });
+            }
         });
+    }
+</script>
 
-    </script>
 
+    
     <!-- Plugins JS File -->
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="assets/js/jquery.min.js"></script>
-
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/jquery.hoverIntent.min.js"></script>
     <script src="assets/js/jquery.waypoints.min.js"></script>
     <script src="assets/js/superfish.min.js"></script>
     <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/bootstrap-input-spinner.js"></script>
-
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
 </body>
 
 
-<!-- Mirrored from portotheme.com/html/molla/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 07 Jan 2024 09:06:04 GMT -->
+<!-- Mirrored from portotheme.com/html/molla/dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 07 Jan 2024 09:06:06 GMT -->
 
 </html>

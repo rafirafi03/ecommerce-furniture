@@ -4463,6 +4463,10 @@ a:focus {
 .custom-control.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
   background-color: #c96; }
 
+.shipping-add-address {
+  color: #000;
+  font-size: 15px;}
+
 .icon-box-icon {
   color: #c96; }
 
@@ -4920,6 +4924,7 @@ a:focus {
   color: #c96; }
 
 .product-col .product-title a:hover, .product-col .product-title a:focus {
+  cursor: pointer;
   color: #c96; }
 
 /* Plugins */
@@ -6904,7 +6909,7 @@ a:focus {
   margin-bottom: 0; }
   .card-title a {
     display: block;
-    padding: 1.7rem 4rem 1.7rem 1.2rem;
+    padding: 1.7rem 4rem 1.7rem 0.0rem;
     position: relative;
     color: #c96;
     border: none;
@@ -9464,7 +9469,9 @@ small.form-text {
   position: relative;
   padding-left: 2.6rem;
   margin-top: 1rem;
-  margin-bottom: 1rem; }
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
 
 .custom-control-label {
   position: static;
@@ -9472,7 +9479,11 @@ small.form-text {
   margin-top: .1rem;
   font-size: 1.4rem;
   padding-left: 2.6rem;
-  margin-left: -2.6rem; }
+  margin-left: -2.6rem;
+  cursor: pointer;
+}
+
+
 
 .custom-control-label::before {
   left: 0;
@@ -13373,8 +13384,7 @@ button:focus {
   border: .1rem dashed #d7d7d7;
   background-color: #f9f9f9;
   border-radius: .3rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem; }
+  margin-top: 2rem; }
 
 .summary-title {
   font-weight: 500;
@@ -13419,8 +13429,7 @@ button:focus {
     color: #c96;
     border-bottom: none; }
 
-.accordion-summary {
-  margin-bottom: 3.2rem; }
+
   .accordion-summary .card {
     color: #999999;
     font-weight: 300;
@@ -16898,6 +16907,43 @@ button:focus {
   color: #cc9966;
   margin-bottom: 2px;
 }
+
+.error-div {
+  color: red;
+  margin-top: 0px;
+}
+
+.btn-product {
+  cursor: pointer;
+}
+
+.btn-expandable {
+  cursor: pointer;
+}
+
+.btn-wishlist:hover {
+  background-color: white;
+}
+
+.shipping-address {
+  color: #c96;
+}
+
+.custom-radio input[type="radio"] {
+  
+  appearance: none; 
+  width: 13px; 
+  height: 13px; 
+  border: 3px solid #ccc;
+  border-radius: 50%;
+  background-color: #fff;
+  }
+
+  .custom-radio input[type="radio"]:checked {
+  
+  background-color: #c96;
+  border-color: #ffffffb7;
+  }
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {

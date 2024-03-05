@@ -37,6 +37,7 @@ const editProfile = async (req,res) => {
     } 
 };
 
+
 const addAddress = async (req,res) => {
     try {
         const userId = req.session.user_id;
@@ -50,7 +51,6 @@ const addAddress = async (req,res) => {
             district : req.body.district,
             pincode : req.body.pincode
         };
-        console.log(address);
 
         const findAddress = await userAddress.findOneAndUpdate(
             {user: userId},
@@ -58,13 +58,12 @@ const addAddress = async (req,res) => {
             {upsert:true,new:true}
         )
 
-        console.log(findAddress);
 
         res.json({add:true});
 
     } catch (error) {
         console.error(error);
-        res.status(500).render(500);
+        res.status(500).json({add:false});
     }
 }
 
@@ -97,6 +96,12 @@ const editAddress = async (req,res)=> {
             console.error('Error deleting address:', error);
             res.sendStatus(500);
         }
+    }
+
+    const PatchResetPass = async (req,res) => {
+        let {currentPass , newPass} = req.body;
+
+
     }
 
 

@@ -1,10 +1,10 @@
-const express = require("express");
+// const express = require("express");
 const User = require("../../models/userModel");
 const UserOTPVerification = require("../../models/userOtpVerification");
 const product = require('../../models/productModel')
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
-const env = require("dotenv").config();
+// const env = require("dotenv").config();
 
 // // signup
 const signUpPost = async (req, res) => {
@@ -31,7 +31,7 @@ const signUpPost = async (req, res) => {
       });
       const result = await newUser.save();
       // req.session.user_id = result._id;
-      sendOTPVerificationEmail(result, res);
+      sendOTPVerificationEmail(result, res,req);
     });
   }
 };
@@ -41,7 +41,6 @@ const loginPost = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
-    const isBlocked = await User.findOne({email:email,isBlocked:true});
 
 
 
@@ -50,8 +49,10 @@ const loginPost = async (req, res) => {
       return res.render("user/login", {
         message: "Invalid email or password.",
       });
-    } else if(isBlocked) {
+    } else if(user.isBlocked) {
       return res.render('user/login',{ message: "You are blocked by admin."})
+    } else if (!user.verified) {
+      return res.render('user/login',{message:"Not a User. Please signup!"})
     }
 
     // Compare the provided password with the hashed password in the database
@@ -80,7 +81,7 @@ const loadHome = async (req, res) => {
   try {
     const userId = req.session.user_id;
     
-    const products = await product.find({isListed:true})
+    const products = await product.find({isListed:true}).populate('category')
     res.render("user/home",{products,userId});
   } catch (error) {
     console.log(error.message);
@@ -116,10 +117,13 @@ const loadOtp = async (req, res) => {
 };
 
 // Code for send the otp for email verification.
-const sendOTPVerificationEmail = async (result, res) => {
+const sendOTPVerificationEmail = async (result, res,req) => {
   const { _id, email } = result;
   try {
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+    const expirationTime = Date.now() + 30000;
+
+    req.session.otpExpirationTime = expirationTime;
 
     // mail options
     const mailoptions = {
@@ -136,7 +140,7 @@ const sendOTPVerificationEmail = async (result, res) => {
       userId: _id,
       otp: hashedOTP,
       createdAt: Date.now(),
-      expiresAt: Date.now() + 30000,
+      expiresAt: expirationTime,
     });
 
     // save otp record
@@ -203,37 +207,41 @@ const verifyPost = async (req, res) => {
 };
 
 // resend verification
-const verifyOTP = async (req, res) => {
-  try {
-    let { userId, email } = req.body;
+// const verifyOTP = async (req, res) => {
+//   try {
+//     let { userId, email } = req.body;
 
-    if (!userId || !email) {
-      throw Error("Empty user details are not allowed");
-    } else {
-      // delete existing records and resend
-      await UserOTPVerification.deleteMany({ userId });
-      sendOTPVerificationEmail({ _id: userId, email }, res);
-    }
-  } catch (error) {
-    res.json({
-      status: "FAILED",
-      message: error.message,
-    });
-  }
-};
+//     if (!userId || !email) {
+//       throw Error("Empty user details are not allowed");
+//     } else {
+//       // delete existing records and resend
+//       await UserOTPVerification.deleteMany({ userId });
+//       sendOTPVerificationEmail({ _id: userId, email }, res);
+//     }
+//   } catch (error) {
+//     res.json({
+//       status: "FAILED",
+//       message: error.message,
+//     });
+//   }
+// };
 
 const resendOtp = async (req, res) => {
   try {
-    const userId = req.session.user_id;
-    const user = await User.findOne({ _id: userId, verified: false });
+    const userId = req.query.id;
+    const user = await User.findOne({ _id: userId});
+    console.log(user , " ","user");
+    console.log(userId," ","id");
+
 
     if (!user) {
       throw new Error("User not found or already verified.");
+    }else{
+      // Delete existing records and resend OTP
+      await UserOTPVerification.deleteMany({userId: userId});
+    sendOTPVerificationEmail(user, res,req);
     }
 
-    // Delete existing records and resend OTP
-    await UserOTPVerification.deleteMany({ userId });
-    sendOTPVerificationEmail({ _id: userId, email: user.email }, res);
   } catch (error) {
     res.json({
       status: "FAILED",
@@ -263,6 +271,5 @@ module.exports = {
   loadOtp,
   signUpPost,
   verifyPost,
-  verifyOTP,
   resendOtp
 };

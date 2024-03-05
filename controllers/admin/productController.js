@@ -5,7 +5,7 @@ const category = require('../../models/categoryModel');
 // Code for load the products page.
 const loadProducts = async (req, res) => {
   try {
-    const product = await products.find();
+    const product = await products.find().populate('category');
     res.render("admin/products", { product });
   } catch (error) {
     console.log(error.message);
@@ -24,27 +24,23 @@ const loadAddProducts = async (req, res) => {
 
 // Code for post the add product request.
 const postAddProducts = async (req, res) => {
+
+  try {
   let { name, quantity, category, price } = req.body;
+
+  console.log(category)
+
+  
   // let { image1, image2, image3, image4 } = req.files;
 
   // Ensure image1 is defined and is an array
 
-  const image = [
-    req.files && req.files.image1 ? req.files.image1[0].filename : null,
-    req.files && req.files.image2 ? req.files.image2[0].filename : null,
-    req.files && req.files.image3 ? req.files.image3[0].filename : null,
-    req.files && req.files.image4 ? req.files.image4[0].filename : null,
-  ];
-
+  const files = req.files.map((item)=>{
+    return item.filename;
+  })
 
   const product = new products({
-    images: {
-      image1: image[0],
-      image2: image[1],
-      image3: image[2],
-      image4: image[3],
-    },
-
+    images: files,
     name: name,
     quantity: quantity,
     category: category,
@@ -53,10 +49,10 @@ const postAddProducts = async (req, res) => {
 
   });
 
-  try {
-    const result = await product.save();
+    await product.save();
     res.redirect('/admin/products');
   } catch (error) {
+    console.log('post errorrrrrrrrr');
     // Handle the error here, e.g., send an error response
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -73,36 +69,46 @@ const loadEditProducts = async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-
+  
 }
 
 // code for post the edit product request.
 const postEditProducts = async (req, res) => {
   let { name, quantity, category, price } = req.body;
+  let { images1,images2,images3,images4 } = req.body;
+  console.log(req.body);
   const id = req.query.id;
 
-  const files = req.files;
+  
+  console.log(id," ","iddddddd",category)
+
+  const files = req.files.map((item)=>{
+    return item.filename;
+  })
+  console.log(files," ","filesssssssss");
 
   const existingData = await products.findOne({ _id: id });
 
-  const img = [
-    files?.image1 ? (files.image1[0]?.filename || existingData.images.image1) : existingData.images.image1,
-    files?.image2 ? (files.image2[0]?.filename || existingData.images.image2) : existingData.images.image2,
-    files?.image3 ? (files.image3[0]?.filename || existingData.images.image3) : existingData.images.image3,
-    files?.image4 ? (files.image4[0]?.filename || existingData.images.image4) : existingData.images.image4,
-  ];
+  console.log(existingData," ","exstngdataaaaaaa")
+
+  let img = []
+
+  for (let i = 0; i < existingData.images.length; i++) {
+    if (i < files.length) {
+      img.push(files[i]);
+    } else {
+      img.push(existingData.images[i]);
+    }
+  }
+
+  console.log(img," ","imagessssss")
 
   const product = {
     name: name,
     quantity: quantity,
     category: category,
     price: price,
-    images: {
-      image1: img[0],
-      image2: img[1],
-      image3: img[2],
-      image4: img[3],
-    },
+    images:img
   }
   const result = await products.findOneAndUpdate({ _id: id }, product, { new: true });
 

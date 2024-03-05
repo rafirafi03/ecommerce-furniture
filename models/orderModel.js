@@ -2,12 +2,23 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-const cartSchema = new Schema ({
-
+const orderSchema = new Schema ({
+    
     user: {
         type : ObjectId,
         ref : 'user',
         required : true
+    },
+
+    deliveryAddress : {
+        type : Object,
+        required : true
+    },
+
+    payment : {
+        type : String,
+        required : true,
+        method : ['Cash on delivery','Razorpay','Wallet']
     },
 
     product : [{
@@ -30,7 +41,21 @@ const cartSchema = new Schema ({
         }
     }],
 
-})
+    totalPrice : {
+        type:Number,
+        required: true
+    },
 
-const cartModel = mongoose.model('cart',cartSchema)
-module.exports = cartModel;
+    orderStatus : {
+        type : String,
+        dafault : 'Pending',
+        enum:['Pending','placed','returned or cancelled']
+    },
+    orderDate : {
+        type : Date,
+        required : true
+    },
+});
+
+const order = mongoose.model('order',orderSchema);
+module.exports = order;
