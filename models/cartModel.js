@@ -10,6 +10,11 @@ const cartSchema = new Schema ({
         required : true
     },
 
+    coupon : {
+        type : ObjectId,
+        ref:'coupon',
+    },
+
     product : [{
         productId : {
             type: ObjectId,
@@ -29,6 +34,7 @@ const cartSchema = new Schema ({
             required : true
         }
     }],
+
 
 })
 

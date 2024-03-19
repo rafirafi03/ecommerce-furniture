@@ -6887,8 +6887,7 @@ a:focus {
   margin-bottom: 0;
   border: none;
   border-top: .1rem solid #ebebeb; }
-  .card:last-child {
-    border-bottom: .1rem solid #ebebeb; }
+  
 
 .card-header {
   position: relative;
@@ -11186,8 +11185,14 @@ button:focus {
 .product-pager-next i {
   margin-left: .5rem; }
 
+.btn-cancel-order{
+  margin-left: 40%;
+  margin-bottom: 5px;
+  width: 10%;
+}
+
 .product-details {
-  margin-bottom: 2rem; }
+  margin-bottom: 0rem; }
   .product-details .product-title {
     font-weight: 400;
     font-size: 2.4rem;
@@ -16949,5 +16954,13 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.account-title{
+  color: #c96;
+}
+
+.order-detail{
+  color: #c96;
 }
 /*# sourceMappingURL=style.css.map */

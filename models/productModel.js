@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -25,6 +26,14 @@ const productSchema = new Schema ({
     isListed: {
         type: Boolean,
         default: false
+    },
+    offerId : {
+        type : ObjectId,
+        ref : 'offer'
+    },
+    offerPercentage : {
+        type : Number,
+        default : null
     }
 })
 

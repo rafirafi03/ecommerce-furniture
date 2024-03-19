@@ -376,7 +376,12 @@
                   <p ><%= products[i].category.name %></p>
                 </h3>
                 <!-- End .product-title -->
-                <div class="product-price"><a href="/productDetails?id=<%=products[i]._id%>"><%= "₹" + " " + products[i].price %></a></div>
+                <%if(products[i].offerId){%>
+                  <p class="text-danger"><s><%= "₹" + " " + products[i].price %> /-</s></p>
+                  <div class="product-price"><a class="text-success" href="/productDetails?id=<%=products[i]._id%>"><%= "₹" + " " + products[i].offerPercentage %> /-</a></div>
+                  <%}else{%>
+                <div class="product-price"><a href="/productDetails?id=<%=products[i]._id%>"><%= "₹" + " " + products[i].price %> /-</a></div>
+                <%}%>
                 <!-- End .product-price -->
                 <!-- <div class="product-nav product-nav-dots">
                   <a href="#" class="active" style="background: #333333"

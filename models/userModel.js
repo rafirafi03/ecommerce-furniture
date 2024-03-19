@@ -29,7 +29,18 @@ const UserSchema = new Schema({
   isBlocked: {
     type: Boolean,
     default: false,
-  }
+  },
+  wallet: {
+    type : Number,
+  },
+  walletHistory : [{
+    date : {
+      type : Date
+    },
+    amount : {
+      type : Number
+    }
+  }]
 
 });
 

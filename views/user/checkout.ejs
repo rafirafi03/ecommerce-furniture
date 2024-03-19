@@ -30,7 +30,6 @@
     <link rel="stylesheet" href="assets/css/style.css">
 
     <!-- Font Awesome CDN -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" crossorigin="anonymous" />
 
 </head>
 
@@ -331,12 +330,7 @@
             <div class="page-content">
             	<div class="checkout">
 	                <div class="container">
-            			<div class="checkout-discount">
-            				<form action="#">
-        						<input type="text" class="form-control" required id="checkout-discount-input">
-            					<label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
-            				</form>
-            			</div><!-- End .checkout-discount -->
+            			
             			<form id="checkoutForm">
 		                	<div class="row">
 		                		<div class="col-lg-9">
@@ -462,6 +456,58 @@
 
                                     </form>
 
+                                    <div class="card-header" id="heading-1">
+                                        <h2 class="card-title">
+                                            <a role="button" class="shipping-add-address" data-toggle="collapse" href="#availableCoupons" aria-expanded="false" aria-controls="availableCoupons">
+                                                Show available coupons
+                                            </a>
+                                        </h2>
+                                    </div><!-- End .card-header -->
+
+                                    <div id="availableCoupons"  class="collapse" aria-labelledby="heading-1" data-parent="#accordion-payment">
+                                        <div class="row">  
+                                            <%if(coupon && coupon.length>0){%>
+                                                <%coupon.forEach((val,index)=>{%>     
+                                                <div class="summary col-md-3 ml-1 mr-2 mb-2">
+                                                    <label class="custom-radio">
+                                                    
+                                                    <h5 class="text-center" style="color: #c96;"><%=val.name%></h6>
+                                                    <h6>Code: <%=val.code%></h6>
+                                                    <p>Discount: <%=val.discount%></p>
+                                                    <p>Expiry: <%=val.expiry_date%></p>
+                                                    </label>
+                                                    <%if(product.coupon && val._id.toString() === product.coupon._id.toString()){%>
+                                                        <div style="display: flex; justify-content: center;">
+                                                            <button type="button" onclick="removeCoupon()" class="btn btn-outline-primary-2 btn-block mt-2 rounded-pill">
+                                                                <span class="btn-text">Remove</span>
+                                                                <span class="btn-hover-text">Click</span>
+                                                            </button>
+                                                        </div>
+                                                        
+                                                    <%}else{%>
+                                                        <div style="display: flex; justify-content: center;">
+                                                            <button type="button" onclick="addCoupon('<%=val._id%>') "  class="btn btn-outline-primary-2 btn-block mt-2 rounded-pill">
+                                                                <span class="btn-text">Apply</span>
+                                                                <span class="btn-hover-text">Click</span>
+                                                            </button>
+                                                        </div>
+                                                    <%}%>
+                                                    
+                                                </div> 
+                                                <%})%>
+                                                <%}else{%>
+                                                    <div class="summary col-md-12 text-center">
+                                                        <h6 class="text-muted">No coupons available!!</h6>
+                                                    </div> 
+                                                    
+                                                    <%}%>
+                                        </div>
+                                        
+
+                                        
+
+                                    </div><!-- End .custom-checkbox -->
+
                                         <%} else {%>
 
                                             <form id="newCheckoutAddress">
@@ -535,20 +581,36 @@
 		                				<table class="table table-summary">
 		                					
 
-		                					<tbody>
+		                					<tbody >
 		                						
 		                						<tr class="summary-subtotal">
 		                							<td>Subtotal:</td>
-		                							<td>₹ <%=subTotal%>.00</td>
+		                							<td>₹ <%=subTotal%></td>
 		                						</tr><!-- End .summary-subtotal -->
 		                						<tr>
-		                							<td>Shipping:</td>
+		                							<td >Shipping:</td>
 		                							<td>Free shipping</td>
-		                						</tr>
+                                                    
+                                                </tr>
+                                                <%if(discountamount){%>
+                                                    <td>Discount:</td>
+                                                <td class="text-success">₹<%=discountamount%>.00</td>
+                                                    <%}else{%>
+                                                        <td>Discount:</td>
+                                                        <td id="discount-amount-show">₹ 0.00</td>
+                                                    <%}%>
+                                                
+                                                <%if(total){%>
 		                						<tr class="summary-total">
 		                							<td>Total:</td>
-		                							<td>₹ <%=subTotal%>.00</td>
+		                							<td>₹ <span id="total-amount"><%=total%></span></td>
 		                						</tr><!-- End .summary-total -->
+                                                <%}else{%>
+                                                    <tr class="summary-total">
+                                                        <td>Total:</td>
+                                                        <td>₹ <span id="total-amount"><%=subTotal%></span></td>
+                                                    </tr><!-- End .summary-total -->
+                                                <%}%>
 		                					</tbody>
 		                				</table><!-- End .table table-summary -->
 
@@ -568,7 +630,7 @@
                                                     </div><!-- End .card-body -->
                                                 </div><!-- End .collapse -->
                                             </div><!-- End .card -->
-                                        
+                                            <%if(user.wallet>=subTotal){%>
                                             <div class="card">
                                                 <div class="card-header" id="heading-2">
                                                     <h2 class="card-title mb-1">
@@ -584,6 +646,20 @@
                                                     </div><!-- End .card-body -->
                                                 </div><!-- End .collapse -->
                                             </div><!-- End .card -->
+                                            <%}else {%>
+                                                <div class="card">
+                                                    <div class="card-header" id="heading-2">
+                                                        <h2 class="card-title mb-1">
+                                                            <label class="custom-radio">
+                                                                <input type="radio" disabled>
+                                                                Wallet <span class="text-danger small ml-3">balance : ₹ <%=user.wallet%>.00</span>
+                                                                <br>
+                                                                <p class="text-danger small ml-4 mt-1">Not enough money in your wallet</p>
+                                                            </label>
+                                                        </h2>
+                                                    </div><!-- End .card-header -->
+                                                </div><!-- End .card -->
+                                                <%}%> 
                                         
                                             <div class="card">
                                                 <div class="card-header" id="heading-5">
@@ -847,6 +923,8 @@
                     }).then(()=>{
                         location.href='/'
                     })
+                } else if(data.success === false){
+                    razorpay(data.order)
                 }
                 console.log('Order details saved:', data);
                 
@@ -858,7 +936,6 @@
     });
 
 </script>
-    
 
     <script>
 
@@ -916,7 +993,112 @@
        
     </script>
 
-    <script></script>
+<button id="rzp-button1">Pay</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    function razorpay(order){
+        console.log('razorpat eyhiiiiiiiii',order,":order")
+        var options = {
+    "key": "rzp_test_1sHKSD9RFByTBQ", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Molla", //your business name
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id,
+    "handler": function (response){
+       razorpayVerify(response,order)
+    },
+    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
+        "name": "Gaurav Kumar", //your customer's name
+        "email": "gaurav.kumar@example.com", 
+        "contact": "9000090000"  //Provide the customer's phone number for better conversion rates 
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+let raz = new Razorpay(options);
+            raz.open();
+    }
+
+
+function razorpayVerify(response,order) {
+    console.log('fjbkknknsknc');
+    fetch('/razorpayVerify',{
+            method:'PATCH',
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({response,order})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success===true) {
+                Swal.fire({
+                    title:'Success',
+                    text:'Payment done',
+                    icon:'success',
+                    confirmButtonColor:"#c96",
+                    confirmButtonText:'Ok',
+                    timer:2000
+                }).then(()=>{
+                    location.href = '/shopPage'
+                }) 
+            }
+        })
+}
+</script>
+
+<script>
+    function addCoupon(id){
+        fetch('/applyCoupon',{
+            method:'PATCH',
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({id})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success===true) {
+                Swal.fire({
+                    title:'Success',
+                    text:'Payment done',
+                    icon:'success',
+                    confirmButtonColor:"#c96",
+                    confirmButtonText:'Ok',
+                    timer:2000
+                }).then(()=>{
+                    location.reload()
+                }) 
+            }
+        })
+        
+        
+    }
+</script>
+
+<script>
+    function removeCoupon() {
+
+        fetch('removeCoupon',{
+            method:'DELETE',
+            headers : {
+                'Content-Type':'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.remove===true) {  
+                    location.reload()
+            }
+        })
+    }
+</script>
 
 
 </body>

@@ -1,0 +1,58 @@
+<%- include('../layout/admin/header.ejs') -%>
+
+  <section class="content-main">
+    <div class="content-header">
+      <div>
+        <h2 class="content-title card-title">Add Coupon</h2>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <form method="post" id="form">
+            <div class="row">
+              <div class="col-lg-6 mb-4">
+                <label class="form-label">Name</label>
+                <input name="name" type="text" placeholder="Type offer name here" class="form-control" id="offerName" />
+                <div class="error" id="error-name"></div>
+              </div>
+              <div class="col-lg-6 mb-4">
+                <label class="form-label">Discount Percentage</label>
+                <input name="discount" type="number" placeholder="Type amount here" class="form-control" id="discountPercentage" />
+                <div class="error" id="error-discount"></div>
+              </div>    
+            </div>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                  <label class="form-label">Activation date</label>
+                  <input name="activationDate" type="date" placeholder="Type starting date here" class="form-control" id="activationDate" />
+                  <div class="error" id="error-activationDate"></div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                  <label class="form-label">Expiry date</label>
+                  <input name="expiryDate" type="date" placeholder="Type expiry date here" class="form-control" id="expiryDate" />
+                  <div class="error" id="error-expiryDate"></div>
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                  Create Offer
+                </button>
+              </div>
+            </form>
+          </div>
+          <!-- .col// -->
+        </div>
+        <!-- .row // -->
+      </div>
+      <!-- card body .// -->
+    </div>
+    <!-- card .// -->
+    
+  </section>
+
+  <script src="/asset/js/offerValidation.js"></script>
+
+
+  <%- include('../layout/admin/footer.ejs') -%>

@@ -6,8 +6,14 @@ const loadCart = async (req,res) => {
         const userId = req.session.user_id;
         const product = await cartModel.findOne({user:userId}).populate('product.productId');
 
-        const subTotal = product.product.reduce((acc,curr)=> acc+curr.totalPrice ,0);
+        console.log(product,":prdctttttt")
+
+        let subTotal;
+        if (product) {
+            subTotal = product.product.reduce((acc,curr)=> acc+curr.totalPrice ,0);
+        }
         res.render('user/cart',{product,subTotal});
+        
     } catch (error) {
         console.log(error.message);
     }
@@ -25,7 +31,16 @@ const addToCart = async (req, res) => {
             if (productData.quantity > 0) {
                 if (cartProduct) {
                     res.json({ status:true, cartProduct });
-                } else {
+                }else if(productData.offerId) {
+                    const data = {
+                        productId: productId,
+                        price: productPrice,
+                        totalPrice: productData.offerPercentage
+                    };
+
+                    await cartModel.findOneAndUpdate({ user: userId }, { $set: { user: userId }, $push: { product: data } }, { upsert: true, new: true });
+                    res.json({ success: true });
+                }else {
                     const data = {
                         productId: productId,
                         price: productPrice,
@@ -82,7 +97,15 @@ const quantity = async (req,res) => {
         //     return item._id.toString() === id.toString();
         // })
 
-        const totalPrice = quantity * product.price
+        let totalPrice;
+
+        if(product.offerId){
+            totalPrice = (quantity * product.offerPercentage).toFixed(2);
+        }else{
+            totalPrice = quantity * product.price
+        }
+
+        
 
 
         if (product.quantity < quantity) {

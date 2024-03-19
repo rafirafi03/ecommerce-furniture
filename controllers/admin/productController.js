@@ -1,12 +1,16 @@
 // requiring product model and category model.
 const products = require("../../models/productModel");
 const category = require('../../models/categoryModel');
+const offerModel = require('../../models/offerModel')
 
 // Code for load the products page.
 const loadProducts = async (req, res) => {
   try {
+
+    const offers = await offerModel.find({expiry_date:{$gt:new Date().toISOString()}})
+    console.log(offers,":offrssss")
     const product = await products.find().populate('category');
-    res.render("admin/products", { product });
+    res.render("admin/products", { product,offers });
   } catch (error) {
     console.log(error.message);
   }
@@ -132,6 +136,11 @@ const listProducts = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+}
+
+const addOffer = async (req,res) => {
+  const {id} = req.params;
+  
 }
 
 // Exporting required modules.

@@ -577,7 +577,12 @@
                     </div>
                     <!-- End .product -->
                   </td>
-                  <td class="price-col"><%= prod.productId.price %></td>
+                  <%if(prod.productId.offerId){%>
+                    <p class="text-danger"></p>
+                  <td class="price-col text-success"><s class="small text-danger">₹ <%= prod.productId.price %>/-</s> <br>₹ <%= prod.productId.offerPercentage %>/-</td>
+                  <%}else{%>
+                    <td class="price-col"><%= prod.productId.price %></td>
+                  <%}%>
                   <%if(prod.productId.quantity > 5) {%>
                     <td class="stock-col">
                         <span class="in-stock">In stock</span>

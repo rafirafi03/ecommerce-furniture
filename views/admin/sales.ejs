@@ -1,0 +1,109 @@
+<%- include('../layout/admin/header.ejs') -%>
+
+
+<section class="content-main">
+    <div class="card mb-4">
+        <header class="card-header">
+          <h4 class="card-title">Latest orders</h4>
+          <div class="row align-items-center">
+            <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+              <div class="custom_select">
+                <select onchange="filter(value)" class="form-select select-nice">
+                  <option selected>Filter by</option>
+                  <option value="all">All</option>
+                  <option value="week">Weekly</option>
+                  <option value="month">Monthly</option>
+                  <option value="year">Yearly</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2 col-6">
+              <input type="date" onchange="filterByDate(value)" class="form-control" />
+            </div>
+            
+            <div class="col-md-2 col-6">
+                <a class="btn btn-secondary print ms-2" href="/admin/salesReport"><i class="icon material-icons md-print"></i></a>
+            </div>
+            <div class="col-md-2 col-6">
+                <a class="badge btn-primary print ms-2" href="/admin/salerReportExcel"><i class="icon material-icons md-print"></i>excel</a>
+            </div>
+          </div>
+        </header>
+        <div class="card-body">
+          <div class="table-responsive">
+            <div class="table-responsive">
+              <table class="table align-middle table-nowrap mb-0">
+                <%if(orders && orders.length>0){%>
+                <thead class="table-light">
+                    
+                  <tr>
+                    <th class="align-middle" scope="col">Order ID</th>
+                    <th class="align-middle" scope="col">Billing Name</th>
+                    <th class="align-middle" scope="col">Date</th>
+                    <th class="align-middle" scope="col">Total</th>
+                    <th class="align-middle" scope="col">Payment Status</th>
+                    <th class="align-middle" scope="col">Payment Method</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <%orders.forEach((val)=>{%>
+                  <tr>
+                    <td><a class="fw-bold"><%=val._id%></a></td>
+                    <td><%=val.deliveryAddress.fullName%></td>
+                    <td><%=val.orderDate.toLocaleDateString('en-US', {
+                        weekday: 'short' , year: 'numeric' ,
+                        month: 'short' , day: 'numeric' })%></td>
+                    <td><%=val.totalPrice%></td>
+                    <td>
+                      <span class="badge badge-pill badge-soft-success"><%=val.orderStatus%></span>
+                    </td>
+                    <td>
+                      <i class="material-icons md-payment font-xxl text-muted mr-5"></i>
+                      <%=val.payment%>
+                    </td>
+                  </tr>
+                  <%})%>
+                </tbody>
+                <%}else{%>
+                    <p class="text-muted">No sales reports found</p>
+                  <%}%>
+              </table>
+              
+            </div>
+          </div>
+          <!-- table-responsive end// -->
+        </div>
+      </div>
+    <div class="pagination-area mt-15 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                <li class="page-item"><a class="page-link" href="#">02</a></li>
+                <li class="page-item"><a class="page-link" href="#">03</a></li>
+                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                <li class="page-item"><a class="page-link" href="#">16</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<script>
+    function filter(val){
+
+    var newUrl = `/admin/sales?filter=${val}`;
+
+    window.location.href = newUrl;
+    }
+
+    function filterByDate(val){
+        var newUrl = `/admin/sales?date=${val}`;
+
+        window.location.href = newUrl;
+    }
+</script>
+
+
+<%- include('../layout/admin/footer.ejs') -%>

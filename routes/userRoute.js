@@ -82,7 +82,19 @@ userRoute.patch('/quantity',cartController.quantity);
 
 userRoute.post('/checkoutAddAddress',checkoutController.addCheckoutAddress);
 
-userRoute.post('/order',auth.isLogin,checkoutController.order)
+userRoute.post('/order',auth.isLogin,checkoutController.order);
+
+userRoute.get('/orderDetails',auth.isLogin,profileController.loadOrderDetails);
+
+userRoute.patch('/cancelOrder',auth.isLogin,profileController.cancelOrder);
+
+userRoute.patch('/razorpayVerify',checkoutController.razorpayVerify)
+
+userRoute.patch('/resetPass',auth.isLogin,profileController.PatchResetPass)
+
+userRoute.patch('/applyCoupon',auth.isLogin,checkoutController.applyCoupon);
+
+userRoute.delete('/removeCoupon',auth.isLogin,checkoutController.removeCoupon)
 
 userRoute.get('/logout',auth.isLogin,profileController.logout);
 

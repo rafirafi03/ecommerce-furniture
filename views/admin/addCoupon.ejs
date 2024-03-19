@@ -1,0 +1,70 @@
+<%- include('../layout/admin/header.ejs') -%>
+
+  <section class="content-main">
+    <div class="content-header">
+      <div>
+        <h2 class="content-title card-title">Add Coupon</h2>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <form method="post" id="form">
+            <div class="row">
+              <div class="col-lg-6 mb-4">
+                <label class="form-label">Name</label>
+                <input name="name" type="text" placeholder="Type coupon name here" class="form-control" id="couponName" />
+                <div class="error" id="error-name"></div>
+              </div>
+              <div class="col-lg-6 mb-4">
+                <label class="form-label">Code</label>
+                <input name="code" type="text" placeholder="Type coupon code here" class="form-control" id="couponCode" />
+                <div class="error" id="error-code"></div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                  <label class="form-label">Discount amount</label>
+                  <input name="discountAmount" type="number" placeholder="Type amount here" class="form-control" id="discountAmount" />
+                  <div class="error" id="error-discount"></div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                  <label class="form-label">Criteria amount</label>
+                  <input name="criteriaAmount" type="number" placeholder="Type amount here" class="form-control" id="criteriaAmount" />
+                  <div class="error" id="error-criteria"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                  <label class="form-label">Activation date</label>
+                  <input name="activationDate" type="date" placeholder="Type starting date here" class="form-control" id="activationDate" />
+                  <div class="error" id="error-activationDate"></div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                  <label class="form-label">Expiry date</label>
+                  <input name="expiryDate" type="date" placeholder="Type expiry date here" class="form-control" id="expiryDate" />
+                  <div class="error" id="error-expiryDate"></div>
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                  Create coupon
+                </button>
+              </div>
+            </form>
+          </div>
+          <!-- .col// -->
+        </div>
+        <!-- .row // -->
+      </div>
+      <!-- card body .// -->
+    </div>
+    <!-- card .// -->
+    
+  </section>
+
+  <script src="/asset/js/couponValidation.js"></script>
+
+
+  <%- include('../layout/admin/footer.ejs') -%>

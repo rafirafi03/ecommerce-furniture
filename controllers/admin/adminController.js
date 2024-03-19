@@ -1,9 +1,8 @@
-const express = require("express");
-const admin = require("../../models/adminModels");
 const user = require('../../models/userModel');
+const orderModel = require('../../models/orderModel');
+const productModel = require('../../models/productModel');
+const categoryModel = require('../../models/categoryModel')
 const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
-const env = require("dotenv").config();
 
 // Code for load the login page.
 const loginLoad = async (req, res) => {
@@ -53,7 +52,23 @@ const loginPost = async (req, res) => {
 // Code for load the home page.
 const loadHome = async (req, res) => {
   try {
-    res.render("admin/home", { page: "home" });
+
+    const orders = await orderModel.find({})
+    const products = await productModel.find({})
+    const categories = await categoryModel.find({})
+
+    const revenue = await orderModel.aggregate([
+      {
+        $group: {
+          _id: null,
+          revenue: { $sum: "$totalPrice" }
+        }
+      }
+    ]);
+
+    console.log(revenue,":rvnuee")
+
+    res.render("admin/home", {orders,products,categories,revenue});
   } catch (error) {
     console.log(error.message);
   }

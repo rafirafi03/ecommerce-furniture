@@ -16,6 +16,7 @@
     </div>
     <div class="card">
       <div class="card-body">
+        
         <div class="row">
           <div class="col-md-9">
             <div class="table-responsive">
@@ -23,9 +24,6 @@
                 <thead>
                   <tr>
                     <th class="text-center">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" />
-                      </div>
                     </th>
                     <th>NO</th>
                     <th>Img</th>
@@ -34,6 +32,7 @@
                     <th>Category</th>
                     <th>Price</th>
                     <th>Status</th>
+                    <th>Offers</th>
                     <th class="text-end">Action</th>
                   </tr>
                 </thead>
@@ -41,9 +40,6 @@
                   <% for(let i=0; i< product.length ; i++) {%>
                     <tr>
                       <td class="text-center">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" />
-                        </div>
                       </td>
                       <td>
                         <%= i+1 %>
@@ -61,9 +57,16 @@
                       <td>
                         <%= product[i].category.name %>
                       </td>
-                      <td class="text-success">
-                        <%= product[i].price + "/-" %>
+                      <%if(product[i].offerId){%>
+                      <td>
+                        <p class="text-danger small"><s><%= product[i].price + "/-" %></s></p>
+                        <p class="text-success small"><%= product[i].offerPercentage + "/-" %></p>
                       </td>
+                      <%}else{%>
+                        <td class="text-success">
+                          <%= product[i].price + "/-" %>
+                        </td>
+                        <%}%>
                       <td>
 
                         <% if (product[i].isListed) {%>
@@ -78,6 +81,18 @@
                             <% } %>
 
 
+                      </td>
+                      <td>
+                        <%if(product[i].offerId){%>
+                          <button onclick="OfferRemove('<%=product[i]._id%>')" class="badge" style="border: none; background-color: red;" >
+                            Remove
+                          </button>
+                          <%}else{%>
+                            <button type="button" onclick="Offer('<%=product[i]._id%>')" class="badge" style="border: none; background-color: #3bb77e;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                              Offers
+                            </button>
+                          <%}%>
+                        
                       </td>
                       <td class="text-end">
                         <div class="dropdown">
@@ -124,27 +139,169 @@
     </div>
   </section>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Available Offers</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%if(offers && offers.length>0){%>
+        
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th class="text-center">
+                </th>
+                <th>Name</th>
+                <th>discount%</th>
+                <th>starts</th>
+                <th>expires</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%offers.forEach((val,index)=>{%>
+                <tr>
+                  <td class="text-center">
+                  </td>
+                  <td>
+                    <%= val.name %>
+                  </td>
+                  <td>
+                    <%= val.discount %>
+                  </td>
+                  <td>
+                    <%= val.activation_date %>
+                  </td>
+                  <td class="text-success">
+                    <%= val.expiry_date %>
+                  </td>
+                  <td>
+                      <button class="badge bg-success text-end" style="border: none" onclick="addOffer('<%=val._id%>')">
+                        Apply
+                      </button>
+                  </td>          
+                </tr>
+                <%})%>
+            </tbody>
+          </table>
+        
+        
+        <%}else{%>
+          <h6>no offer</h6>
+          <%}%>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function block(id) {
+    Swal.fire({
+title: "Are you sure?",
+text: "Confirm this action?",
+showCancelButton: true,
+confirmButtonColor: "Green",
+cancelButtonColor: "#d33",
+confirmButtonText: "Confirm"
+}).then(async(result) => {
+if (result.isConfirmed) {
+  const response = await fetch(`/admin/listProducts/${id}`,{
+      method: "POST",
+    });
+
+    if (response.status === 200) {
+      window.location.reload();
+    }
+}
+});
+
+  }
+</script>
+
+
+
   <script>
-    async function block(id) {
+
+    var productId;
+
+    async function Offer(prdctId){
+      productId = prdctId;
+    }
+
+    async function addOffer(id) {
       Swal.fire({
         title: "Are you sure?",
-        text: "Confirm this action?",
+        text: "You want to apply this offer?",
         showCancelButton: true,
         confirmButtonColor: "Green",
         cancelButtonColor: "#d33",
         confirmButtonText: "Confirm"
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const response = await fetch(`/admin/listProducts/${id}`, {
-            method: "POST",
-          });
+          const response = await fetch('/admin/applyOffer/', {
+            method: "PATCH",
+            headers : {
+              'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify({id,productId:productId})
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === true) {
+              Swal.fire({
+                icon:'success',
+                title: "Success",
+                text: "Offer applied to this product",
+                confirmButtonColor: "Green",
+                confirmButtonText: "ok",
+                timer:3000
+        }).then(()=>{
+          location.reload()
+        })
+          } 
+          })
 
-          if (response.status === 200) {
-            window.location.reload();
-          }
+          
         }
       });
 
+    }
+
+    
+  </script>
+
+  <script>
+    function OfferRemove(id) {
+      console.log('offer123')
+      fetch('/admin/removeOffer',{
+        method:'PATCH',
+        headers : {
+          'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({id})
+        
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data.remove===true){
+          Swal.fire({
+                icon:'success',
+                title: "Removed",
+                text: "Offer removed from this product",
+                confirmButtonColor: "Green",
+                confirmButtonText: "ok",
+                timer:3000
+          }).then(()=>{
+            location.reload()
+          })
+        }
+      })
     }
   </script>
 

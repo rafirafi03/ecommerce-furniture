@@ -40,24 +40,7 @@
                 <div class="container">
                     <div class="header-left">
                         <div class="header-dropdown">
-                            <a href="#">Usd</a>
-                            <div class="header-menu">
-                                <ul>
-                                    <li><a href="#">Eur</a></li>
-                                    <li><a href="#">Usd</a></li>
-                                </ul>
-                            </div><!-- End .header-menu -->
-                        </div><!-- End .header-dropdown -->
-
-                        <div class="header-dropdown">
                             <a href="#">Eng</a>
-                            <div class="header-menu">
-                                <ul>
-                                    <li><a href="#">English</a></li>
-                                    <li><a href="#">French</a></li>
-                                    <li><a href="#">Spanish</a></li>
-                                </ul>
-                            </div><!-- End .header-menu -->
                         </div><!-- End .header-dropdown -->
                     </div><!-- End .header-left -->
 
@@ -66,7 +49,7 @@
                             <li>
                                 <a href="#">Links</a>
                                 <ul>
-                                    <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
+                                    <li><a href="tel:#"><i class="icon-phone"></i>Call: +91 974680768</a></li>
                                     <li><a href="wishlist.html"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
                                     <li><a href="about.html">About Us</a></li>
                                     <li><a href="contact.html">Contact Us</a></li>
@@ -353,135 +336,77 @@
 
             <div class="page-content">
                 <div class="container">
-                    <div class="product-details-top">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="product-gallery product-gallery-vertical">
-                                    <div class="row">
-                                        <figure class="product-main-image">
-                                            <img id="product-zoom" src="/multerimages/<%= products.images[0] %>" data-zoom-image="/multerimages/<%= products.images[0] %>" alt="product image">
-
-                                            <a href="#" id="btn-product-gallery" class="btn-product-gallery">
-                                                <i class="icon-arrows"></i>
-                                            </a>
-                                        </figure><!-- End .product-main-image -->
-
-                                        <div id="product-zoom-gallery" class="product-image-gallery">
-                                            <a class="product-gallery-item active" href="#" data-image="/multerimages/<%= products.images[0] %>" data-zoom-image="/multerimages/<%= products.images[0] %>">
-                                                <img src="/multerimages/<%= products.images[0] %>" alt="product side">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="/multerimages/<%= products.images[1] %>" data-zoom-image="/multerimages/<%= products.images[1]%>">
-                                                <img src="/multerimages/<%= products.images[1] %>" alt="product cross">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="/multerimages/<%= products.images[2] %>" data-zoom-image="/multerimages/<%= products.images[2] %>">
-                                                <img src="/multerimages/<%= products.images[2] %>" alt="product with model">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="/multerimages/<%= products.images[3] %>" data-zoom-image="/multerimages/<%= products.images[3] %>">
-                                                <img src="/multerimages/<%= products.images[3] %>" alt="product back">
-                                            </a>
-                                        </div><!-- End .product-image-gallery -->
-                                    </div><!-- End .row -->
-                                </div><!-- End .product-gallery -->
-                            </div><!-- End .col-md-6 -->
-
-                            <div class="col-md-6">
-                                <div class="product-details">
-                                    <h1 class="product-title mt-1"><%= products.name %></h1><!-- End .product-title -->
-
-                                    <div class="product-cat mb-2">
-                                        <a href="#"><%= products.category.name %></a>
-                                    </div><!-- End .product-cat -->
-
-                                    <div class="product-content">
-                                        <p><%= products.category.description %></p>
-                                    </div><!-- End .product-content -->
-
-                                    <div class="ratings-container">
-                                        <div class="ratings">
-                                            <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                        </div><!-- End .ratings -->
-                                        <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
-                                    </div><!-- End .rating-container -->
-
-                                    <%if(products.offerId){%>
-                                        <p class="text-danger"><s>₹ <%=products.price%>/-</s></p>
-                                        <div class="product-price text-success">
-                                            <%= "₹" + " " + products.offerPercentage + "/-" %>
-                                        </div><!-- End .product-price -->
-                                    <%}else{%>
-                                    <div class="product-price">
-                                        <%= "₹" + " " + products.price + "/-" %>
-                                    </div><!-- End .product-price -->
-                                    <%}%>
-
-                                    
-
-                                    <!-- <div class="details-filter-row details-row-size">
-                                        <label>Color:</label>
-
-                                        <div class="product-nav product-nav-thumbs">
-                                            <a href="#" class="active">
-                                                <img src="assets/images/products/single/1-thumb.jpg" alt="product desc">
-                                            </a>
-                                            <a href="#">
-                                                <img src="assets/images/products/single/2-thumb.jpg" alt="product desc">
-                                            </a>
-                                        </div>End .product-nav
-                                    </div>End .details-filter-row -->
-
-                                    <!-- <div class="details-filter-row details-row-size">
-                                        <label for="size">Size:</label>
-                                        <div class="select-custom">
-                                            <select name="size" id="size" class="form-control">
-                                                <option value="#" selected="selected">Select a size</option>
-                                                <option value="s">Small</option>
-                                                <option value="m">Medium</option>
-                                                <option value="l">Large</option>
-                                                <option value="xl">Extra Large</option>
-                                            </select>
-                                        </div>End .select-custom
-
-                                        <a href="#" class="size-guide"><i class="icon-th-list"></i>size guide</a>
-                                    </div>End .details-filter-row -->
-
-                                    <!-- <div class="details-filter-row details-row-size">
-                                        <label for="qty">Qty:</label>
-                                        <div class="product-details-quantity">
-                                            <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
-                                        </div>
-                                    </div> -->
-
-                                    <div class="product-details-action">
-                                        <a style="cursor: pointer; color:black" onclick="addToCart('<%= products._id %>')" class="btn-product btn-cart" onmouseover="this.style.color='white'" onmouseout="this.style.color='black'" role="button"><span>add to cart</span></a>
-
-                                        <div class="details-action-wrapper">
-                                            <a onclick="addToWishlist('<%=products._id %>')" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
-                                            <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to Compare</span></a>
-                                        </div><!-- End .details-action-wrapper -->
-                                    </div><!-- End .product-details-action -->
-
-                                    <div class="product-details-footer">
+                    <div class="row">
+                        <div id="reloadArea">
+                        <h3 class="order-detail mt-4  text-center">ORDER DETAILS</h3><br>
+                                    <h4 class="name text-center text-muted">OrderId: <%=orders._id%></h4>
+                                    <p class="text-center text-muted"><b>Date: <%=orders.orderDate.toLocaleDateString('en-US', {
+                                        weekday: 'short' , year: 'numeric' ,
+                                        month: 'short' , day: 'numeric' })%></b>
                                         
-
-                                        <div class="social-icons social-icons-sm">
-                                            <span class="social-label">Share:</span>
-                                            <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
-                                            <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
-                                            <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
-                                            <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                                        <br><b>Payment Method: <%=orders.payment%></b>
+                                        <br>
+                                        <b>Address: <%=orders.deliveryAddress.fullName%>, <%=orders.deliveryAddress.address%>, <%=orders.deliveryAddress.pincode%></b>
+                                         <br>
+                                         <b>Discount : ₹ <%=orders.discountAmount%>.00</b>
+                                         <br>
+                                         <b>Total amount : ₹ <%=orders.totalPrice%></b>
+                                        <!-- <b>Shipping: </b> -->
+                                        <br>
+                                    </p>
+                            
+                                <div class="container mt-5">
+                                    <h3 class="mb-4 text-center">Ordered Products</h3>
+                                    
+                                        <div class="card mt-3">
+                                            <div class="row">
+                                            <% orders.product.forEach((val)=>{%>
+                                            <div class="card-body d-flex justify-content-start mt-3">
+                                                <div class="product-card d-flex">
+                                                    <div class="product-image">
+                                                        <a href="">
+                                                            <img src="/multerimages/<%=val.productId.images[0]%>" alt=""
+                                                                class="img-thumbnail" style="max-width: 200px;">
+                                                        </a>
+                                                    </div>
+                                                    <div class="mx-3" style="width: 180px;">
+                                                        <h5 class="product-details"><a
+                                                                href="">
+                                                            <%= val.productId.name%>
+                                                            </a></h5>
+                                                        <p class="product-details">
+                                                             <br>
+                                                            Price : ₹ <%=val.price%>.00 <br>
+                                                            Quantity : <%=val.quantity%> <br>
+                                                            Total : ₹ <%=val.totalPrice%>.00 <br>
+                                                            Status : <%=orders.orderStatus%>
+                                                        </p>
+                                                    </div>
+                                                </div>                                                  
+                                            </div>
+                                            <%})%>
+                                            <br>
+                                            
                                         </div>
-                                    </div><!-- End .product-details-footer -->
-                                </div><!-- End .product-details -->
-                            </div><!-- End .col-md-6 -->
-                        </div><!-- End .row -->
-                    </div><!-- End .product-details-top -->
 
-                    
-
-                    
+                                        <%if(orders.orderStatus==='Cancelled'){%>
+                                        <button disabled class="btn btn-outline-primary-2 btn-cancel-order btn-block">
+                                                <span class="btn-text">Order Cancelled</span>
+                                                <span class="btn-hover-text">Order Cancelled</span>
+                                            </button>
+                                        </div>
+                                        <%}else{%>
+                                            <button type="submit" onclick="cancelOrder('<%=orders._id%>')" class="btn btn-outline-primary-2 btn-cancel-order btn-block">
+                                                <span class="btn-text">Cancel Order</span>
+                                                <span class="btn-hover-text">Cancel</span>
+                                            </button>
+                                        </div>
+                                        <%}%>
+                                    
+                                    
+                            </div>
+                        </div>
+            
                 </div><!-- End .container -->
             </div><!-- End .page-content -->
         </main><!-- End .main -->
@@ -699,6 +624,53 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+
+        function cancelOrder(id){
+
+            Swal.fire({
+                title:'Are you sure?',
+                text:'You are about to cancel this order !!',
+                icon:'warning',
+                showCancelButton:true,
+                confirmButtonColor:'#d33',
+                cancelButtonColor:'#c96',
+                confirmButtonText:'Yes'
+            }).then(async(result)=>{
+                if(result.isConfirmed) {
+                    try {
+                        fetch('/cancelOrder',{
+                method:'PATCH',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({id:id})
+            })
+            .then((response => response.json()))
+            .then(data => {
+                if (data.success===true) {
+                    Swal.fire({
+                        title:'Cancelled',
+                        text:"You'r order has been cancelled !!",
+                        icon:'success',
+                        confirmButtonColor:'#c96',
+                        confirmButtonText:'Ok',
+                        timer:2000
+                    }).then((result)=>{
+                        location.href = '/profile'
+                    })
+                }
+            }) 
+                    } catch (error) {
+                        console.log(error.message)
+                    }
+                }
+            })
+
+            
+        }
+    </script>
+
     <!-- Plugins JS File -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
@@ -710,8 +682,6 @@
     <script src="assets/js/jquery.elevateZoom.min.js"></script>
     <script src="assets/js/bootstrap-input-spinner.js"></script>
     <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/addToCart.js"></script>
-    <script src="assets/js/addToWishlist.js"></script>
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
 </body>

@@ -382,9 +382,18 @@
                                                             </h3><!-- End .product-title -->
                                                         </div><!-- End .product -->
                                                     </td>
-                                                    <td class="price-col">
-                                                       ₹ <%=prod.price %>.00
-                                                    </td>
+                                                    <%if(prod.productId.offerId){%>
+                                                        
+                                                        <td class="price-col text-success">
+                                                            <p><s class="text-danger">₹ <%=prod.price%>/-</s></p>
+                                                            ₹ <%=prod.productId.offerPercentage %>/-
+                                                         </td>
+                                                        <%}else{%>
+                                                            <td class="price-col">
+                                                                ₹ <%=prod.price %>.00
+                                                             </td>
+                                                        <%}%>
+                                                    
                                                     <%if(prod.productId.quantity > 5) {%>
                                                     <td class="stock-col">
                                                         <span class="in-stock">In stock</span>
@@ -423,7 +432,7 @@
                                         </tbody>
                                     </table><!-- End .table table-wishlist -->
 
-                                    <div class="cart-bottom">
+                                    <!-- <div class="cart-bottom">
                                         <div class="cart-discount">
                                             <form action="#">
                                                 <div class="input-group">
@@ -432,14 +441,14 @@
                                                     <div class="input-group-append">
                                                         <button class="btn btn-outline-primary-2" type="submit"><i
                                                                 class="icon-long-arrow-right"></i></button>
-                                                    </div><!-- .End .input-group-append -->
-                                                </div><!-- End .input-group -->
+                                                    </div>
+                                                </div>
                                             </form>
-                                        </div><!-- End .cart-discount -->
+                                        </div>
 
                                         <a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i
                                                 class="icon-refresh"></i></a>
-                                    </div><!-- End .cart-bottom -->
+                                    </div> -->
                                 </div><!-- End .col-lg-9 -->
                                 <aside class="col-lg-3">
                                     <div class="summary summary-cart">
@@ -449,7 +458,7 @@
                                             <tbody>
                                                 <tr class="summary-subtotal">
                                                     <td>Subtotal:</td>
-                                                    <td id="sbtotl">₹ <%=subTotal%>.00</sub></td>
+                                                    <td id="sbtotl">₹ <%=subTotal%></sub></td>
                                                 </tr><!-- End .summary-subtotal -->
 
                                                 <!-- <tr class="summary-shipping">
@@ -459,7 +468,7 @@
 
                                                 <tr class="summary-total">
                                                     <td>Total:</td>
-                                                    <td>₹ <%=subTotal%>.00</td>
+                                                    <td>₹ <%=subTotal%></td>
                                                 </tr><!-- End .summary-total -->
                                             </tbody>
                                         </table><!-- End .table table-summary -->
@@ -831,7 +840,7 @@
                             Swal.fire('Error!', 'Failed to remove product from cart.', 'error');
                         }
                     }
-                });d
+                });
             });
         });
 

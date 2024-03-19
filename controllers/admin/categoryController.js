@@ -1,11 +1,15 @@
 // requiring the category model.
 const category = require('../../models/categoryModel');
+const offerModel = require('../../models/offerModel');
 
   // Code for load the category page.
   const loadCategory = async (req, res) => {
     try {
+
+      const offers = await offerModel.find({expiry_date:{$gt:new Date().toISOString()}})
+
       const Category = await category.find({});
-      res.render("admin/category", { page: "category", Category });
+      res.render("admin/category", {  Category , offers});
     } catch (error) {
       console.log(error.message);
     }

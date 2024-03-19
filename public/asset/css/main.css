@@ -4484,6 +4484,10 @@ body.dark .dropdown-menu .dropdown-item.text-danger {
   display: inline-block;
 }
 
+.row{
+  display: flex;
+}
+
 
 
 

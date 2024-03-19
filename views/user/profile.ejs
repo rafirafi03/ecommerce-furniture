@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+
 
 
 </head>
@@ -368,9 +368,9 @@
                                             role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="tab-downloads-link" data-toggle="tab"
-                                            href="#tab-downloads" role="tab" aria-controls="tab-downloads"
-                                            aria-selected="false">Downloads</a>
+                                        <a class="nav-link" id="tab-wallet-link" data-toggle="tab"
+                                            href="#tab-wallet" role="tab" aria-controls="tab-wallet"
+                                            aria-selected="false">wallet</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address"
@@ -382,8 +382,9 @@
                                             Details</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="tab-resetPass-link" data-toggle="tab" href="#tab-resetPass"
-                                            role="tab" aria-controls="tab-resetPass" aria-selected="false">Reset
+                                        <a class="nav-link" id="tab-resetPass-link" data-toggle="tab"
+                                            href="#tab-resetPass" role="tab" aria-controls="tab-resetPass"
+                                            aria-selected="false">Reset
                                             Password</a>
                                     </li>
                                     <li class="nav-item">
@@ -474,27 +475,125 @@
                                         </form>
                                     </div><!-- .End .tab-pane -->
 
-                                    <div class="tab-pane fade" id="tab-orders" role="tabpanel"
-                                        aria-labelledby="tab-orders-link">
-                                        <p>No order has been made yet.</p>
-                                        <a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i
-                                                class="icon-long-arrow-right"></i></a>
-                                    </div><!-- .End .tab-pane -->
 
-                                    <div class="tab-pane fade" id="tab-downloads" role="tabpanel"
-                                        aria-labelledby="tab-downloads-link">
-                                        <p>No downloads available yet.</p>
-                                        <a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i
-                                                class="icon-long-arrow-right"></i></a>
+
+                                    <div class="tab-pane fade ml-5" id="tab-orders" role="tabpanel"
+                                        aria-labelledby="tab-orders-link">
+                                        <%if(orders && orders.length> 0) {%>
+                                            <h4 class="account-title">Orders</h4>
+                                            <div class="account-table text-center table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="no">No</th>
+                                                            <th class="date">Date</th>
+                                                            <th class="total">Amount</th>
+                                                            <th class="">Payment</th>
+                                                            <th class="name">Inovoice</th>
+                                                            <th class="action">details</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% orders.forEach((val,index)=> {%>
+                                                            <tr>
+                                                                <td>
+                                                                    <%=index + 1%>
+                                                                </td>
+                                                                <td>
+                                                                    <%= val.orderDate.toLocaleDateString('en-US', {
+                                                                        weekday: 'short' , year: 'numeric' ,
+                                                                        month: 'short' , day: 'numeric' }) %>
+
+                                                                </td>
+                                                                <td>
+                                                                    <%=val.totalPrice%>
+                                                                </td>
+                                                                <td>
+                                                                    <%=val.payment%>
+                                                                </td>
+                                                                <td><a href=""><i class="fa fa-download"
+                                                                            aria-hidden="true"></a></i>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="/orderDetails?id=<%=val._id%>">View</a>
+                                                                </td>
+                                                            </tr>
+                                                            <%})%>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <%} else {%>
+
+                                                <p>No orders available yet.</p>
+
+
+                                                <!-- <p>No order has been made yet.</p> -->
+                                                <a href="category.html" class="btn btn-outline-primary-2"><span>GO
+                                                        SHOP</span><i class="icon-long-arrow-right"></i></a>
+
+                                                <%}%>
+                                    </div>
+                                    <!-- .End .tab-pane -->
+
+                                    <div class="tab-pane fade" id="tab-wallet" role="tabpanel"
+                                        aria-labelledby="tab-wallet-link">
+                                        <div class="account-table text-center table-responsive ml-5">
+                                            <table class="table">
+                                                <thead>
+                                                    <h4 style="color: #c96;">Wallet History</h4>
+                                                    <h6 class="text-success mt-3">Balance : ₹ <%=users.wallet%>.00</h6>
+                                                    <br>
+                                                    <tr>
+                                                        <th class="name">
+                                                            Date
+                                                        </th>
+                                                        <th class="date">status</th>
+        
+                                                        <th class="action">
+                                                            Amount
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <%users.walletHistory.forEach((val)=>{%>
+                                                            <tr>
+                                                                <td>
+                                                                    <%=val.date.toLocaleDateString('en-US', {
+                                                                        weekday: 'short' , year: 'numeric' ,
+                                                                        month: 'short' , day: 'numeric' })%>
+                                                                </td>
+
+                                                                <%if(val.amount>0){%>
+                                                                
+                                                                    <td class="text-success">credited</td>
+                                                                    
+                                                                        
+                                                                        <td class="text-success">₹ <%=val.amount%>.00
+                                                                        </td>
+                                                                        <%}else{%>
+                                                                            <td class="text-danger">debited</td>
+                                                                    
+                                                                        
+                                                                        <td class="text-danger">-₹ <%=Math.abs(val.amount)%>.00
+                                                                        </td>
+                                                                        <%}%>
+                                                                
+                                                            </tr> 
+                                                            <%})%>                                                       
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div><!-- .End .tab-pane -->
 
                                     <% if (address && address.address && address.address.length) { %>
 
-                                        
-                                            <div class="tab-pane fade" id="tab-address" role="tabpanel"
-                                                aria-labelledby="tab-address-link">
-                                                <% address.address.forEach(function(val,index) { %>
-                                                    <h5 class="address-h5 ml-5">Address <%=index+1%></h5>
+
+                                        <div class="tab-pane fade" id="tab-address" role="tabpanel"
+                                            aria-labelledby="tab-address-link">
+                                            <% address.address.forEach(function(val,index) { %>
+                                                <h5 class="address-h5 ml-5">Address <%=index+1%>
+                                                </h5>
                                                 <h3 class="prfl-dtl card-title mb-2 ml-5"></h3><!-- End .card-title -->
                                                 <div class="card card-dashboard ml-5">
 
@@ -504,30 +603,38 @@
                                                             <div class="col-sm-6">
                                                                 <ol>
                                                                     <h6 class="address-h6">Full Name</h6>
-                                                                    <p><%= val.fullName %></p>
+                                                                    <p>
+                                                                        <%= val.fullName %>
+                                                                    </p>
                                                                 </ol>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <ol>
                                                                     <h6 class="address-h6">Address</h6>
-                                                                    <p><%= val.address %></p>
+                                                                    <p>
+                                                                        <%= val.address %>
+                                                                    </p>
                                                                 </ol>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
-                                                        
+
                                                         <div class="row">
                                                             <div class="col-sm-6">
                                                                 <ol>
                                                                     <h6 class="address-h6">Email</h6>
-                                                                    <p><%= val.email %></p>
+                                                                    <p>
+                                                                        <%= val.email %>
+                                                                    </p>
                                                                 </ol>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <ol>
                                                                     <h6 class="address-h6">Mobile</h6>
-                                                                    <p><%= val.mobile %></p>
+                                                                    <p>
+                                                                        <%= val.mobile %>
+                                                                    </p>
                                                                 </ol>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
@@ -535,14 +642,18 @@
                                                             <div class="col-sm-6">
                                                                 <ol>
                                                                     <h6 class="address-h6">Country</h6>
-                                                                    <p><%= val.country %></p>
+                                                                    <p>
+                                                                        <%= val.country %>
+                                                                    </p>
                                                                 </ol>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <ol>
                                                                     <h6 class="address-h6">State</h6>
-                                                                    <p><%= val.state %></p>
+                                                                    <p>
+                                                                        <%= val.state %>
+                                                                    </p>
                                                                 </ol>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
@@ -550,265 +661,287 @@
                                                             <div class="col-sm-6">
                                                                 <ol>
                                                                     <h6 class="address-h6">District</h6>
-                                                                    <p><%= val.district %></p>
+                                                                    <p>
+                                                                        <%= val.district %>
+                                                                    </p>
                                                                 </ol>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <ol>
                                                                     <h6 class="address-h6">Pincode</h6>
-                                                                    <p><%= val.pincode %></p>
+                                                                    <p>
+                                                                        <%= val.pincode %>
+                                                                    </p>
                                                                 </ol>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
                                                     </div><!-- End .card-body -->
-                                                <div class="text-center d-flex justify-content-center">
-                                                    <div class="more-container text-center mr-3">
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                            Edit Address
-                                                          </button>
-                                                    </div>
-                                                    <div class="more-container text-center mt-0">
-                                                        <button onclick="deleteAddress('<%= val._id %>')" class="btn btn-outline-dark-3 btn-more">
-                                                            <span>Delete</span><i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                </div><!-- End .card-dashboard -->
-                                                
-                                                <% }) %>
-                                                <div class="more-container text-center mt-0 mb-7">
-                                                    <a href="#tab-addAddress"
-                                                        class="btn btn-outline-dark-3 btn-more nav-link"
-                                                        data-toggle="tab" role="tab"
-                                                        aria-controls="tab-addProfile" aria-selected="false">
-                                                        <span>Add Address</span><i
-                                                            class="fa-solid fa-pencil"></i>
-                                                    </a>
-                                                </div>
-                                            </div><!-- .End .tab-pane -->
-                                                <% } else { %>
-                                                    <div class="tab-pane fade" id="tab-address" role="tabpanel"
-                                                        aria-labelledby="tab-address-link">
-                                                        <h3 class="prfl-dtl card-title mb-2 ml-5"></h3>
-                                                        <!-- End .card-title -->
-                                                        <div class="card card-dashboard ml-5">
-                                                            <div class="card-body">
-                                                                <br>
-                                                                <h6>No address available</h6>
-                                                            </div><!-- End .card-body -->
-                                                        </div><!-- End .card-dashboard -->
+                                                    <div class="text-center d-flex justify-content-center">
                                                         <div class="more-container text-center mt-0 mb-7">
-                                                            <a href="#tab-addAddress"
+                                                            <a href="#tab-editAddress?id=<%=address._id%>"
                                                                 class="btn btn-outline-dark-3 btn-more nav-link"
                                                                 data-toggle="tab" role="tab"
                                                                 aria-controls="tab-addProfile" aria-selected="false">
-                                                                <span>Add Address</span><i
+                                                                <span>Edit Address</span><i
                                                                     class="fa-solid fa-pencil"></i>
                                                             </a>
                                                         </div>
-                                                    </div><!-- .End .tab-pane -->
-                                                                                       
-                                    <% } %>
+                                                        <div class="more-container text-center mt-0">
+                                                            <button onclick="deleteAddress('<%= val._id %>')"
+                                                                class="btn btn-outline-dark-3 btn-more">
+                                                                <span>Delete</span><i class="fa-solid fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- End .card-dashboard -->
 
-                                                        <div class="tab-pane fade" id="tab-addAddress" role="tabpanel"
-                                                            aria-labelledby="tab-addAddress-link">
-                                                            <form id="addAddress">
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>Full Name *</label>
-                                                                        <input type="text" name="fullName" id="fullName" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
+                                                <% }) %>
+                                                    <div class="more-container text-center mt-0 mb-7">
+                                                        <a href="#tab-addAddress"
+                                                            class="btn btn-outline-dark-3 btn-more nav-link"
+                                                            data-toggle="tab" role="tab" aria-controls="tab-addProfile"
+                                                            aria-selected="false">
+                                                            <span>Add Address</span><i class="fa-solid fa-pencil"></i>
+                                                        </a>
+                                                    </div>
+                                        </div><!-- .End .tab-pane -->
+                                        <% } else { %>
+                                            <div class="tab-pane fade" id="tab-address" role="tabpanel"
+                                                aria-labelledby="tab-address-link">
+                                                <h3 class="prfl-dtl card-title mb-2 ml-5"></h3>
+                                                <!-- End .card-title -->
+                                                <div class="card card-dashboard ml-5">
+                                                    <div class="card-body">
+                                                        <br>
+                                                        <h6>No address available</h6>
+                                                    </div><!-- End .card-body -->
+                                                </div><!-- End .card-dashboard -->
+                                                <div class="more-container text-center mt-0 mb-7">
+                                                    <a href="#tab-addAddress"
+                                                        class="btn btn-outline-dark-3 btn-more nav-link"
+                                                        data-toggle="tab" role="tab" aria-controls="tab-addProfile"
+                                                        aria-selected="false">
+                                                        <span>Add Address</span><i class="fa-solid fa-pencil"></i>
+                                                    </a>
+                                                </div>
+                                            </div><!-- .End .tab-pane -->
 
-                                                                    <div class="col-sm-6">
-                                                                        <label>Address *</label>
-                                                                        <input type="text" name="address" id="address" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
+                                            <% } %>
 
-                                                                
+                                                <div class="tab-pane fade" id="tab-addAddress" role="tabpanel"
+                                                    aria-labelledby="tab-addAddress-link">
+                                                    <form id="addAddress">
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label>Full Name *</label>
+                                                                <input type="text" name="fullName" id="fullName"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
 
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>Email *</label>
-                                                                        <input type="text" name="email" id="email" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
+                                                            <div class="col-sm-6">
+                                                                <label>Address *</label>
+                                                                <input type="text" name="address" id="address"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
+                                                        </div><!-- End .row -->
 
-                                                                    <div class="col-sm-6">
-                                                                        <label>Mobile *</label>
-                                                                        <input type="text" name="mobile" id="mobile" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label>Email *</label>
+                                                                <input type="text" name="email" id="email"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
 
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>Country *</label>
-                                                                        <input type="text" name="country" id="country" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
+                                                            <div class="col-sm-6">
+                                                                <label>Mobile *</label>
+                                                                <input type="text" name="mobile" id="mobile"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
+                                                        </div><!-- End .row -->
 
-                                                                    <div class="col-sm-6">
-                                                                        <label>State *</label>
-                                                                        <input type="text" name="state" id="state" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label>Country *</label>
+                                                                <input type="text" name="country" id="country"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
 
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>District *</label>
-                                                                        <input type="text" name="district" id="district" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
+                                                            <div class="col-sm-6">
+                                                                <label>State *</label>
+                                                                <input type="text" name="state" id="state"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
+                                                        </div><!-- End .row -->
 
-                                                                    <div class="col-sm-6">
-                                                                        <label>Pincode *</label>
-                                                                        <input type="text" name="pincode" id="pincode" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label>District *</label>
+                                                                <input type="text" name="district" id="district"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
 
-                                                                <button type="submit" onclick="addAddress()"
-                                                                    class="btn btn-outline-primary-2">
-                                                                    <span>SAVE CHANGES</span>
-                                                                    <i class="icon-long-arrow-right"></i>
-                                                                </button>
-                                                            </form>
-                                                        </div><!-- .End .tab-pane -->
+                                                            <div class="col-sm-6">
+                                                                <label>Pincode *</label>
+                                                                <input type="text" name="pincode" id="pincode"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
+                                                        </div><!-- End .row -->
 
-                                                        <!-- Edit address code -->
-                                                        <div class="tab-pane fade" id="tab-editAddress" role="tabpanel"
-                                                            aria-labelledby="tab-editAddress-link">
-                                                            <form id="editAddress">
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>Full Name *</label>
-                                                                        <input type="text" name="fullName" id="editFullName" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
+                                                        <button type="submit" onclick="addAddress()"
+                                                            class="btn btn-outline-primary-2">
+                                                            <span>SAVE CHANGES</span>
+                                                            <i class="icon-long-arrow-right"></i>
+                                                        </button>
+                                                    </form>
+                                                </div><!-- .End .tab-pane -->
 
-                                                                    <div class="col-sm-6">
-                                                                        <label>Address *</label>
-                                                                        <input type="text" name="address" id="addressEdit" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->                                                           
+                                                <!-- Edit address code -->
+                                                <div class="tab-pane fade" id="tab-editAddress" role="tabpanel"
+                                                    aria-labelledby="tab-editAddress-link">
+                                                    <form id="editAddress">
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label>Full Name *</label>
+                                                                <input type="text" value="" name="fullName" id="editFullName"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
 
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>Email *</label>
-                                                                        <input type="text" name="email" id="editEmail" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
+                                                            <div class="col-sm-6">
+                                                                <label>Address *</label>
+                                                                <input type="text" name="address" id="addressEdit"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
+                                                        </div><!-- End .row -->
 
-                                                                    <div class="col-sm-6">
-                                                                        <label>Mobile *</label>
-                                                                        <input type="text" name="mobile" id="editMobile" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label>Email *</label>
+                                                                <input type="text" name="email" id="editEmail"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
 
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>Country *</label>
-                                                                        <input type="text" name="country" id="editCountry" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
+                                                            <div class="col-sm-6">
+                                                                <label>Mobile *</label>
+                                                                <input type="text" name="mobile" id="editMobile"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
+                                                        </div><!-- End .row -->
 
-                                                                    <div class="col-sm-6">
-                                                                        <label>State *</label>
-                                                                        <input type="text" name="state" id="editState" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label>Country *</label>
+                                                                <input type="text" name="country" id="editCountry"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
 
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>District *</label>
-                                                                        <input type="text" name="district" id="editDistrict" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
+                                                            <div class="col-sm-6">
+                                                                <label>State *</label>
+                                                                <input type="text" name="state" id="editState"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
+                                                        </div><!-- End .row -->
 
-                                                                    <div class="col-sm-6">
-                                                                        <label>Pincode *</label>
-                                                                        <input type="text" name="pincode" id="editPincode" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label>District *</label>
+                                                                <input type="text" name="district" id="editDistrict"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
 
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-primary-2">
-                                                                    <span>SAVE CHANGES</span>
-                                                                    <i class="icon-long-arrow-right"></i>
-                                                                </button>
-                                                            </form>
-                                                        </div><!-- .End .tab-pane -->
-                                                        <!-- End edit address code -->
+                                                            <div class="col-sm-6">
+                                                                <label>Pincode *</label>
+                                                                <input type="text" name="pincode" id="editPincode"
+                                                                    class="form-control">
+                                                            </div><!-- End .col-sm-6 -->
+                                                        </div><!-- End .row -->
+
+                                                        <button type="submit" class="btn btn-outline-primary-2">
+                                                            <span>SAVE CHANGES</span>
+                                                            <i class="icon-long-arrow-right"></i>
+                                                        </button>
+                                                    </form>
+                                                </div><!-- .End .tab-pane -->
+                                                <!-- End edit address code -->
 
 
-                                                        <div class="tab-pane fade" id="tab-account" role="tabpanel"
-                                                            aria-labelledby="tab-account-link">
-                                                            <form action="#">
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>First Name *</label>
-                                                                        <input type="text" class="form-control"
-                                                                            required>
-                                                                    </div><!-- End .col-sm-6 -->
-
-                                                                    <div class="col-sm-6">
-                                                                        <label>Last Name *</label>
-                                                                        <input type="text" class="form-control"
-                                                                            required>
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
-
-                                                                <label>Display Name *</label>
+                                                <div class="tab-pane fade" id="tab-account" role="tabpanel"
+                                                    aria-labelledby="tab-account-link">
+                                                    <form action="#">
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label>First Name *</label>
                                                                 <input type="text" class="form-control" required>
-                                                                <small class="form-text">This will be how your name will
-                                                                    be displayed in the account section and in
-                                                                    reviews</small>
+                                                            </div><!-- End .col-sm-6 -->
 
-                                                                <label>Email address *</label>
-                                                                <input type="email" class="form-control" required>
+                                                            <div class="col-sm-6">
+                                                                <label>Last Name *</label>
+                                                                <input type="text" class="form-control" required>
+                                                            </div><!-- End .col-sm-6 -->
+                                                        </div><!-- End .row -->
 
-                                                                <label>Current password (leave blank to leave
-                                                                    unchanged)</label>
-                                                                <input type="password" class="form-control">
+                                                        <label>Display Name *</label>
+                                                        <input type="text" class="form-control" required>
+                                                        <small class="form-text">This will be how your name will
+                                                            be displayed in the account section and in
+                                                            reviews</small>
 
-                                                                <label>New password (leave blank to leave
-                                                                    unchanged)</label>
-                                                                <input type="password" class="form-control">
+                                                        <label>Email address *</label>
+                                                        <input type="email" class="form-control" required>
 
-                                                                <label>Confirm new password</label>
-                                                                <input type="password" class="form-control mb-2">
+                                                        <label>Current password (leave blank to leave
+                                                            unchanged)</label>
+                                                        <input type="password" class="form-control">
 
-                                                                <button type="submit" class="btn btn-outline-primary-2">
-                                                                    <span>SAVE CHANGES</span>
-                                                                    <i class="icon-long-arrow-right"></i>
-                                                                </button>
-                                                            </form>
-                                                        </div><!-- .End .tab-pane -->
+                                                        <label>New password (leave blank to leave
+                                                            unchanged)</label>
+                                                        <input type="password" class="form-control">
 
-                                                        <div class="tab-pane fade" id="tab-resetPass" role="tabpanel"
-                                                            aria-labelledby="tab-resetPass-link">
-                                                            <form id="resetPassForm" method="POST">
-                                                                
-                                                                    <div class="col-sm-6">
-                                                                        <label>Current Password *</label>
-                                                                        <input type="password" name="currentPass" id="currentPass" class="form-control">
-                                                                        <div class="error-div" id="currentPassError"></div>
-                                                                    </div><!-- End .col-sm-6 -->
+                                                        <label>Confirm new password</label>
+                                                        <input type="password" class="form-control mb-2">
 
-                                                                    <div class="col-sm-6">
-                                                                        <label>New Password *</label>
-                                                                        <input type="password" name="newPass" id="newPass" class="form-control">
-                                                                        <div class="error-div" id="newPassError"></div>
-                                                                    </div><!-- End .col-sm-6 -->
+                                                        <button type="submit" class="btn btn-outline-primary-2">
+                                                            <span>SAVE CHANGES</span>
+                                                            <i class="icon-long-arrow-right"></i>
+                                                        </button>
+                                                    </form>
+                                                </div><!-- .End .tab-pane -->
 
-                                                                    <div class="col-sm-6 mb-2">
-                                                                        <label>Confirm New Password *</label>
-                                                                        <input type="password" id="confirmPass" class="form-control">
-                                                                        <div class="error-div" id="confirmPassError"></div>
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                
+                                                <div class="tab-pane fade" id="tab-resetPass" role="tabpanel"
+                                                    aria-labelledby="tab-resetPass-link">
+                                                    <form id="resetPassForm">
 
-                                                                <button type="submit" class="btn btn-outline-primary-2 ml-3 mr-4">
-                                                                    <span>SAVE CHANGES</span>
-                                                                    <i class="icon-long-arrow-right"></i>
-                                                                </button>
+                                                        <div class="col-sm-6">
+                                                            <label>Current Password *</label>
+                                                            <input type="password" name="currentPass" id="currentPass"
+                                                                class="form-control">
+                                                            <div class="error-div" id="currentPassError"></div>
+                                                        </div><!-- End .col-sm-6 -->
 
-                                                                <a href="">forgot password?</a>
-                                                            </form>
-                                                        </div><!-- .End .tab-pane -->
+                                                        <div class="col-sm-6">
+                                                            <label>New Password *</label>
+                                                            <input type="password" name="newPass" id="newPass"
+                                                                class="form-control">
+                                                            <div class="error-div" id="newPassError"></div>
+                                                        </div><!-- End .col-sm-6 -->
+
+                                                        <div class="col-sm-6 mb-2">
+                                                            <label>Confirm New Password *</label>
+                                                            <input type="password" id="confirmPass" name="confirmPass"
+                                                                class="form-control">
+                                                            <div class="error-div" id="confirmPassError"></div>
+                                                        </div><!-- End .col-sm-6 -->
+
+
+                                                        <button id="resetPassSubmit"
+                                                            class="btn btn-outline-primary-2 ml-3 mr-4">
+                                                            <span>SAVE CHANGES</span>
+                                                            <i class="icon-long-arrow-right"></i>
+                                                        </button>
+
+                                                        <a href="">forgot password?</a>
+                                                    </form>
+                                                </div><!-- .End .tab-pane -->
                                 </div>
                             </div><!-- End .col-lg-9 -->
                         </div><!-- End .row -->
@@ -1036,112 +1169,160 @@
     </div><!-- End .mobile-menu-container -->
 
     <!-- Sign in / Register Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="tab-pane fade" id="tab-editAddress" role="tabpanel"
+                        aria-labelledby="tab-editAddress-link">
+                        <form id="editAddress">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Full Name *</label>
+                                    <input type="text" name="fullName" id="editFullName" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>Address *</label>
+                                    <input type="text" name="address" id="addressEdit" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Email *</label>
+                                    <input type="text" name="email" id="editEmail" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>Mobile *</label>
+                                    <input type="text" name="mobile" id="editMobile" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Country *</label>
+                                    <input type="text" name="country" id="editCountry" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>State *</label>
+                                    <input type="text" name="state" id="editState" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>District *</label>
+                                    <input type="text" name="district" id="editDistrict" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>Pincode *</label>
+                                    <input type="text" name="pincode" id="editPincode" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <button type="submit" class="btn btn-outline-primary-2">
+                                <span>SAVE CHANGES</span>
+                                <i class="icon-long-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div><!-- .End .tab-pane -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="tab-pane fade" id="tab-editAddress" role="tabpanel"
-                aria-labelledby="tab-editAddress-link">
-                <form id="editAddress">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label>Full Name *</label>
-                            <input type="text" name="fullName" id="editFullName" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-
-                        <div class="col-sm-6">
-                            <label>Address *</label>
-                            <input type="text" name="address" id="addressEdit" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-                    </div><!-- End .row -->                                                           
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label>Email *</label>
-                            <input type="text" name="email" id="editEmail" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-
-                        <div class="col-sm-6">
-                            <label>Mobile *</label>
-                            <input type="text" name="mobile" id="editMobile" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-                    </div><!-- End .row -->
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label>Country *</label>
-                            <input type="text" name="country" id="editCountry" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-
-                        <div class="col-sm-6">
-                            <label>State *</label>
-                            <input type="text" name="state" id="editState" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-                    </div><!-- End .row -->
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label>District *</label>
-                            <input type="text" name="district" id="editDistrict" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-
-                        <div class="col-sm-6">
-                            <label>Pincode *</label>
-                            <input type="text" name="pincode" id="editPincode" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-                    </div><!-- End .row -->
-
-                    <button type="submit"
-                        class="btn btn-outline-primary-2">
-                        <span>SAVE CHANGES</span>
-                        <i class="icon-long-arrow-right"></i>
-                    </button>
-                </form>
-            </div><!-- .End .tab-pane -->            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Understood</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer src="assets/js/profileValidation.js"></script>
     <script src="assets/js/resetPassValidation.js"></script>
 
 
     <script>
+
+        document.getElementById('resetPassSubmit').addEventListener('click', function (event) {
+            event.preventDefault();
+
+            let data = {
+                currentPass: document.getElementById('currentPass').value,
+                newPass: document.getElementById('newPass').value,
+                confirmPass: document.getElementById('confirmPass').value
+            }
+
+            fetch('/resetPass', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ data })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.add === true) {
+                        Swal.fire({
+                            title: 'Changed',
+                            text: 'Password changed',
+                            icon: 'success',
+                            confirmButtonColor: '#c96',
+                            confirmButtonText: 'ok'
+                        }).then(() => {
+                            location.reload()
+                        })
+                    } else {
+                        Swal.fire({
+                            title:'error',
+                            text:'Password doesnt match!!',
+                            icon:'error',
+                            confirmButtonColor:'#c96',
+                            confirmButtonText:'ok',
+                            timer:3000
+                        }).then(()=>{
+                            location.reload()
+                        })
+                    }
+                })
+        })
+    </script>
+
+
+    <script>
         function editAddressProfile(index) {
-    console.log(index, 'index');
+            console.log(index, 'index');
 
-    // Ensure 'address' is defined and 'address.address' is an array
-    if (address && address.address && Array.isArray(address.address) && address.address.length > index) {
-        var selectedAddress = address.address[index];
-        console.log(selectedAddress, 'address');
+            // Ensure 'address' is defined and 'address.address' is an array
+            if (address && address.address && Array.isArray(address.address) && address.address.length > index) {
+                var selectedAddress = address.address[index];
+                console.log(selectedAddress, 'address');
 
-        // Set the values in the edit form
-        document.getElementById('editFullName').value = selectedAddress.fullName || '';
-        document.getElementById('addressEdit').value = selectedAddress.address || '';
-        document.getElementById('editEmail').value = selectedAddress.email || '';
-        document.getElementById('editMobile').value = selectedAddress.mobile || '';
-        document.getElementById('editCountry').value = selectedAddress.country || '';
-        document.getElementById('editState').value = selectedAddress.state || '';
-        document.getElementById('editDistrict').value = selectedAddress.district || '';
-        document.getElementById('editPincode').value = selectedAddress.pincode || '';
+                // Set the values in the edit form
+                document.getElementById('editFullName').value = selectedAddress.fullName || '';
+                document.getElementById('addressEdit').value = selectedAddress.address || '';
+                document.getElementById('editEmail').value = selectedAddress.email || '';
+                document.getElementById('editMobile').value = selectedAddress.mobile || '';
+                document.getElementById('editCountry').value = selectedAddress.country || '';
+                document.getElementById('editState').value = selectedAddress.state || '';
+                document.getElementById('editDistrict').value = selectedAddress.district || '';
+                document.getElementById('editPincode').value = selectedAddress.pincode || '';
 
-        // Show the "Edit Address" tab
-        document.getElementById('tab-editAddress').classList.add('show', 'active');
+                // Show the "Edit Address" tab
+                document.getElementById('tab-editAddress').classList.add('show', 'active');
 
-        // Optionally, you might want to hide the other tabs
-        document.getElementById('tab-address').classList.remove('show', 'active');
-    } else {
-        console.log('Invalid index or address array is undefined/empty');
-    }
-}
+                // Optionally, you might want to hide the other tabs
+                document.getElementById('tab-address').classList.remove('show', 'active');
+            } else {
+                console.log('Invalid index or address array is undefined/empty');
+            }
+        }
 
 
     </script>
@@ -1169,76 +1350,76 @@
 
     <script>
 
-function editProfile() {
-  const form = document.getElementById('editForm');
-  const errorName = document.getElementById('error-name');
-  const errorMobile = document.getElementById('error-mobile');
+        function editProfile() {
+            const form = document.getElementById('editForm');
+            const errorName = document.getElementById('error-name');
+            const errorMobile = document.getElementById('error-mobile');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
 
-    // Clear error messages
-    errorName.innerText = "";
-    errorMobile.innerText = "";
+                // Clear error messages
+                errorName.innerText = "";
+                errorMobile.innerText = "";
 
-    const name = document.getElementById('userName').value;
-    const mobile = document.getElementById('userMobile').value;
+                const name = document.getElementById('userName').value;
+                const mobile = document.getElementById('userMobile').value;
 
-    const isValid = validateInputs(name, mobile);
+                const isValid = validateInputs(name, mobile);
 
-    if (!isValid) {
-      return;
-    }
+                if (!isValid) {
+                    return;
+                }
 
-    try {
-      const response = await fetch('/profile', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          mobile,
-          name
-        }),
-      });
+                try {
+                    const response = await fetch('/profile', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            mobile,
+                            name
+                        }),
+                    });
 
-      if (!response.ok) {
-        console.log('Error editing profile');
-      } else {
-        // $('#editDiv').load('/profile' ,'#editDiv')
-        location.href = '/profile';
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  });
+                    if (!response.ok) {
+                        console.log('Error editing profile');
+                    } else {
+                        // $('#editDiv').load('/profile' ,'#editDiv')
+                        location.href = '/profile';
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
 
-  function validateInputs(name, mobile) {
-    let isValid = true;
+            function validateInputs(name, mobile) {
+                let isValid = true;
 
-    if (name.trim() === "") {
-      errorName.innerText = "Username is required.";
-      isValid = false;
-    }
+                if (name.trim() === "") {
+                    errorName.innerText = "Username is required.";
+                    isValid = false;
+                }
 
-    if (mobile.trim() === "") {
-      errorMobile.innerText = "Mobile is required.";
-      isValid = false;
-    } else if (mobile.length !== 10) {
-      errorMobile.innerText = "Invalid mobile number.";
-      isValid = false;
-    }
+                if (mobile.trim() === "") {
+                    errorMobile.innerText = "Mobile is required.";
+                    isValid = false;
+                } else if (mobile.length !== 10) {
+                    errorMobile.innerText = "Invalid mobile number.";
+                    isValid = false;
+                }
 
-    return isValid;
-  }
-}
+                return isValid;
+            }
+        }
 
 
     </script>
 
     <script>
 
-        function addAddress(){
+        function addAddress() {
             const fullName = document.getElementById('fullName').value;
             const address = document.getElementById('address').value;
             const email = document.getElementById('email').value;
@@ -1248,79 +1429,119 @@ function editProfile() {
             const district = document.getElementById('district').value;
             const pincode = document.getElementById('pincode').value;
 
-            fetch('/addAddress',{
+            fetch('/addAddress', {
                 method: 'POST',
                 headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        fullName,
-                        address,
-                        email,
-                        mobile,
-                        country,
-                        state,
-                        district,
-                        pincode
-                        
-                    }),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    fullName,
+                    address,
+                    email,
+                    mobile,
+                    country,
+                    state,
+                    district,
+                    pincode
+
+                }),
 
             })
-            .then(respons =>{
-                if(!respons.add){
-                    console.log('error adding address')
-                }else{
-                    location.href = '/profile'
-                }
-            })
+                .then(respons => {
+                    if (!respons.add) {
+                        console.log('error adding address')
+                    } else {
+                        location.href = '/profile'
+                    }
+                })
         }
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert CDN -->
 
-<script>
-    function deleteAddress(addressId) {
-        // Display SweetAlert confirmation dialog
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor:'red',
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // If user confirms, send DELETE request
-                fetch(`/profile/address/${addressId}`, {
-                    method: 'DELETE',
-                    credentials: 'same-origin'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Display success message with SweetAlert
-                        Swal.fire(
-                            'Deleted!',
-                            'Your address has been deleted.',
-                            'success'
-                        )
-                        .then(response => {
-                            if (response) {
-                                location.reload(); // Optionally reload the page
-                            }
-                            
-                        })
+    <script>
+
+        function editAddress() {
+            const fullName = document.getElementById('fullName').value;
+            const address = document.getElementById('address').value;
+            const email = document.getElementById('email').value;
+            const mobile = document.getElementById('mobile').value;
+            const country = document.getElementById('country').value;
+            const state = document.getElementById('state').value;
+            const district = document.getElementById('district').value;
+            const pincode = document.getElementById('pincode').value;
+
+            fetch('/editAddress', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    fullName,
+                    address,
+                    email,
+                    mobile,
+                    country,
+                    state,
+                    district,
+                    pincode
+
+                }),
+
+            })
+                .then(respons => {
+                    if (!respons.add) {
+                        console.log('error adding address')
                     } else {
-                        console.error('Error deleting address');
+                        location.href = '/profile'
                     }
                 })
-                .catch(error => {
-                    console.error('Error deleting address:', error);
-                });
-            }
-        });
-    }
-</script>
+        }
+    </script>
+
+    <script>
+        function deleteAddress(addressId) {
+            // Display SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: 'red',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, send DELETE request
+                    fetch(`/profile/address/${addressId}`, {
+                        method: 'DELETE',
+                        credentials: 'same-origin'
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                // Display success message with SweetAlert
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your address has been deleted.',
+                                    'success'
+                                )
+                                    .then(response => {
+                                        if (response) {
+                                            location.reload(); // Optionally reload the page
+                                        }
+
+                                    })
+                            } else {
+                                console.error('Error deleting address');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error deleting address:', error);
+                        });
+                }
+            });
+        }
+    </script>
 
 
     <!-- <script>
