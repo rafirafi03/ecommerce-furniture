@@ -69,32 +69,39 @@ const addAddress = async (req, res) => {
 
 const editAddress = async (req, res) => {
   try {
-    const addressId = req.body.id;
+    const userId = req.session.user_id;
+    const addressId = req.body.addressId;
 
     let {
       fullName,
+      address,
       email,
       mobile,
-      address,
-      district,
-      state,
       country,
+      state,
+      district,
       pincode,
     } = req.body;
 
-    await userAddress.findOneAndUpdate(
-      { _id: addressId },
+    console.log(req.body,"adrs")
+
+    await userAddress.findOneAndUpdate(     
+      { "user": userId, "address._id": addressId },
       {
-        fullName: fullName,
-        email: email,
-        country: country,
-        state: state,
-        district: district,
-        pincode: pincode,
-        address: address,
-        mobile: mobile,
+          "$set": {
+              "address.$.fullName": fullName,
+              "address.$.country": country,
+              "address.$.address": address,
+              "address.$.district": district,
+              "address.$.state": state,
+              "address.$.pincode": pincode,
+              "address.$.mobile": mobile,
+              "address.$.email": email
+          }
       }
-    );
+  );
+
+    res.json({edit:true})
   } catch (error) {
     console.log(error.message);
   }

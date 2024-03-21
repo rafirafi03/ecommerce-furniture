@@ -368,9 +368,8 @@
                                             role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="tab-wallet-link" data-toggle="tab"
-                                            href="#tab-wallet" role="tab" aria-controls="tab-wallet"
-                                            aria-selected="false">wallet</a>
+                                        <a class="nav-link" id="tab-wallet-link" data-toggle="tab" href="#tab-wallet"
+                                            role="tab" aria-controls="tab-wallet" aria-selected="false">wallet</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address"
@@ -549,7 +548,7 @@
                                                             Date
                                                         </th>
                                                         <th class="date">status</th>
-        
+
                                                         <th class="action">
                                                             Amount
                                                         </th>
@@ -557,30 +556,31 @@
                                                 </thead>
                                                 <tbody>
                                                     <%users.walletHistory.forEach((val)=>{%>
-                                                            <tr>
-                                                                <td>
-                                                                    <%=val.date.toLocaleDateString('en-US', {
-                                                                        weekday: 'short' , year: 'numeric' ,
-                                                                        month: 'short' , day: 'numeric' })%>
-                                                                </td>
+                                                        <tr>
+                                                            <td>
+                                                                <%=val.date.toLocaleDateString('en-US', {
+                                                                    weekday: 'short' , year: 'numeric' , month: 'short'
+                                                                    , day: 'numeric' })%>
+                                                            </td>
 
-                                                                <%if(val.amount>0){%>
-                                                                
-                                                                    <td class="text-success">credited</td>
-                                                                    
-                                                                        
-                                                                        <td class="text-success">₹ <%=val.amount%>.00
-                                                                        </td>
-                                                                        <%}else{%>
-                                                                            <td class="text-danger">debited</td>
-                                                                    
-                                                                        
-                                                                        <td class="text-danger">-₹ <%=Math.abs(val.amount)%>.00
-                                                                        </td>
-                                                                        <%}%>
-                                                                
-                                                            </tr> 
-                                                            <%})%>                                                       
+                                                            <%if(val.amount>0){%>
+
+                                                                <td class="text-success">credited</td>
+
+
+                                                                <td class="text-success">₹ <%=val.amount%>.00
+                                                                </td>
+                                                                <%}else{%>
+                                                                    <td class="text-danger">debited</td>
+
+
+                                                                    <td class="text-danger">-₹ <%=Math.abs(val.amount)%>
+                                                                            .00
+                                                                    </td>
+                                                                    <%}%>
+
+                                                        </tr>
+                                                        <%})%>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -679,13 +679,11 @@
                                                     </div><!-- End .card-body -->
                                                     <div class="text-center d-flex justify-content-center">
                                                         <div class="more-container text-center mt-0 mb-7">
-                                                            <a href="#tab-editAddress?id=<%=address._id%>"
-                                                                class="btn btn-outline-dark-3 btn-more nav-link"
-                                                                data-toggle="tab" role="tab"
-                                                                aria-controls="tab-addProfile" aria-selected="false">
-                                                                <span>Edit Address</span><i
-                                                                    class="fa-solid fa-pencil"></i>
-                                                            </a>
+                                                            <button type="button" class="btn btn-primary"
+                                                                onclick="openEditModal('<%=val._id%>','<%=val.fullName%>','<%=val.address%>','<%=val.email%>','<%=val.mobile%>','<%=val.country%>','<%=val.state%>','<%=val.district%>','<%=val.pincode%>')"
+                                                                data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                                Edit Address
+                                                            </button>
                                                         </div>
                                                         <div class="more-container text-center mt-0">
                                                             <button onclick="deleteAddress('<%= val._id %>')"
@@ -795,75 +793,6 @@
                                                         </button>
                                                     </form>
                                                 </div><!-- .End .tab-pane -->
-
-                                                <!-- Edit address code -->
-                                                <div class="tab-pane fade" id="tab-editAddress" role="tabpanel"
-                                                    aria-labelledby="tab-editAddress-link">
-                                                    <form id="editAddress">
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <label>Full Name *</label>
-                                                                <input type="text" value="" name="fullName" id="editFullName"
-                                                                    class="form-control">
-                                                            </div><!-- End .col-sm-6 -->
-
-                                                            <div class="col-sm-6">
-                                                                <label>Address *</label>
-                                                                <input type="text" name="address" id="addressEdit"
-                                                                    class="form-control">
-                                                            </div><!-- End .col-sm-6 -->
-                                                        </div><!-- End .row -->
-
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <label>Email *</label>
-                                                                <input type="text" name="email" id="editEmail"
-                                                                    class="form-control">
-                                                            </div><!-- End .col-sm-6 -->
-
-                                                            <div class="col-sm-6">
-                                                                <label>Mobile *</label>
-                                                                <input type="text" name="mobile" id="editMobile"
-                                                                    class="form-control">
-                                                            </div><!-- End .col-sm-6 -->
-                                                        </div><!-- End .row -->
-
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <label>Country *</label>
-                                                                <input type="text" name="country" id="editCountry"
-                                                                    class="form-control">
-                                                            </div><!-- End .col-sm-6 -->
-
-                                                            <div class="col-sm-6">
-                                                                <label>State *</label>
-                                                                <input type="text" name="state" id="editState"
-                                                                    class="form-control">
-                                                            </div><!-- End .col-sm-6 -->
-                                                        </div><!-- End .row -->
-
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <label>District *</label>
-                                                                <input type="text" name="district" id="editDistrict"
-                                                                    class="form-control">
-                                                            </div><!-- End .col-sm-6 -->
-
-                                                            <div class="col-sm-6">
-                                                                <label>Pincode *</label>
-                                                                <input type="text" name="pincode" id="editPincode"
-                                                                    class="form-control">
-                                                            </div><!-- End .col-sm-6 -->
-                                                        </div><!-- End .row -->
-
-                                                        <button type="submit" class="btn btn-outline-primary-2">
-                                                            <span>SAVE CHANGES</span>
-                                                            <i class="icon-long-arrow-right"></i>
-                                                        </button>
-                                                    </form>
-                                                </div><!-- .End .tab-pane -->
-                                                <!-- End edit address code -->
-
 
                                                 <div class="tab-pane fade" id="tab-account" role="tabpanel"
                                                     aria-labelledby="tab-account-link">
@@ -1172,77 +1101,85 @@
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="tab-pane fade" id="tab-editAddress" role="tabpanel"
-                        aria-labelledby="tab-editAddress-link">
-                        <form id="editAddress">
+            <form id="editAddressForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title ml-3" id="staticBackdropLabel">Edit Address</h5>
+                        <button type="button" onclick="closeEditModal()" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="tab-pane" id="tab-editAddress">
+
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Full Name *</label>
-                                    <input type="text" name="fullName" id="editFullName" class="form-control">
+                                    <input type="text" name="fullName" id="editFullName" class="form-control mb-1">
+                                    <div class="login-error" id="error-edit-fullName"></div>
                                 </div><!-- End .col-sm-6 -->
 
                                 <div class="col-sm-6">
                                     <label>Address *</label>
-                                    <input type="text" name="address" id="addressEdit" class="form-control">
+                                    <input type="text" name="address" id="addressEdit" class="form-control mb-1">
+                                    <div class="login-error" id="error-edit-address"></div>
                                 </div><!-- End .col-sm-6 -->
                             </div><!-- End .row -->
 
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Email *</label>
-                                    <input type="text" name="email" id="editEmail" class="form-control">
+                                    <input type="email" name="email" id="editEmail" class="form-control mb-1">
+                                    <div class="login-error" id="error-edit-email"></div>
                                 </div><!-- End .col-sm-6 -->
 
                                 <div class="col-sm-6">
                                     <label>Mobile *</label>
-                                    <input type="text" name="mobile" id="editMobile" class="form-control">
+                                    <input type="number" name="mobile" id="editMobile" class="form-control mb-1">
+                                    <div class="login-error" id="error-edit-mobile"></div>
                                 </div><!-- End .col-sm-6 -->
                             </div><!-- End .row -->
 
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Country *</label>
-                                    <input type="text" name="country" id="editCountry" class="form-control">
+                                    <input type="text" name="country" id="editCountry" class="form-control mb-1">
+                                    <div class="login-error" id="error-edit-country"></div>
                                 </div><!-- End .col-sm-6 -->
 
                                 <div class="col-sm-6">
                                     <label>State *</label>
-                                    <input type="text" name="state" id="editState" class="form-control">
+                                    <input type="text" name="state" id="editState" class="form-control mb-1">
+                                    <div class="login-error" id="error-edit-state"></div>
                                 </div><!-- End .col-sm-6 -->
                             </div><!-- End .row -->
 
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>District *</label>
-                                    <input type="text" name="district" id="editDistrict" class="form-control">
+                                    <input type="text" name="district" id="editDistrict" class="form-control mb-1">
+                                    <div class="login-error" id="error-edit-district"></div>
                                 </div><!-- End .col-sm-6 -->
 
                                 <div class="col-sm-6">
                                     <label>Pincode *</label>
-                                    <input type="text" name="pincode" id="editPincode" class="form-control">
+                                    <input type="number" name="pincode" id="editPincode" class="form-control mb-1">
+                                    <div class="login-error" id="error-edit-pincode"></div>
                                 </div><!-- End .col-sm-6 -->
                             </div><!-- End .row -->
 
-                            <button type="submit" class="btn btn-outline-primary-2">
-                                <span>SAVE CHANGES</span>
-                                <i class="icon-long-arrow-right"></i>
-                            </button>
-                        </form>
-                    </div><!-- .End .tab-pane -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
-                </div>
-            </div>
+
+                        </div><!-- .End .tab-pane -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" onclick="closeEditModal()" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="button" onclick="editAddress()" class="btn btn-primary">Save Changes</button>
+                    </div>
+            </form>
         </div>
     </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer src="assets/js/profileValidation.js"></script>
     <script src="assets/js/resetPassValidation.js"></script>
@@ -1280,51 +1217,18 @@
                         })
                     } else {
                         Swal.fire({
-                            title:'error',
-                            text:'Password doesnt match!!',
-                            icon:'error',
-                            confirmButtonColor:'#c96',
-                            confirmButtonText:'ok',
-                            timer:3000
-                        }).then(()=>{
+                            title: 'error',
+                            text: 'Password doesnt match!!',
+                            icon: 'error',
+                            confirmButtonColor: '#c96',
+                            confirmButtonText: 'ok',
+                            timer: 3000
+                        }).then(() => {
                             location.reload()
                         })
                     }
                 })
         })
-    </script>
-
-
-    <script>
-        function editAddressProfile(index) {
-            console.log(index, 'index');
-
-            // Ensure 'address' is defined and 'address.address' is an array
-            if (address && address.address && Array.isArray(address.address) && address.address.length > index) {
-                var selectedAddress = address.address[index];
-                console.log(selectedAddress, 'address');
-
-                // Set the values in the edit form
-                document.getElementById('editFullName').value = selectedAddress.fullName || '';
-                document.getElementById('addressEdit').value = selectedAddress.address || '';
-                document.getElementById('editEmail').value = selectedAddress.email || '';
-                document.getElementById('editMobile').value = selectedAddress.mobile || '';
-                document.getElementById('editCountry').value = selectedAddress.country || '';
-                document.getElementById('editState').value = selectedAddress.state || '';
-                document.getElementById('editDistrict').value = selectedAddress.district || '';
-                document.getElementById('editPincode').value = selectedAddress.pincode || '';
-
-                // Show the "Edit Address" tab
-                document.getElementById('tab-editAddress').classList.add('show', 'active');
-
-                // Optionally, you might want to hide the other tabs
-                document.getElementById('tab-address').classList.remove('show', 'active');
-            } else {
-                console.log('Invalid index or address array is undefined/empty');
-            }
-        }
-
-
     </script>
 
 
@@ -1358,7 +1262,6 @@
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                // Clear error messages
                 errorName.innerText = "";
                 errorMobile.innerText = "";
 
@@ -1459,44 +1362,165 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert CDN -->
 
+
     <script>
 
-        function editAddress() {
-            const fullName = document.getElementById('fullName').value;
-            const address = document.getElementById('address').value;
-            const email = document.getElementById('email').value;
-            const mobile = document.getElementById('mobile').value;
-            const country = document.getElementById('country').value;
-            const state = document.getElementById('state').value;
-            const district = document.getElementById('district').value;
-            const pincode = document.getElementById('pincode').value;
+        let addressId;
+        async function openEditModal(id, name, address, email, mobile, country, state, district, pincode) {
 
-            fetch('/editAddress', {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    fullName,
-                    address,
-                    email,
-                    mobile,
-                    country,
-                    state,
-                    district,
-                    pincode
+            addressId = id;
+            $('#staticBackdrop').modal('show')
 
-                }),
-
-            })
-                .then(respons => {
-                    if (!respons.add) {
-                        console.log('error adding address')
-                    } else {
-                        location.href = '/profile'
-                    }
-                })
+            document.getElementById('editFullName').value = name;
+            document.getElementById('addressEdit').value = address;
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editMobile').value = mobile;
+            document.getElementById('editCountry').value = country;
+            document.getElementById('editState').value = state;
+            document.getElementById('editDistrict').value = district;
+            document.getElementById('editPincode').value = pincode;
         }
+
+        async function closeEditModal() {
+            $('#staticBackdrop').modal('hide');
+        }
+
+        function editAddress(id) {
+
+const editForm = document.getElementById('editAddressForm')
+
+editForm.addEventListener('submit',(e)=>{
+    e.preventDefault()
+
+    document.getElementById('error-edit-fullName').innerText = "";
+    document.getElementById('error-edit-address').innerText = "";
+    document.getElementById('error-edit-email').innerText = "";
+    document.getElementById('error-edit-mobile').innerText = "";
+    document.getElementById('error-edit-country').innerText = "";
+    document.getElementById('error-edit-state').innerText = "";
+    document.getElementById('error-edit-district').innerText = "";
+    document.getElementById('error-edit-pincode').innerText = "";
+})
+
+const fullName = document.getElementById('editFullName').value;
+const address = document.getElementById('addressEdit').value;
+const email = document.getElementById('editEmail').value;
+const mobile = document.getElementById('editMobile').value;
+const country = document.getElementById('editCountry').value;
+const state = document.getElementById('editState').value;
+const district = document.getElementById('editDistrict').value;
+const pincode = document.getElementById('editPincode').value;
+
+const isValid = validateEditAddress(fullName,address,email,mobile,country,state,district,pincode);
+
+if (!isValid) {
+    return
+}
+
+fetch('/editAddress', {
+    method: 'PATCH',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        addressId,
+        fullName,
+        address,
+        email,
+        mobile,
+        country,
+        state,
+        district,
+        pincode
+
+    }),
+
+})
+    .then(response => response.json())
+    .then(data => {
+        if (data.edit===true) {
+            Swal.fire({
+                title:'Edit Success',
+                text:'Address edited successfully',
+                icon:'success',
+                confirmButtonText:'Ok',
+                confirmButtonColor:'#c96',
+                timer:3000
+
+            }).then(()=>{
+                location.reload()
+            })
+        } else {
+            Swal.fire({
+                title:'Error',
+                text:'Edit address failed',
+                icon:'error',
+                confirmButtonText:'Ok',
+                confirmButtonColor:'#c96',
+                timer:3000
+
+            }).then(()=>{
+                location.reload()
+            })
+        }
+    })
+
+
+    function validateEditAddress(name,address,email,mobile,country,state,district,pincode) {
+    let isValid = true;
+
+    if (name.trim() === "") {
+        document.getElementById('error-edit-fullName').innerText = "Fullname is required.";
+        isValid = false;
+    }
+
+    if (address.trim() === "") {
+        document.getElementById('error-edit-address').innerText = "Address is required.";
+        isValid = false;
+    }
+
+    if (email.trim() === "") {
+        document.getElementById('error-edit-email').innerText = "email is required.";
+        isValid = false;
+    }else if (
+        !email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    ) {
+        document.getElementById("error-edit-email").innerText =
+        "Provide a valid email.";
+        isValid = false;
+    }
+
+    if (mobile.trim() === "") {
+        document.getElementById('error-edit-mobile').innerText = "Mobile is required.";
+        isValid = false;
+    } else if (mobile.length !== 10) {
+        document.getElementById('error-edit-mobile').innerText = "Invalid mobile number.";
+        isValid = false;
+    }
+
+    if (country.trim() === "") {
+        document.getElementById('error-edit-state').innerText = "Country is required.";
+        isValid = false;
+    }
+
+    if (state.trim() === "") {
+        document.getElementById('error-edit-state').innerText = "State is required.";
+        isValid = false;
+    }
+
+    if (district.trim() === "") {
+        document.getElementById('error-edit-district').innerText = "District is required.";
+        isValid = false;
+    }
+
+    if (pincode.trim() === "") {
+        document.getElementById('error-edit-pincode').innerText = "Pincode is required.";
+        isValid = false;
+    }
+
+    return isValid;
+}
+}
     </script>
 
     <script>

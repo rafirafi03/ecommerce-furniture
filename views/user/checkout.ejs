@@ -589,7 +589,12 @@
 		                						</tr><!-- End .summary-subtotal -->
 		                						<tr>
 		                							<td >Shipping:</td>
-		                							<td>Free shipping</td>
+                                                    <%if(subTotal< 1000){%>
+                                                        <td class="text-danger">₹ 50/-</td>
+                                                    <%}else{%>
+                                                        <td>Free shipping</td>
+                                                    <%}%>
+		                							
                                                     
                                                 </tr>
                                                 <%if(discountamount){%>
@@ -615,6 +620,18 @@
 		                				</table><!-- End .table table-summary -->
 
 		                				<div class="accordion-summary mb-2" id="accordion-payment">
+                                            <%if(subTotal>1000){%>
+                                                <div class="card">
+                                                    <div class="card-header" id="heading-1">
+                                                        <h2 class="card-title mb-1">
+                                                            <label class="custom-radio">
+                                                                <input type="radio" disabled >
+                                                                  Cash on Delivery <p class="text-danger small">(Order amount more than 1000 not be able for cash on delivery.)</p>
+                                                            </label>
+                                                        </h2>
+                                                    </div><!-- End .card-header -->
+                                                </div><!-- End .card -->
+                                            <%}else{%>
                                             <div class="card">
                                                 <div class="card-header" id="heading-1">
                                                     <h2 class="card-title mb-1">
@@ -630,6 +647,7 @@
                                                     </div><!-- End .card-body -->
                                                 </div><!-- End .collapse -->
                                             </div><!-- End .card -->
+                                            <%}%>
                                             <%if(user.wallet>=subTotal){%>
                                             <div class="card">
                                                 <div class="card-header" id="heading-2">

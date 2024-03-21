@@ -78,48 +78,39 @@ const loadEditProducts = async (req, res) => {
 
 // code for post the edit product request.
 const postEditProducts = async (req, res) => {
-  let { name, quantity, category, price } = req.body;
-  let { images1,images2,images3,images4 } = req.body;
-  console.log(req.body);
-  const id = req.query.id;
+  try {
+    const { name, quantity, category, price } = req.body;
+    const id = req.query.id;
 
-  
-  console.log(id," ","iddddddd",category)
+    // Get filenames of uploaded images
+    const files = req.files.map((file) => file.filename);
 
-  const files = req.files.map((item)=>{
-    return item.filename;
-  })
-  console.log(files," ","filesssssssss");
+    // Find existing product data
+    const existingData = await products.findOne({ _id: id });
 
-  const existingData = await products.findOne({ _id: id });
+    // Combine existing image filenames with newly uploaded filenames
+    const updatedImages = files.concat(existingData.images.slice(files.length));
 
-  console.log(existingData," ","exstngdataaaaaaa")
+    // Construct updated product object
+    const product = {
+      name: name,
+      quantity: quantity,
+      category: category,
+      price: price,
+      images: updatedImages
+    };
 
-  let img = []
+    // Update product in the database
+    const result = await products.findOneAndUpdate({ _id: id }, product, { new: true });
 
-  for (let i = 0; i < existingData.images.length; i++) {
-    if (i < files.length) {
-      img.push(files[i]);
-    } else {
-      img.push(existingData.images[i]);
-    }
+    // Redirect to products page
+    res.redirect('/admin/products');
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
   }
+};
 
-  console.log(img," ","imagessssss")
-
-  const product = {
-    name: name,
-    quantity: quantity,
-    category: category,
-    price: price,
-    images:img
-  }
-  const result = await products.findOneAndUpdate({ _id: id }, product, { new: true });
-
-    
-
-res.redirect('/admin/products');
-  }
 
 // code for list the product
 const listProducts = async (req, res) => {
@@ -138,10 +129,7 @@ const listProducts = async (req, res) => {
   }
 }
 
-const addOffer = async (req,res) => {
-  const {id} = req.params;
-  
-}
+
 
 // Exporting required modules.
 module.exports = {

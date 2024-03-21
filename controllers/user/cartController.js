@@ -1,5 +1,6 @@
 const products = require('../../models/productModel');
 const cartModel = require('../../models/cartModel');
+const wishlistModel = require('../../models/wishlistModel');
 
 const loadCart = async (req,res) => {
     try {
@@ -39,6 +40,12 @@ const addToCart = async (req, res) => {
                     };
 
                     await cartModel.findOneAndUpdate({ user: userId }, { $set: { user: userId }, $push: { product: data } }, { upsert: true, new: true });
+
+                    await wishlistModel.findOneAndUpdate(
+                        { user: userId},
+                        {$pull : {product : {productId : productId}}},
+                        {new: true}
+                    );
                     res.json({ success: true });
                 }else {
                     const data = {

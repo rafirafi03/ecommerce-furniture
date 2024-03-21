@@ -23,8 +23,8 @@
                         timer: 2000,
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = '/cart'; // Corrected URL
-                        }
+                            window.location.href = '/cart'; 
+                        } 
                     });
                 } else if (data.stock) {
                     Swal.fire({
@@ -32,7 +32,7 @@
                         text: 'Come again later',
                         icon: 'error',
                         confirmButtonText: 'Ok',
-                        confirmButtonColor: '#1e6e2c', // Adjusted color to match the Ajax code
+                        confirmButtonColor: '#1e6e2c',
                         timer: 2000,
                     });
                 } else if (data.status){

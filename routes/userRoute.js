@@ -62,6 +62,8 @@ userRoute.post('/profile',profileController.editProfile);
 
 userRoute.post('/addAddress',profileController.addAddress);
 
+userRoute.patch('/editAddress',profileController.editAddress);
+
 userRoute.get('/cart',auth.isLogin,cartController.loadCart);
 
 userRoute.post('/addToCart',cartController.addToCart);

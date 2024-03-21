@@ -13,4 +13,5 @@ function sortPrice(val) {
     console.log(newUrl);
     window.location.href = newUrl;
 }
+
  

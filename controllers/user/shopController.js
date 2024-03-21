@@ -17,9 +17,12 @@ const loadProductDetail = async (req,res) => {
 const loadShop = async (req,res) => {
   try {
 
+    let products;
+
+    const searchValue = req.query.search;
     const filterCategory = req.query.categoryFilter
     const sortValue = req.query.sort
-    const products = await product.find({isListed:true}).populate('category');
+    products = await product.find({isListed:true}).populate('category');
     const category = await categoryModel.find({isListed:true});
     const fltrCategory = await product.find({category:filterCategory,isListed:true})
 
@@ -36,6 +39,12 @@ const loadShop = async (req,res) => {
       products.sort((a,b)=>b.price-a.price)
       fltrCategory.sort((a,b)=>b.price-a.price)
     }
+  }
+
+  if(searchValue){
+    products = await product.find({
+      name: { $regex: searchValue, $options: 'i' } // Case-insensitive search by product name only
+    });
   }
 
 

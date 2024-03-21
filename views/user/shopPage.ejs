@@ -229,10 +229,10 @@
                     <div class="header-right">
                         <div class="header-search">
                             <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
-                            <form action="#" method="get">
+                            <form action="/shopPage" method="get">
                                 <div class="header-search-wrapper">
                                     <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                                    <input type="search" class="form-control" name="search" id="q" placeholder="Search in..." required>
                                 </div><!-- End .header-search-wrapper -->
                             </form>
                         </div><!-- End .header-search -->
@@ -392,9 +392,11 @@
                                             <div class="col-6 col-lg-3 order-lg-last">
                                                 <div class="product-list-action">
                                                     <%if(fltrCategory[i].offerId){%>
-                                                        <div class="product-price">
-                                                         <p class="text-danger"><s>₹<%=fltrCategory[i].price%></s></p> <p  class="text-success">₹ <%= fltrCategory[i].discountPercentage %> /-</p>
-                                                        </div><!-- End .product-price -->
+                                                        <p class="text-danger "><s>₹<%=fltrCategory[i].price%></s></p>
+
+                                                    <div class="product-price">
+                                                       <p  class="text-success">₹ <%= fltrCategory[i].offerPercentage %> /-</p>
+                                                    </div><!-- End .product-price -->
                                                     <%}else{%>
                                                         <div class="product-price">
                                                             ₹ <%= fltrCategory[i].price %> /-
@@ -572,29 +574,31 @@
 
 									<div class="collapse show" id="widget-1">
 										<div class="widget-body">
+                                            <% if(category && category.length > 0) { %>
 											<div class="filter-items filter-items-count">
-                                                <form action="/shopPage" method="GET">
-
-                                                <%if(category && category.length>0){%>
-
-                                                    <%category.forEach((val,index)=>{%>
-												<div class="filter-item">
-													<div class="custom-control custom-checkbox">
-														<input type="checkbox" value="<%=val._id%>" name="categoryFilter" id="category-<%=index%>" class="custom-control-input">
-														<label class="custom-control-label" for="category-<%=index%>"><%=val.name%></label>
-													</div><!-- End .custom-checkbox -->
-													<!-- <span class="item-count">3</span> -->
-												</div><!-- End .filter-item -->
-                                            <%})%>
-
-                                            <div >
-                                                <button style="width: 5px;" type="submit" class="btn btn-outline-primary-2 btn-block mt-2 rounded-pill">
-                                                    <span class="btn-text">Filter</span>
-                                                    <span class="btn-hover-text">Click</span>
-                                                </button>
+                                                <form action="/shopPage" method="GET" id="filterForm">
+                                            
+                                                
+                                                    <% category.forEach((val, index) => { %>
+                                                        <div class="filter-item">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" value="<%= val._id %>" name="categoryFilter" id="category-<%= index %>" class="custom-control-input" <% if (val.isSelected) { %> checked <% } %>>
+                                                                <label class="custom-control-label" for="category-<%= index %>"><%= val.name %></label>
+                                                            </div><!-- End .custom-checkbox -->
+                                                            <!-- <span class="item-count">3</span> -->
+                                                        </div><!-- End .filter-item -->
+                                                    <% }) %>
+                                            
+                                                    <div>
+                                                        <button style="width: 5px;" type="submit" class="btn btn-outline-primary-2 btn-block mt-2 rounded-pill">
+                                                            <span class="btn-text">Filter</span>
+                                                            <span class="btn-hover-text">Click</span>
+                                                        </button>
+                                                    </div>
+                                            
+                                                
+                                                </form>
                                             </div>
-
-                                            </form>
 
                                             <%}else {%>
                                                 <div class="filter-item">
@@ -850,6 +854,29 @@
     </div><!-- End .mobile-menu-container -->
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the form
+            const form = document.getElementById("filterForm");
+    
+            // Add event listener for form submission
+            form.addEventListener("submit", function(event) {
+                // Loop through each checkbox and store its checked state in localStorage
+                const checkboxes = document.querySelectorAll('input[name="categoryFilter"]');
+                checkboxes.forEach(function(checkbox) {
+                    localStorage.setItem(checkbox.value, checkbox.checked);
+                });
+            });
+    
+            // Restore checkbox states from localStorage on page load
+            const checkboxes = document.querySelectorAll('input[name="categoryFilter"]');
+            checkboxes.forEach(function(checkbox) {
+                const isChecked = localStorage.getItem(checkbox.value) === "true";
+                checkbox.checked = isChecked;
+            });
+        });
+    </script>
 
     <script src="assets/js/addToCart.js"></script>
     <script src="assets/js/addToWishlist.js"></script>
