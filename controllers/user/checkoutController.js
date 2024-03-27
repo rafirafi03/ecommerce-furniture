@@ -31,13 +31,20 @@ const loadCheckout = async (req, res) => {
         
         const subTotal = product.product.reduce((acc,curr)=>acc+curr.totalPrice ,0)
 
+
         let discountamount = 0;
         let total = subTotal;
 
-        if(product.coupon){
+        if (subTotal < 1000 && product.coupon) {
+            discountamount = product.coupon.discount;
+            total = subTotal-discountamount+50;  
+        }else if(subTotal<1000){
+            total = subTotal + 50;
+        } else if (product.coupon) {
             discountamount = product.coupon.discount;
             total = subTotal-discountamount;
         }
+        
 
         const coupon = await couponModel.find({criteria : {$lt:subTotal}})
 
@@ -99,9 +106,14 @@ const order = async (req,res) => {
 
         let total = 0;
 
-        if(coupon.coupon){
-            discount = coupon.coupon.discount;
-            total = totalPrice-discount;
+        if (totalPrice < 1000 && coupon.coupon) {
+            discountamount = coupon.coupon.discount;
+            total = totalPrice-discountamount+50;  
+        }else if(totalPrice<1000){
+            total = totalPrice + 50;
+        } else if (coupon.coupon) {
+            discountamount = coupon.coupon.discount;
+            total = totalPrice-discountamount;
         }
 
         const address = await addressModel.findOne({user:userId,'address._id':selectedAddress},{ 'address.$': 1 })
@@ -115,6 +127,7 @@ const order = async (req,res) => {
             deliveryAddress: address.address[0],
             payment: selectedPayment,
             product: products.product,
+            shippingCharge : totalPrice<1000 ? 50 : null,
             discountAmount: discount,
             totalPrice: total ? total : totalPrice,
             orderStatus: orderStatus,
@@ -132,6 +145,11 @@ const order = async (req,res) => {
             let productId = products.product[i].productId;
             let prdctQuantity = products.product[i].quantity;
 
+            await orderModel.findOneAndUpdate(
+                { _id: orderId, 'product.productId': productId },
+                { $set: { 'product.$.orderStatus': orderStatus } }
+            );
+
             await productModel.findOneAndUpdate({_id:productId},
                 {$inc:{quantity:-prdctQuantity}})
 
@@ -142,7 +160,9 @@ const order = async (req,res) => {
             console.log("ifffffffff");
             await cartModel.findOneAndDelete({user:userId});
             res.json({save:true})
-          } else if(selectedPayment === 'wallet'){
+          } 
+          
+          if(selectedPayment === 'wallet'){
             await userModel.findOneAndUpdate(
                 {_id:userId},
                 {$inc:{wallet:total ? -total : -totalPrice},
@@ -154,7 +174,6 @@ const order = async (req,res) => {
                 }
                 }
             )
-
             res.json({save:true})
           } else {
             let options = {
@@ -171,8 +190,6 @@ const order = async (req,res) => {
 
 
           }
-
-
 
     } catch (error) {
         console.log(error.message);
@@ -201,7 +218,12 @@ const razorpayVerify = async (req,res) => {
         }
         const newOrder = await orderModel.findByIdAndUpdate(
             {_id:data.order.receipt},
-            {$set:{orderStatus:'placed'}}
+            {
+                $set: { 
+                    orderStatus: 'placed',
+                    "product.$[].orderStatus": 'placed'
+                }
+            }
         ); 
 
         res.json({success:true})

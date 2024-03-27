@@ -708,6 +708,28 @@
                     aria-labelledby="register-tab-2"
                   >
                     <form action="" method="post" id="form">
+
+                      <div class="card-header" id="heading-1">
+                        <h2 class="card-title">
+                            <a role="button" class="shipping-add-address" data-toggle="collapse" href="#referralShow" aria-expanded="false" aria-controls="referralShow">
+                                Do you have referral ? <span>click here..</span>
+                            </a>
+                        </h2>
+                    </div><!-- End .card-header -->
+
+                    <div id="referralShow"  class="collapse" aria-labelledby="heading-1" data-parent="#referralShow">
+                      <div class="form-group">
+                        <label for="referral">Referral Code *</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="referral"
+                          name="referral"
+                        />
+                        <div class="register-error" id="errorReferral"></div>
+                      </div>
+                    </div><!-- End .custom-checkbox -->
+
                       <div class="form-group">
                         <label for="username">User name *</label>
                         <input

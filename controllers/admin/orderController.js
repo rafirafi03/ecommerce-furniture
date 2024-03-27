@@ -36,7 +36,13 @@ const patchOrderStatus = async (req,res) => {
         console.log(orderId,":idddddd");
 
         await orderModel.findOneAndUpdate({_id:orderId},
-            {$set:{orderStatus:status}})
+            {$set:
+                {
+                    orderStatus:status,
+                    'product.$[].orderStatus': status
+                }
+            
+            })
         res.json({status:true})
     } catch (error) {
         console.log(error.message);
@@ -44,8 +50,71 @@ const patchOrderStatus = async (req,res) => {
     }
 }
 
+const returnProduct = async (req,res)=>{
+
+    try {
+        
+       let {id,orderId} = req.body;
+
+       console.log(req.body)
+
+       const updatedOrder = await orderModel.findOneAndUpdate(
+        {
+          _id: orderId,
+          'product.productId': id
+        },
+        {
+          $set: {
+            'product.$[prod].orderStatus': 'returned',
+          }
+        },
+        {
+          arrayFilters: [{ 'prod.productId': id }],
+          new: true 
+        }
+      );
+
+      res.json({accepted:true})
+
+    } catch (error) {
+        
+    }
+}
+
+const returnCancel = async (req,res)=> {
+
+    try {
+        
+        let {id,orderId} = req.body;
+
+        const updatedOrder = await orderModel.findOneAndUpdate(
+            {
+              _id: orderId,
+              'product.productId': id
+            },
+            {
+              $set: {
+                'product.$[prod].orderStatus': 'return declined',
+              }
+            },
+            {
+              arrayFilters: [{ 'prod.productId': id }],
+              new: true 
+            }
+          );
+    
+          res.json({declined:true})
+
+
+    } catch (error) {
+        
+    }
+}
+
 module.exports = {
     getOrder,
     getOrderDetails,
-    patchOrderStatus
+    patchOrderStatus,
+    returnProduct,
+    returnCancel
 }

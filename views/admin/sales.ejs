@@ -6,7 +6,7 @@
         <header class="card-header">
           <h4 class="card-title">Latest orders</h4>
           <div class="row align-items-center">
-            <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+            <div class="col-md-2 col-6 me-auto mb-md-0 mb-3">
               <div class="custom_select">
                 <select onchange="filter(value)" class="form-select select-nice">
                   <option selected>Filter by</option>
@@ -19,12 +19,21 @@
             </div>
             
             <div class="col-md-2 col-6">
-              <input type="date" class="form-control" />
+              <input type="date" id="startDate" class="form-control" />
             </div>
+
             to
+
             <div class="col-md-2 col-6">
-              <input type="date" class="form-control" />
+              <input type="date" id="endDate" class="form-control"/>
             </div>
+
+            <div class="col-md-2 col-6">
+            <button class="badge badge-pill badge-soft-success" onclick="dateFilter()">filter</button>
+            </div>
+
+            <div class="login-error" id="error-div-date"></div>
+            
             
             <div class="col-md-2 col-6">
                 <a class="badge btn-secondary print ms-2" href="/admin/salesReport"><i class="icon material-icons md-print"></i>pdf</a>
@@ -104,11 +113,42 @@
     window.location.href = newUrl;
     }
 
-    function filterByDate(val){
-        var newUrl = `/admin/sales?date=${val}`;
+</script>
 
-        window.location.href = newUrl;
-    }
+  
+<script>
+
+function dateFilter() {
+  const startDateInput = document.getElementById('startDate');
+  const endDateInput = document.getElementById('endDate');
+  const errorDiv = document.getElementById('error-div-date'); 
+
+  
+  errorDiv.textContent = '';
+
+  
+  const startDate = new Date(startDateInput.value);
+  const endDate = new Date(endDateInput.value);
+
+  
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+    errorDiv.textContent = 'Invalid date format. Please use YYYY-MM-DD.';
+    return; 
+  }
+
+  if (startDate > endDate) {
+    errorDiv.textContent = 'Start date cannot be after end date.';
+    return;
+  }
+
+  
+  const newUrl = `/admin/sales?start=${startDate.toISOString().split('T')[0]}&end=${endDate.toISOString().split('T')[0]}`;
+
+  
+  window.location.href = newUrl;
+}
+
+
 </script>
 
 

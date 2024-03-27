@@ -8,7 +8,7 @@ const loadProducts = async (req, res) => {
   try {
 
     const offers = await offerModel.find({expiry_date:{$gt:new Date().toISOString()}})
-    console.log(offers,":offrssss")
+ 
     const product = await products.find().populate('category');
     res.render("admin/products", { product,offers });
   } catch (error) {
@@ -82,9 +82,12 @@ const postEditProducts = async (req, res) => {
     const { name, quantity, category, price } = req.body;
     const id = req.query.id;
 
+    console.log(req.body,":bdyyyyyyyyyy");
+
     // Get filenames of uploaded images
     const files = req.files.map((file) => file.filename);
 
+    console.log(req.files,":flsssssssssssss")
     // Find existing product data
     const existingData = await products.findOne({ _id: id });
 

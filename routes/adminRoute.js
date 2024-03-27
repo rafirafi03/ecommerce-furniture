@@ -61,5 +61,8 @@ adminRoute.patch('/removeCategoryOffer',auth.isLogin,offerController.removeCateg
 adminRoute.get('/sales',auth.isLogin,salesController.getSales);
 adminRoute.get('/salesReport',auth.isLogin,salesController.salesReport);
 adminRoute.get('/salerReportExcel',auth.isLogin,salesController.salesReportExel);
+adminRoute.patch('/return',auth.isLogin,orderController.returnProduct);
+adminRoute.patch('/returnCancel',auth.isLogin,orderController.returnCancel);
+adminRoute.get('/salesChart',auth.isLogin,salesController.salesChart);
 
 module.exports = adminRoute;

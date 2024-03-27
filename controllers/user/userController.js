@@ -4,36 +4,51 @@ const UserOTPVerification = require("../../models/userOtpVerification");
 const product = require('../../models/productModel')
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
-// const env = require("dotenv").config();
+require("dotenv").config();
 
 // // signup
 const signUpPost = async (req, res) => {
-  let { UserName, email, password, mobile } = req.body;
+
+  try {
+    let { referral, UserName, email, password, mobile } = req.body;
   const userExists = await User.findOne({ email,verified: true});
+  await User.findOneAndDelete({email,verified:false});
 
   // checking if user already exists
   if (userExists) {
     // A user alreaddy exists
-    res.render("user/signup", {
+    return res.render("user/signup", {
       message: "User with the provided email already exists.",
     });
-  } else {
-    // Try to create new user
+  }if(referral){
+    
+    const refUser = await User.findOne({referral:referral});
 
-    // password handling
-    const saltRounds = 10;
+    if (!refUser) {
+      return res.render("user/signup", {
+        message: "Invalid referral code entered.",
+      });
+    } 
+  }
+
+      const saltRounds = 10;
     bcrypt.hash(password, saltRounds).then(async (hashedPassword) => {
       const newUser = new User({
         name: UserName,
         email,
         mobile,
-        password: hashedPassword,
+        password: hashedPassword
       });
       const result = await newUser.save();
       // req.session.user_id = result._id;
-      sendOTPVerificationEmail(result, res,req);
+      sendOTPVerificationEmail(result, res,req,referral);
     });
+        // Try to create new user
+  
+  } catch (error) {
+    console.log(error.message)
   }
+  
 };
 
 // Login
@@ -110,28 +125,35 @@ const loadRegister = async (req, res) => {
 const loadOtp = async (req, res) => {
   try {
     const id = req.query.id;
-    res.render("user/otp",{id});
+    const ref = req.query.ref;
+    res.render("user/otp",{id,ref});
   } catch (error) {
     console.log(error.message);
   }
 };
 
 // Code for send the otp for email verification.
-const sendOTPVerificationEmail = async (result, res,req) => {
+const sendOTPVerificationEmail = async (result, res,req,referral) => {
   const { _id, email } = result;
   try {
+    console.log(_id,":idddinside");
+    console.log(email,":emailllllinside")
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+    console.log(otp,":otpinside")
     const expirationTime = Date.now() + 30000;
+    console.log(expirationTime,":expirtyinside")
 
     req.session.otpExpirationTime = expirationTime;
 
     // mail options
     const mailoptions = {
-      from: process.env.AUTH_EMAIL,
+      from: process.env.user_email,
       to: email,
       subject: "Verify Your Email",
       html: `<p>Enter <b>${otp}</b> in the app to verify your email address and complete the Signup</p><p>This code <b>expires in 30 seconds</b>.</p>`,
     };
+
+    console.log(mailoptions,":mailoptionsinside")
 
     // hash the otp
     const saltRounds = 10;
@@ -142,23 +164,23 @@ const sendOTPVerificationEmail = async (result, res,req) => {
       createdAt: Date.now(),
       expiresAt: expirationTime,
     });
+    console.log(newOTPVerification,":newotpverficationinside")
 
     // save otp record
     await newOTPVerification.save();
     await transporter.sendMail(mailoptions);
-    res.redirect(`/otp?id=${_id}`);
+    res.redirect(`/otp?id=${_id}&ref=${referral}`);
   } catch (error) {
-    res.json({
-      status: "FAILED",
-      message: error.message,
-    });
+    console.log('error aaan')
+    console.log(error.message)
+
   }
 };
 
 // verify otp email
 const verifyPost = async (req, res) => {
   try {
-    let { otp,user_id } = req.body;
+    let { otp,user_id ,ref} = req.body;
     const user = await UserOTPVerification.find();
     if (!otp) {
      return res.render('user/otp',{message: "Incorrect OTP.",id:user_id})
@@ -180,17 +202,63 @@ const verifyPost = async (req, res) => {
           // user otp record has expired
           await UserOTPVerification.deleteMany({ user_id });
           return res.render("user/otp", {
-            message: "Code has expired. Please request again.",id:user_id
+            message: "Code has expired. Please request again.",id:user_id,ref
           });
         } else {
           const validOTP = await bcrypt.compare(otp, hashedOTP);
 
           if (!validOTP) {
             // supplied otp is wrong
-            return res.render("user/otp", { message: "Invalid OTP.",id:user_id });
+            return res.render("user/otp", { message: "Invalid OTP.",id:user_id,ref });
           } else {
             // success
-            await User.updateOne({ _id: user_id }, { verified: true });
+
+            let referralCode;
+
+            const generateReferralCode = () => {
+              console.log('inside function')
+              const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+              referralCode = '';
+          
+              for (let i = 0; i < 6; i++) {
+                  referralCode += characters.charAt(Math.floor(Math.random() * characters.length));
+              }
+          
+              return referralCode;
+          };
+        
+          generateReferralCode();
+
+            await User.updateOne({ _id: user_id }, {
+               verified: true ,
+               referral : referralCode ? referralCode : null,
+            });
+
+            if (ref) {
+              await User.updateOne({_id:user_id},{
+                $inc:{
+                  wallet : 200
+                },
+                $push: {
+                  walletHistory : {
+                      date: Date.now(),
+                      amount: 200
+                  }
+              }
+              });
+
+              await User.updateOne({referral : ref},{
+                $inc:{
+                  wallet : 500
+                },
+                $push: {
+                  walletHistory : {
+                      date: Date.now(),
+                      amount: 500
+                  }
+              }
+              })
+            }
             await UserOTPVerification.deleteMany({ user_id });
             req.session.user_id = user_id
             res.redirect("/");
@@ -262,7 +330,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Exporting required modules.
+
 module.exports = {
   loadHome,
   loginLoad,

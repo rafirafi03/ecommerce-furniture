@@ -424,6 +424,13 @@
                                                     </p>
                                                 </ol>
 
+                                                <ol>
+                                                    <h6>Refferal code</h6>
+                                                    <p>
+                                                        <%=users.referral%>
+                                                    </p>
+                                                </ol>
+
 
                                             </div><!-- End .card-body -->
                                         </div><!-- End .card-dashboard -->
@@ -466,6 +473,16 @@
                                             </div><!-- End .row -->
                                             <br>
 
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label>Referral *</label>
+                                                    <input type="text" id="userMobile" value="<%= users.referral %>"
+                                                        class="form-control mb-0 text-light" disabled>
+                                                    <div class="login-error" id="error-mobile"></div>
+                                                </div><!-- End .col-sm-6 -->
+                                            </div><!-- End .row -->
+                                            <br>
+
                                             <button type="submit" onclick="editProfile()"
                                                 class="btn btn-outline-primary-2">
                                                 <span>SAVE CHANGES</span>
@@ -488,7 +505,7 @@
                                                             <th class="date">Date</th>
                                                             <th class="total">Amount</th>
                                                             <th class="">Payment</th>
-                                                            <th class="name">Inovoice</th>
+                                                            <th class="name">Status</th>
                                                             <th class="action">details</th>
                                                         </tr>
                                                     </thead>
@@ -510,9 +527,20 @@
                                                                 <td>
                                                                     <%=val.payment%>
                                                                 </td>
-                                                                <td><a href=""><i class="fa fa-download"
-                                                                            aria-hidden="true"></a></i>
-                                                                </td>
+                                                                <%if(val.orderStatus==='Cancelled'){%>
+                                                                    <td><span class="badge rounded-pill alert-danger">Cancelled</span></td>
+                                                                    <%}else if(val.orderStatus==='delivered'){%>
+                                                                    <td><span class="badge rounded-pill alert-success">Delivered</span></td>
+                                                                    <%}else if(val.orderStatus==='pending'){%>
+                                                                    <td><span class="badge rounded-pill alert-warning">Pending</span></td>
+                                                                    <%}else if(val.orderStatus==='out for delivery'){%>
+                                                                        <td><span class="badge rounded-pill alert-success">Out for delivery</span></td>
+                                                                        <%}else if(val.orderStatus==='placed'){%>
+                                                                        <td><span class="badge rounded-pill alert-success">Placed</span></td>
+                                                                        <%}else if(val.orderStatus==='returned'){%>
+                                                                        <td><span class="badge rounded-pill alert-danger">Returned</span></td>
+                                                                        <%}%>
+
                                                                 <td>
                                                                     <a href="/orderDetails?id=<%=val._id%>">View</a>
                                                                 </td>
@@ -541,7 +569,7 @@
                                             <table class="table">
                                                 <thead>
                                                     <h4 style="color: #c96;">Wallet History</h4>
-                                                    <h6 class="text-success mt-3">Balance : ₹ <%=users.wallet%>.00</h6>
+                                                    <h6 class="text-success mt-3">Balance : ₹ <%=users.wallet%></h6>
                                                     <br>
                                                     <tr>
                                                         <th class="name">
@@ -568,14 +596,14 @@
                                                                 <td class="text-success">credited</td>
 
 
-                                                                <td class="text-success">₹ <%=val.amount%>.00
+                                                                <td class="text-success">₹ <%=val.amount%>
                                                                 </td>
                                                                 <%}else{%>
                                                                     <td class="text-danger">debited</td>
 
 
                                                                     <td class="text-danger">-₹ <%=Math.abs(val.amount)%>
-                                                                            .00
+                                                                            
                                                                     </td>
                                                                     <%}%>
 
@@ -735,12 +763,14 @@
                                                                 <label>Full Name *</label>
                                                                 <input type="text" name="fullName" id="fullName"
                                                                     class="form-control">
+                                                                    <div class="login-error" id="error-address-name"></div>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <label>Address *</label>
                                                                 <input type="text" name="address" id="address"
                                                                     class="form-control">
+                                                                    <div class="login-error" id="error-address-address"></div>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
 
@@ -749,12 +779,14 @@
                                                                 <label>Email *</label>
                                                                 <input type="text" name="email" id="email"
                                                                     class="form-control">
+                                                                    <div class="login-error" id="error-address-email"></div>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <label>Mobile *</label>
                                                                 <input type="text" name="mobile" id="mobile"
                                                                     class="form-control">
+                                                                    <div class="login-error" id="error-address-mobile"></div>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
 
@@ -763,12 +795,14 @@
                                                                 <label>Country *</label>
                                                                 <input type="text" name="country" id="country"
                                                                     class="form-control">
+                                                                    <div class="login-error" id="error-address-country"></div>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <label>State *</label>
                                                                 <input type="text" name="state" id="state"
                                                                     class="form-control">
+                                                                    <div class="login-error" id="error-address-state"></div>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
 
@@ -777,12 +811,14 @@
                                                                 <label>District *</label>
                                                                 <input type="text" name="district" id="district"
                                                                     class="form-control">
+                                                                    <div class="login-error" id="error-address-district"></div>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <label>Pincode *</label>
                                                                 <input type="text" name="pincode" id="pincode"
                                                                     class="form-control">
+                                                                    <div class="login-error" id="error-address-pincode"></div>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
 
@@ -1179,7 +1215,6 @@
         </div>
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer src="assets/js/profileValidation.js"></script>
     <script src="assets/js/resetPassValidation.js"></script>
@@ -1190,7 +1225,34 @@
         document.getElementById('resetPassSubmit').addEventListener('click', function (event) {
             event.preventDefault();
 
-            let data = {
+            document.getElementById('newPassError').innerText = "";
+            document.getElementById('confirmPassError').innerText = "";
+            document.getElementById('currentPassError').innerText = "";
+
+
+            const newPassword = document.getElementById('newPass').value;
+            const confirmPassword = document.getElementById('confirmPass').value;
+            const currentPassword = document.getElementById('currentPass').value;
+
+            let isValid = true;
+
+            if (currentPassword.trim()==="" || currentPassword.length<8) {
+                document.getElementById('currentPassError').innerText = "Incorrect Password";
+                isValid = false
+            }
+            if(newPassword.trim()==="" || newPassword.length<8){
+                document.getElementById('newPassError').innerText="Atleast 8 characters required!!"
+                isValid=false;
+            }
+
+            if(confirmPassword.trim()==="" || confirmPassword.length<8){
+                document.getElementById('confirmPassError').innerText="Atleast 8 characters required!!"
+                isValid=false;
+            }
+
+
+            if (isValid ===true) {
+                let data = {
                 currentPass: document.getElementById('currentPass').value,
                 newPass: document.getElementById('newPass').value,
                 confirmPass: document.getElementById('confirmPass').value
@@ -1228,6 +1290,8 @@
                         })
                     }
                 })
+            }
+            
         })
     </script>
 
@@ -1323,6 +1387,20 @@
     <script>
 
         function addAddress() {
+
+            const form = document.getElementById('addAddress');
+
+            form.addEventListener('submit',(e)=>{
+                e.preventDefault();
+                document.getElementById("error-address-name").innerText = "";
+            document.getElementById("error-address-address").innerText = "";
+            document.getElementById("error-address-mobile").innerText = "";
+            document.getElementById("error-address-email").innerText = "";
+            document.getElementById("error-address-country").innerText = "";
+            document.getElementById("error-address-state").innerText = "";
+            document.getElementById("error-address-district").innerText = "";
+            document.getElementById("error-address-pincode").innerText = "";
+
             const fullName = document.getElementById('fullName').value;
             const address = document.getElementById('address').value;
             const email = document.getElementById('email').value;
@@ -1331,8 +1409,15 @@
             const state = document.getElementById('state').value;
             const district = document.getElementById('district').value;
             const pincode = document.getElementById('pincode').value;
+            
 
-            fetch('/addAddress', {
+            const verified = validateInputs(fullName,address,email,mobile,country,state,district,pincode);
+            if (verified === false) {
+                return;
+            }
+
+            try {
+                fetch('/addAddress', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1350,13 +1435,100 @@
                 }),
 
             })
-                .then(respons => {
-                    if (!respons.add) {
-                        console.log('error adding address')
+            .then(response => response.json())
+                .then(data => {
+                    if (data.add === true) {
+                        Swal.fire({
+                            title: 'Added',
+                            text: 'Address addedd successfull',
+                            icon: 'success',
+                            confirmButtonColor: '#c96',
+                            confirmButtonText: 'ok',
+                            timer : 3000
+                        }).then(() => {
+                            location.reload()
+                        })
                     } else {
-                        location.href = '/profile'
+                        Swal.fire({
+                            title: 'error',
+                            text: 'Address adding failed!!',
+                            icon: 'error',
+                            confirmButtonColor: '#c96',
+                            confirmButtonText: 'ok',
+                            timer: 3000
+                        }).then(() => {
+                            location.reload()
+                        })
                     }
                 })
+            } catch (error) {
+                console.log(error.message);
+            }
+            
+            
+            })
+
+            
+
+            function validateInputs(fullName,address,email,mobile,country,state,district,pincode) {
+                let isValid = true;
+
+                if (fullName.trim() === "") {
+                    document.getElementById("error-address-name").innerText = "Full name is required.";
+                    isValid = false;
+                }
+
+                if (email.trim() === "" ) {
+                    document.getElementById("error-address-email").innerText = "Email is required.";
+                    isValid = false;
+                }else if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+                    document.getElementById("error-address-email").innerText = "Provide a valid email.";
+                    isValid = false;
+                }
+
+                if (mobile.trim() === "") {
+                    document.getElementById("error-address-mobile").innerText =
+                    "Mobile number is required.";
+                    isValid = false;
+                } else if (mobile.length < 10 || mobile.length > 10) {
+                    isValid = false;
+                    document.getElementById("error-address-mobile").innerText = "Invalid mobile number.";
+                }
+
+                if (address.trim() === "") {
+                    document.getElementById("error-address-address").innerText =
+                    "address is required.";
+                    isValid = false;
+                } 
+
+                if (country.trim() === "") {
+                    document.getElementById("error-address-country").innerText =
+                    "Country name is required.";
+                    isValid = false;
+                }
+
+                if (state.trim() === "") {
+                    document.getElementById("error-address-state").innerText =
+                    "State name is required.";
+                    isValid = false;
+                }
+
+                if (district.trim() === "") {
+                    document.getElementById("error-address-district").innerText =
+                    "District name is required.";
+                    isValid = false;
+                }
+
+                if (pincode.trim() === "") {
+                    document.getElementById("error-address-pincode").innerText =
+                    "Pincode is required.";
+                    isValid = false;
+                }
+
+                return isValid;
+                }
+
+            
         }
     </script>
 

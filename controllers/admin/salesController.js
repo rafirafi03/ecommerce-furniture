@@ -5,6 +5,7 @@ const puppeteer = require('puppeteer');
 const ExcelJS = require('exceljs');
 const productModel = require('../../models/productModel');
 const categoryModel = require('../../models/categoryModel');
+const { order } = require('../user/checkoutController');
 
 
 let orders;
@@ -15,11 +16,29 @@ const getSales = async (req,res)=> {
 
         const filterValue = req.query.filter;
 
-        const today = new Date(); 
+        const startDate = req.query.start;
+
+        const endDate = req.query.end;
+
+        const today = new Date();
 
         orders = await orderModel.find({ orderStatus: 'delivered' });
 
-        if (filterValue) {
+
+        if (startDate) {
+          orders = await orderModel.aggregate([
+            {
+              $match:{
+                orderStatus:'delivered',
+                orderDate:{$gte:new Date(startDate),$lte:new Date(endDate)}
+              }
+            },
+            
+          ])
+
+          console.log(orders,"ordrrrrrrrrrrsssssss");
+          
+        }else if (filterValue) {
         const filter = {}; 
 
 
@@ -33,7 +52,7 @@ const getSales = async (req,res)=> {
             filter.orderDate = { $gte: oneMonthAgo, $lt: today }; 
             break;
             case 'year':
-            const oneYearAgo = new Date(today.getFullYear(), 0, 1); // Set the start of the current year (January 1st) 
+            const oneYearAgo = new Date(today.getFullYear(), 0, 1); 
             filter.orderDate = { $gte: oneYearAgo, $lt: today }; 
             break;
             default:
@@ -92,7 +111,6 @@ const salesReport = async (req,res)=> {
 const salesReportExel = async (req, res) => {
     try {
       console.log('heloooooooooo');
-      const orderData = await orderModel.find().populate('product.productId');
       const totalOrders = await orderModel.countDocuments();
       const totalProducts = await productModel.countDocuments();
   
@@ -110,7 +128,7 @@ const salesReportExel = async (req, res) => {
   
       worksheet.addRow(['Order ID', 'Billing Name', 'Date', 'Total', 'Payment Method']);
   
-      orderData.forEach(order => {
+      orders.forEach(order => {
         worksheet.addRow([
           order._id,
           order.deliveryAddress.fullName,
@@ -136,8 +154,35 @@ const salesReportExel = async (req, res) => {
     }
   };
 
+  const salesChart = async (req,res) => {
+
+    try {
+      
+      const monthlyOrders = await orderModel.aggregate([
+        {
+            $match: {
+                orderStatus: 'delivered'
+            }
+        },
+        {
+            $group: {
+                _id: { $month: "$orderDate" },
+                count: { $sum: 1 }
+            }
+        }
+    ]);
+
+    res.json(monthlyOrders);
+
+
+    } catch (error) {
+      
+    }
+  }
+
 module.exports = {
     getSales,
     salesReport,
-    salesReportExel
+    salesReportExel,
+    salesChart
 }

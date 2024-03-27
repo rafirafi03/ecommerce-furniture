@@ -125,6 +125,7 @@
                                     <th width="40%">Product</th>
                                     <th width="20%">Unit Price</th>
                                     <th width="20%">Quantity</th>
+                                    <th width="20%">Status</th>
                                     <th width="20%" class="text-end">Total</th>
                                 </tr>
                             </thead>
@@ -141,6 +142,11 @@
                                     </td>
                                     <td>₹ <%=val.price%>.00</td>
                                     <td><%=val.quantity%></td>
+                                    <%if(val.orderStatus==='return requested'){%>
+                                        <td><span style="cursor: pointer;" onclick="returnProduct('<%=val.productId._id%>','<%=orders._id%>','<%=val.returnReason%>')" class="badge rounded-pill alert-danger">Requested</span></td>
+                                    <%}else{%>
+                                    <td><%=val.orderStatus%></td>
+                                    <%}%>
                                     <td class="text-end">₹ <%=val.totalPrice%>.00</td>
                                 </tr>
 
@@ -153,14 +159,22 @@
                                                 <dt>Subtotal:</dt>
                                                 <dd>₹ <%=orders.totalPrice+orders.discountAmount%>.00</dd>
                                             </dl>
+                                            <%if(orders.shippingCharge){%>
                                             <dl class="dlist">
                                                 <dt>Shipping cost:</dt>
-                                                <dd>₹ 0.00</dd>
+                                                <dd>₹ <%=orders.shippingCharge%></dd>
                                             </dl>
+                                            <%}else{%>
+                                                <dl class="dlist">
+                                                    <dt>Shipping cost:</dt>
+                                                    <dd>₹ 0.00</dd>
+                                                </dl>
+                                                <%}%>
                                             <dl class="dlist">
                                                 <dt>Discount:</dt>
                                                 <dd>₹ <%=orders.discountAmount%>.00</dd>
                                             </dl>
+                                            
                                             <dl class="dlist">
                                                 <dt>Grand total:</dt>
                                                 <dd><b class="h5"></b>₹ <%=orders.totalPrice%>.00</dd>
@@ -250,6 +264,104 @@
                 }).then(()=>{
                     location.reload()
                 })
+            }
+        })
+    }
+</script>
+
+<script>
+    async function returnProduct(id,orderId,reason){
+      
+        Swal.fire({
+            title:'Return request',
+            text:`Reason: ${reason}`,
+            icon:'warning',
+            showCancelButton:true,
+            confirmButtonColor:'#d33',
+            cancelButtonText : 'Decline',
+            cancelButtonColor:'#c96',
+            confirmButtonText:'Accept'
+        }).then(async(result)=>{
+            if (result.isConfirmed) {
+                try {
+                    const response = fetch('/admin/return',{
+            method:'PATCH',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({id,orderId})
+        })
+        .then((response => response.json()))
+                            .then(data => {
+                                if (data.accepted === true) {
+                                    Swal.fire({
+                                        title: 'Accepted',
+                                        text: "Return request accepted !!",
+                                        icon: 'success',
+                                        confirmButtonColor: '#c96',
+                                        confirmButtonText: 'Ok',
+                                        timer: 2000
+                                    }).then((result) => {
+                                        location.reload()
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: "Something happen !!",
+                                        icon: 'error',
+                                        confirmButtonColor: '#c96',
+                                        confirmButtonText: 'Ok',
+                                        timer: 2000
+                                    }).then((result) => {
+                                        location.reload()
+                                    })
+                                }
+                            })
+        
+                } catch (error) {
+                    console.log(error.message);
+                    Swal.fire('Error','Failed to delete','error')
+                }
+            } else {
+                try {
+                    const response = fetch('/admin/returnCancel',{
+            method:'PATCH',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({id,orderId})
+        })
+        .then((response => response.json()))
+                            .then(data => {
+                                if (data.declined === true) {
+                                    Swal.fire({
+                                        title: 'Declined',
+                                        text: "Return request Declined !!",
+                                        icon: 'success',
+                                        confirmButtonColor: '#c96',
+                                        confirmButtonText: 'Ok',
+                                        timer: 2000
+                                    }).then((result) => {
+                                        location.reload()
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: "Something happen !!",
+                                        icon: 'error',
+                                        confirmButtonColor: '#c96',
+                                        confirmButtonText: 'Ok',
+                                        timer: 2000
+                                    }).then((result) => {
+                                        location.reload()
+                                    })
+                                }
+                            })
+        
+                } catch (error) {
+                    console.log(error.message);
+                    Swal.fire('Error','Failed to delete','error')
+                }
             }
         })
     }

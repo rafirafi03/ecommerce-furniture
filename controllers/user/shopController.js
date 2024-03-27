@@ -24,7 +24,7 @@ const loadShop = async (req,res) => {
     const sortValue = req.query.sort
     products = await product.find({isListed:true}).populate('category');
     const category = await categoryModel.find({isListed:true});
-    const fltrCategory = await product.find({category:filterCategory,isListed:true})
+    const fltrCategory = await product.find({category:filterCategory,isListed:true}).populate('category');
 
     console.log(sortValue,":srtvlueee")
     if(sortValue){
@@ -43,7 +43,7 @@ const loadShop = async (req,res) => {
 
   if(searchValue){
     products = await product.find({
-      name: { $regex: searchValue, $options: 'i' } // Case-insensitive search by product name only
+      name: { $regex: searchValue, $options: 'i' }
     });
   }
 

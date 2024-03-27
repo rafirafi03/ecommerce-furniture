@@ -55,6 +55,12 @@ const addToCart = async (req, res) => {
                     };
 
                     await cartModel.findOneAndUpdate({ user: userId }, { $set: { user: userId }, $push: { product: data } }, { upsert: true, new: true });
+
+                    await wishlistModel.findOneAndUpdate(
+                        { user: userId},
+                        {$pull : {product : {productId : productId}}},
+                        {new: true}
+                    );
                     res.json({ success: true });
                 }
 

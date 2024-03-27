@@ -76,7 +76,7 @@ userRoute.post('/addToWishlist',wishlistController.addToWishlist);
 
 userRoute.delete('/wishlist/remove/:productId', wishlistController.removeFromWishlist);
 
-userRoute.get('/checkout',auth.isLogin,checkoutController.loadCheckout)
+userRoute.get('/checkout',auth.isLogin,checkoutController.loadCheckout);
 
 userRoute.delete('/profile/address/:addressId', profileController.removeAddress);
 
@@ -90,13 +90,15 @@ userRoute.get('/orderDetails',auth.isLogin,profileController.loadOrderDetails);
 
 userRoute.patch('/cancelOrder',auth.isLogin,profileController.cancelOrder);
 
-userRoute.patch('/razorpayVerify',checkoutController.razorpayVerify)
+userRoute.patch('/razorpayVerify',checkoutController.razorpayVerify);
 
-userRoute.patch('/resetPass',auth.isLogin,profileController.PatchResetPass)
+userRoute.patch('/resetPass',auth.isLogin,profileController.PatchResetPass);
 
 userRoute.patch('/applyCoupon',auth.isLogin,checkoutController.applyCoupon);
 
-userRoute.delete('/removeCoupon',auth.isLogin,checkoutController.removeCoupon)
+userRoute.delete('/removeCoupon',auth.isLogin,checkoutController.removeCoupon);
+
+userRoute.patch('/return',auth.isLogin,profileController.returnProduct);
 
 userRoute.get('/logout',auth.isLogin,profileController.logout);
 

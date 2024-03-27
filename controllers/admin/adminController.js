@@ -32,13 +32,12 @@ const loginPost = async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, admin.password);
 
     if (passwordMatch) {
-      // Password match, admin is authenticated
-      // You can set up a session ot create a jwt token here for admin authentication.
+    
       req.session.admin_id = admin._id;
 
-      return res.redirect("/admin/home"); //redirect to the admins dashboard
+      return res.redirect("/admin/home"); 
     } else {
-      // password do not match
+      
       return res.render("admin/login", {
         message: "Invalid email or password.",
       });
@@ -66,9 +65,107 @@ const loadHome = async (req, res) => {
       }
     ]);
 
-    console.log(revenue,":rvnuee")
+    const currentMonth = new Date();
+    const currentMonthIndex = currentMonth.getMonth();
+    const startOfMonth = new Date(currentMonth.getFullYear(),0,1);
+    const endOfMonth = new Date(currentMonth.getFullYear()+1,0,1);
+    endOfMonth.setMilliseconds(endOfMonth.getMilliseconds()-1);
+    const currentMonthName = (new Date()).toLocaleString('default',{month:'long'});
 
-    res.render("admin/home", {orders,products,categories,revenue});
+    const monthlyRevenue = await orderModel.aggregate([
+      {
+        $match : {
+          orderDate : {
+            $gte:startOfMonth,
+            $lt: endOfMonth
+          }
+        }
+      },
+      {
+        $group : {
+          _id : { $month : '$orderDate'},
+          monthlyRevenue : { $sum : '$totalPrice'}
+        }
+      }
+    ]);
+
+    const graphValue = Array(12).fill(0);
+
+    monthlyRevenue .forEach(entry => {
+      const monthIndex = entry._id -1;
+      graphValue[monthIndex] = entry.monthlyRevenue;
+    })
+
+    const COD = await orderModel.countDocuments({ payment : 'cash on delivery'});
+
+    const Wallet = await orderModel.countDocuments({ payment : 'wallet'});
+
+    const Razorpay = await orderModel.countDocuments({ payment : 'Razorpay'});
+
+    const topSellingProducts = await orderModel.aggregate([
+      { $unwind: "$product" },
+      {
+        $lookup: {
+          from: "products",
+          localField: "product.productId",
+          foreignField: "_id",
+          as: "joinedProduct"
+        }
+      },
+      { $unwind: "$joinedProduct" }, 
+      {
+        $group: {
+          _id: "$joinedProduct._id", 
+          productName: { $first: "$joinedProduct.name" }, 
+          totalSold: { $sum: "$product.quantity" }, 
+        }
+      },
+      { $sort: { totalSold: -1 } },
+      { $limit: 3 },
+    ]);
+    
+    const topProductLabels = topSellingProducts.map(product => product.productName);
+    const topProductCounts = topSellingProducts.map(product => product.totalSold);
+
+    const topSellingCategories = await orderModel.aggregate([
+      { $unwind: "$product" }, 
+      {
+        $lookup: { 
+          from: "products",
+          localField: "product.productId",
+          foreignField: "_id",
+          as: "joinedProduct"
+        }
+      },
+      { $unwind: "$joinedProduct" }, 
+      {
+        $lookup: { 
+          from: "categories",
+          localField: "joinedProduct.category", 
+          foreignField: "_id",
+          as: "joinedCategory"
+        }
+      },
+      { $unwind: "$joinedCategory" }, 
+      {
+        $group: {
+          _id: "$joinedCategory._id", 
+          categoryName: { $first: "$joinedCategory.name" }, 
+          totalSold: { $sum: "$product.quantity" }, 
+        }
+      },
+      { $sort: { totalSold: -1 } }, 
+      { $limit: 3 }, 
+    ]);
+    
+    const topCategoryLabels = topSellingCategories.map(category => category.categoryName);
+    const topCategoryCounts = topSellingCategories.map(category => category.totalSold);
+
+    console.log(topProductLabels,"labelsssssssss");
+
+    console.log(topProductCounts,"countsssssss");
+
+    res.render("admin/home", {orders,products,categories,revenue,graphValue,COD,Wallet,Razorpay,topProductLabels,topProductCounts,topCategoryLabels,topCategoryCounts});
   } catch (error) {
     console.log(error.message);
   }

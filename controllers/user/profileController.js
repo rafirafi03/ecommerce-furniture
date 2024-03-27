@@ -9,7 +9,7 @@ const loadProfile = async (req, res) => {
 
   const users = await user.findOne({ _id: userId });
   const address = await userAddress.findOne({ user: userId });
-  const orders = await orderModel.find({ user: userId });
+  const orders = await orderModel.find({ user: userId }).populate('product.productId');
   orders.sort(function (a, b) {
     return new Date(b.orderDate) - new Date(a.orderDate);
   });
@@ -194,7 +194,12 @@ const cancelOrder = async (req, res) => {
 
     await orderModel.findOneAndUpdate(
       { _id: orderId },
-      { $set: { orderStatus: "Cancelled" } }
+      {
+        $set: {
+          orderStatus: "Cancelled", 
+          "product.$[].orderStatus": "Cancelled" 
+        }
+      }
     );
 
     for (let i = 0; i < ordersProducts.product.length; i++) {
@@ -213,13 +218,13 @@ const cancelOrder = async (req, res) => {
           {
               $inc: { wallet: ordersProducts.totalPrice },
               $push: {
-                  walletHistory: {
+                  walletHistory : {
                       date: Date.now(),
                       amount: ordersProducts.totalPrice
                   }
               }
           },
-          { new: true } // Add this as the third argument
+          { new: true } 
       );
   }
 
@@ -230,6 +235,39 @@ const cancelOrder = async (req, res) => {
     console.log(error.message);
   }
 };
+
+const returnProduct = async (req,res)=>{
+
+  try {
+
+    let {productId,orderId,reason} = req.body;
+
+    console.log(req.body)
+
+    const updatedOrder = await orderModel.findOneAndUpdate(
+      {
+        _id: orderId,
+        'product.productId': productId
+      },
+      {
+        $set: {
+          'product.$[prod].orderStatus': 'return requested',
+          'product.$[prod].returnReason': reason
+        }
+      },
+      {
+        arrayFilters: [{ 'prod.productId': productId }],
+        new: true // To return the updated document
+      }
+    );
+
+      res.json({return:true})
+
+
+  } catch (error) {
+    console.log(error.message)
+  }
+}
 
 const logout = async (req, res) => {
   try {
@@ -250,4 +288,5 @@ module.exports = {
   cancelOrder,
   loadOrderDetails,
   PatchResetPass,
+  returnProduct
 };
