@@ -14,7 +14,7 @@
               <thead class="table-light">
                   
                 <tr>
-                  <th class="align-middle" scope="col">Order ID</th>
+                  <th class="align-middle" scope="col">ID</th>
                   <th class="align-middle" scope="col">Billing Name</th>
                   <th class="align-middle" scope="col">Date</th>
                   <th class="align-middle" scope="col">Total</th>
@@ -23,9 +23,9 @@
                 </tr>
               </thead>
               <tbody>
-                  <%orders.forEach((val)=>{%>
+                  <%orders.forEach((val,index)=>{%>
                 <tr>
-                  <td><a class="fw-bold"><%=val._id%></a></td>
+                  <td><a class="fw-bold"><%=index%></a></td>
                   <td><%=val.deliveryAddress.fullName%></td>
                   <td><%=val.orderDate.toLocaleDateString('en-US', {
                       weekday: 'short' , year: 'numeric' ,

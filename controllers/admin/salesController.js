@@ -13,7 +13,7 @@ const getSales = async (req,res)=> {
     
     try {
 
-
+        let message = 'showing all sales reports';
         const filterValue = req.query.filter;
 
         const startDate = req.query.start;
@@ -36,22 +36,27 @@ const getSales = async (req,res)=> {
             
           ])
 
+          message = `showing ${startDate} to ${endDate} sales reports.`
+
           console.log(orders,"ordrrrrrrrrrrsssssss");
           
         }else if (filterValue) {
+
+          message = `showing ${filterValue} sales reports.`
+
         const filter = {}; 
 
 
         switch (filterValue) {
-            case 'week':
+            case 'weekly':
             const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000); 
             filter.orderDate = { $gte: sevenDaysAgo, $lt: today }; 
             break;
-            case 'month':
+            case 'monthly':
             const oneMonthAgo = new Date(today.getFullYear(), today.getMonth() - 1, 1); 
             filter.orderDate = { $gte: oneMonthAgo, $lt: today }; 
             break;
-            case 'year':
+            case 'yearly':
             const oneYearAgo = new Date(today.getFullYear(), 0, 1); 
             filter.orderDate = { $gte: oneYearAgo, $lt: today }; 
             break;
@@ -70,7 +75,7 @@ const getSales = async (req,res)=> {
         }
         }
 
-        res.render('admin/sales',{orders})
+        res.render('admin/sales',{orders,message})
     } catch (error) {
         console.log(error.message)
     }

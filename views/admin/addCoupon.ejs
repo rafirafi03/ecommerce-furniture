@@ -11,18 +11,15 @@
         <div class="row">
           <div class="col-md-3">
             <form method="post" id="form">
-            <div class="row">
-              <div class="col-lg-6 mb-4">
+              <%if( typeof message != 'undefined'){%>
+                <h6 class="text-danger"><%=message%></h6>
+                <%}%>
+              <div class="col-lg-12 mb-4">
                 <label class="form-label">Name</label>
                 <input name="name" type="text" placeholder="Type coupon name here" class="form-control" id="couponName" />
                 <div class="error" id="error-name"></div>
               </div>
-              <div class="col-lg-6 mb-4">
-                <label class="form-label">Code</label>
-                <input name="code" type="text" placeholder="Type coupon code here" class="form-control" id="couponCode" />
-                <div class="error" id="error-code"></div>
-              </div>
-            </div>
+
             <div class="row">
                 <div class="col-lg-6 mb-4">
                   <label class="form-label">Discount amount</label>

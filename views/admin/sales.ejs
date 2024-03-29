@@ -11,9 +11,9 @@
                 <select onchange="filter(value)" class="form-select select-nice">
                   <option selected>Filter by</option>
                   <option value="all">All</option>
-                  <option value="week">Weekly</option>
-                  <option value="month">Monthly</option>
-                  <option value="year">Yearly</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="yearly">Yearly</option>
                 </select>
               </div>
             </div>
@@ -33,26 +33,28 @@
             </div>
 
             <div class="login-error" id="error-div-date"></div>
-            
-            
-            <div class="col-md-2 col-6">
+
+            <div class="col-md-2 col-2 mt-2">
                 <a class="badge btn-secondary print ms-2" href="/admin/salesReport"><i class="icon material-icons md-print"></i>pdf</a>
             </div>
           
-            <div class="col-md-2 col-6">
+            <div class="col-md-2 col-2 mt-2">
                 <a class="badge btn-primary print ms-2" href="/admin/salerReportExcel"><i class="icon material-icons md-print"></i>excel</a>
             </div>
           </div>
         </header>
+        <h6 class="text-success text-center"><%=message%></h6>
         <div class="card-body">
+          
           <div class="table-responsive">
+            
             <div class="table-responsive">
               <table class="table align-middle table-nowrap mb-0">
                 <%if(orders && orders.length>0){%>
                 <thead class="table-light">
                     
                   <tr>
-                    <th class="align-middle" scope="col">Order ID</th>
+                    <th class="align-middle" scope="col">ID</th>
                     <th class="align-middle" scope="col">Billing Name</th>
                     <th class="align-middle" scope="col">Date</th>
                     <th class="align-middle" scope="col">Total</th>
@@ -61,9 +63,9 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <%orders.forEach((val)=>{%>
+                    <%orders.forEach((val,index)=>{%>
                   <tr>
-                    <td><a class="fw-bold"><%=val._id%></a></td>
+                    <td><a class="fw-bold"><%=index%></a></td>
                     <td><%=val.deliveryAddress.fullName%></td>
                     <td><%=val.orderDate.toLocaleDateString('en-US', {
                         weekday: 'short' , year: 'numeric' ,

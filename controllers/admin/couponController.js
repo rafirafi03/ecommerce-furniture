@@ -37,9 +37,26 @@ const postAddCoupon = async (req,res) => {
             message:'This coupon already exists!!'
            }) 
         } else {
+
+            let couponCode;
+
+            const generateCouponCode = () => {
+
+              const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+              couponCode = '';
+          
+              for (let i = 0; i < 6; i++) {
+                couponCode += characters.charAt(Math.floor(Math.random() * characters.length));
+              }
+          
+              return couponCode;
+          };
+        
+          generateCouponCode();
+
             const coupon = new couponModel({
                 name: req.body.name,
-                code: req.body.code,
+                code: couponCode,
                 discount: req.body.discountAmount,
                 criteria: req.body.criteriaAmount,
                 activation_date: req.body.activationDate,

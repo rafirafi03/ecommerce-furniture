@@ -3,7 +3,6 @@ const form = document.getElementById('form');
 form.addEventListener('submit',(e)=>{
     e.preventDefault();
     document.getElementById('error-name').innerText = "";
-    document.getElementById('error-code').innerText = "";
     document.getElementById('error-discount').innerText = "";
     document.getElementById('error-criteria').innerText = "";
     document.getElementById('error-activationDate').innerText = "";
@@ -20,12 +19,6 @@ function validateInputs(){
     const name = document.getElementById('couponName').value;
     if (name.trim()==="") {
         document.getElementById('error-name').innerText = "Coupon name required!!";
-        let isValid = false
-    }
-
-    const code = document.getElementById('couponCode').value;
-    if (code.trim()==="") {
-        document.getElementById('error-code').innerText = "Coupon code required!!";
         let isValid = false
     }
 
@@ -52,6 +45,22 @@ function validateInputs(){
         document.getElementById('error-expiryDate').innerText = "Expiry date is required!!";
         let isValid = false
     }
+
+    if (isValid) {
+        try {
+          const activationDateObj = new Date(date);
+          const expiryDateObj = new Date(expDate);
+      
+          if (expiryDateObj < activationDateObj) {
+            document.getElementById('error-expiryDate').innerText = "Expiry date cannot be before activation date!";
+            isValid = false;
+          }
+        } catch (error) {
+          // Handle invalid date format
+          document.getElementById('error-expiryDate').innerText = "Invalid date format. Please use YYYY-MM-DD.";
+          isValid = false;
+        }
+      }
 
     return isValid;
 }
