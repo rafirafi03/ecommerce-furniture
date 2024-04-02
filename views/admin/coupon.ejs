@@ -21,60 +21,60 @@
             <div class="table-responsive">
               <table class="table table-hover">
                 <%if(coupons && coupons.length>0){%>
-                <thead>
-                  <tr class="text-center">
-                    
-                    <th>NO</th>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Discount</th>
-                    <th>Criteria Amount</th>
-                    <th>Activation Date</th>
-                    <th>Expiry</th>
-                    <th class="text-end">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <%for(i=0;i < coupons.length;i++){%>
+                  <thead>
                     <tr class="text-center">
-                      
-                      <td>
-                        <%=i+1%>
-                      </td>
-                      <td><b>
-                          <%=coupons[i].name%>
-                        </b></td>
-                      <td>
-                        <%=coupons[i].code%>
-                      </td>
-                      <td>
-                        <%=coupons[i].discount%>
-                      </td>
-                      <td>
-                        <%=coupons[i].criteria%>
-                      </td>
-                      <td>
-                        <%=coupons[i].activation_date%>
-                      </td>
-                      <td>
-                        <%=coupons[i].expiry_date%>
-                      </td>
-                      <td class="text-end">
-                        <div class="dropdown">
-                          <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm">
-                            <i class="material-icons md-more_horiz"></i>
-                          </a>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" onclick="deleteCoupon('<%=coupons[i]._id%>')">Delete</a>
-                            <!-- <a class="dropdown-item text-danger" href="#">Delete</a> -->
-                          </div>
-                        </div>
-                        <!-- dropdown //end -->
-                      </td>
+
+                      <th>NO</th>
+                      <th>Name</th>
+                      <th>Code</th>
+                      <th>Discount</th>
+                      <th>Criteria Amount</th>
+                      <th>Activation Date</th>
+                      <th>Expiry</th>
+                      <th class="text-end">Action</th>
                     </tr>
-                    <%}%>
-                </tbody>
-                <%}else{%>
+                  </thead>
+                  <tbody>
+                    <%for(i=0;i < coupons.length;i++){%>
+                      <tr class="text-center">
+
+                        <td>
+                          <%=i+1%>
+                        </td>
+                        <td><b>
+                            <%=coupons[i].name%>
+                          </b></td>
+                        <td>
+                          <%=coupons[i].code%>
+                        </td>
+                        <td>
+                          <%=coupons[i].discount%>
+                        </td>
+                        <td>
+                          <%=coupons[i].criteria%>
+                        </td>
+                        <td>
+                          <%=coupons[i].activation_date%>
+                        </td>
+                        <td>
+                          <%=coupons[i].expiry_date%>
+                        </td>
+                        <td class="text-end">
+                          <div class="dropdown">
+                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm">
+                              <i class="material-icons md-more_horiz"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" onclick="deleteCoupon('<%=coupons[i]._id%>')">Delete</a>
+                              <!-- <a class="dropdown-item text-danger" href="#">Delete</a> -->
+                            </div>
+                          </div>
+                          <!-- dropdown //end -->
+                        </td>
+                      </tr>
+                      <%}%>
+                  </tbody>
+                  <%}else{%>
 
                     <h3 class="text-center text-muted">No coupons available</h3>
                     <p class="text-center text-muted">add some coupons..</p>
@@ -102,9 +102,7 @@
           </li>
           <li class="page-item"><a class="page-link" href="#">16</a></li>
           <li class="page-item">
-            <a class="page-link" href="#"
-              ><i class="material-icons md-chevron_right"></i
-            ></a>
+            <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
           </li>
         </ul>
       </nav>
@@ -114,42 +112,42 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    function deleteCoupon(id){
+    function deleteCoupon(id) {
 
-        Swal.fire({
-            title:'Are you sure??',
-            text:'You are about to delete this coupon',
-            icon:'warning',
-            showCancelButton:true,
-            confirmButtonColor:'#d33',
-            cancelButtonColor:'#c96',
-            confirmButtonText:'yes'
-        }).then(async(result)=>{
-            if (result.isConfirmed) {
-                try {
-                    const response = fetch('/admin/deleteCoupon',{
-            method:'DELETE',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({id})
-        })
-        if (response) {
-            Swal.fire('Deleted','Coupons is deleted','success')
-            .then(()=>{
-                location.reload()
+      Swal.fire({
+        title: 'Are you sure??',
+        text: 'You are about to delete this coupon',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#c96',
+        confirmButtonText: 'yes'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = fetch('/admin/deleteCoupon', {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ id })
             })
-        } else {
-            Swal.fire('Error','Failed to delete','error')
-            console.log(error.message)
-        }
-                } catch (error) {
-                    console.log(error.message);
-                    Swal.fire('Error','Failed to delete','error')
-                }
+            if (response) {
+              Swal.fire('Deleted', 'Coupons is deleted', 'success')
+                .then(() => {
+                  location.reload()
+                })
+            } else {
+              Swal.fire('Error', 'Failed to delete', 'error')
+              console.log(error.message)
             }
-        })
-        
+          } catch (error) {
+            console.log(error.message);
+            Swal.fire('Error', 'Failed to delete', 'error')
+          }
+        }
+      })
+
     }
   </script>
 

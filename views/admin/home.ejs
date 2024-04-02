@@ -17,7 +17,11 @@
                 class="text-primary material-icons md-monetization_on"></i></span>
             <div class="text">
               <h6 class="mb-1 card-title">Sales</h6>
+              <%if(revenue && revenue.length>0){%>
               <span>₹ <%=revenue[0].revenue.toFixed(2)%></span>
+              <%}else{%>
+                <span>₹ 0.00</span>
+                <%}%>
               <span class="text-sm"> Shipping fees are not included </span>
             </div>
           </article>
@@ -30,7 +34,9 @@
                 class="text-success material-icons md-local_shipping"></i></span>
             <div class="text">
               <h6 class="mb-1 card-title">Orders</h6>
-              <span><%=orders.length%></span>
+              <span>
+                <%=orders.length%>
+              </span>
               <span class="text-sm"> Excluding orders in transit </span>
             </div>
           </article>
@@ -43,7 +49,9 @@
                 class="text-warning material-icons md-qr_code"></i></span>
             <div class="text">
               <h6 class="mb-1 card-title">Products</h6>
-              <span><%=products.length%></span>
+              <span>
+                <%=products.length%>
+              </span>
               <span class="text-sm"> In <%=categories.length%> Categories </span>
             </div>
           </article>
@@ -66,10 +74,8 @@
     <div class="row">
       <div class="col-xl-8 col-lg-12">
         <div class="card mb-4">
-          <select onchange="filter(value)" class="form-select">
+          <select onchange="filterChart(value)" class="form-select">
             <option selected>Filter by</option>
-            <option value="all">All</option>
-            <option value="weekly">Weekly</option>
             <option value="monthly">Monthly</option>
             <option value="yearly">Yearly</option>
           </select>
@@ -78,7 +84,7 @@
             <canvas id="myChart" height="120px"></canvas>
           </article>
         </div>
-        
+
       </div>
       <div class="col-xl-4 col-lg-12">
         <div class="card mb-4">
@@ -87,7 +93,7 @@
             <canvas id="myChart2" height="217"></canvas>
           </article>
         </div>
-        
+
       </div>
     </div>
 
@@ -99,7 +105,7 @@
             <canvas id="myChart3" height="217"></canvas>
           </article>
         </div>
-        
+
       </div>
       <div class="col-xl-4 col-lg-12">
         <div class="card mb-4">
@@ -108,178 +114,191 @@
             <canvas id="myChart4" height="217"></canvas>
           </article>
         </div>
-        
+
       </div>
     </div>
-    
-    
+
+
   </section>
   <!-- content-main end// -->
 
   <script src="asset/js/vendors/jquery-3.6.0.min.js"></script>
-<script src="asset/js/vendors/bootstrap.bundle.min.js"></script>
-<script src="asset/js/vendors/select2.min.js"></script>
-<script src="asset/js/vendors/perfect-scrollbar.js"></script>
-<script src="asset/js/vendors/jquery.fullscreen.min.js"></script>
-<script src="asset/js/vendors/chart.js"></script>
-<!-- Main Script -->
-<script src="asset/js/main.js?v=1.1" type="text/javascript"></script>
-<script src="asset/js/custom-chart.js" type="text/javascript"></script>
+  <script src="asset/js/vendors/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/vendors/select2.min.js"></script>
+  <script src="asset/js/vendors/perfect-scrollbar.js"></script>
+  <script src="asset/js/vendors/jquery.fullscreen.min.js"></script>
+  <script src="asset/js/vendors/chart.js"></script>
+  <!-- Main Script -->
+  <script src="asset/js/main.js?v=1.1" type="text/javascript"></script>
+  <script src="asset/js/custom-chart.js" type="text/javascript"></script>
 
-<script>
-  console.log("<%=graphValue%>");
-  (function ($) {
+
+  <script>
+
+    function filterChart(val) {
+
+      var newUrl = `/admin/home?filter=${val}`;
+
+      window.location.href = newUrl;
+
+    }
+
+  </script>
+
+  <script>
+    console.log("<%=labels%>");
+    (function ($) {
       "use strict";
       /*Sale statistics Chart*/
       if ($('#myChart').length) {
-          var ctx = document.getElementById('myChart').getContext('2d');
-          var chart = new Chart(ctx, {
-              // The type of chart we want to create
-              type: 'line',
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+          // The type of chart we want to create
+          type: 'line',
 
-              // The data for our dataset
-              data: {
-                  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                  datasets: [
-                      {
-                          label: 'Sales',
-                          tension: 0.3,
-                          fill: true,
-                          backgroundColor: 'rgba(44, 120, 220, 0.2)',
-                          borderColor: 'rgba(44, 120, 220)',
-                          data: <%= JSON.stringify(graphValue) %>
+          // The data for our dataset
+          data: {
+            labels:[<%=labels.toString()%>],
+            datasets: [
+              {
+                label: 'Sales',
+                tension: 0.3,
+                fill: true,
+                backgroundColor: 'rgba(44, 120, 220, 0.2)',
+                borderColor: 'rgba(44, 120, 220)',
+                data: <%= JSON.stringify(graphValue) %>
                       }
-                  ]
-                  
-              },
-              options: {
-                  plugins: {
-                      legend: {
-                          labels: {
-                              usePointStyle: true,
-                          },
-                      }
-                  }
+            ]
+
+          },
+          options: {
+            plugins: {
+              legend: {
+                labels: {
+                  usePointStyle: true,
+                },
               }
-          });
+            }
+          }
+        });
       } // End if
 
       /*Sale statistics Chart*/
       if ($('#myChart2').length) {
-          var ctx = document.getElementById("myChart2");
-          var myChart = new Chart(ctx, {
-              type: 'bar',
-              data: {
-                  labels: [' COD', 'Wallet', 'Razorpay'],
-                  datasets: [
-                      {
-                          label: "payment",
-                          backgroundColor: 'rgba(4, 209, 130, 0.8)',
-                          barThickness: 10,
-                          data: ['<%=COD%>','<%=Wallet%>','<%=Razorpay%>'],
-                      }
-                  ]
-              },
-              options: {
-                  plugins: {
-                      legend: {
-                          labels: {
-                              usePointStyle: true,
-                          },
-                      }
-                  },
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  }
+        var ctx = document.getElementById("myChart2");
+        var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: [' COD', 'Wallet', 'Razorpay'],
+            datasets: [
+              {
+                label: "payment",
+                backgroundColor: 'rgba(4, 209, 130, 0.8)',
+                barThickness: 10,
+                data: ['<%=COD%>', '<%=Wallet%>', '<%=Razorpay%>'],
               }
-          });
+            ]
+          },
+          options: {
+            plugins: {
+              legend: {
+                labels: {
+                  usePointStyle: true,
+                },
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
       } //end if
 
       if ($('#myChart3').length) {
-          var ctx = document.getElementById("myChart3");
-          var myChart = new Chart(ctx, {
-              type: 'pie',
-              data: {
-                  labels: ['<%=topProductLabels[0]%>','<%=topProductLabels[1]%>','<%=topProductLabels[2]%>'],
-                  datasets: [
-                      {
-                          label: "payment",
-                          backgroundColor: ['#A5E69E','#a87bc7','#64b7f6'],
-                          barThickness: 10,
-                          data: ['<%=topProductCounts[0]%>','<%=topProductCounts[1]%>','<%=topProductCounts[2]%>'],
-                      }
-                  ]
-              },
-              options: {
-                  plugins: {
-                      legend: {
-                          labels: {
-                              usePointStyle: true,
-                          },
-                      }
-                  },
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  }
+        var ctx = document.getElementById("myChart3");
+        var myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: ['<%=topProductLabels[0]%>', '<%=topProductLabels[1]%>', '<%=topProductLabels[2]%>'],
+            datasets: [
+              {
+                label: "payment",
+                backgroundColor: ['#A5E69E', '#a87bc7', '#64b7f6'],
+                barThickness: 10,
+                data: ['<%=topProductCounts[0]%>', '<%=topProductCounts[1]%>', '<%=topProductCounts[2]%>'],
               }
-          });
+            ]
+          },
+          options: {
+            plugins: {
+              legend: {
+                labels: {
+                  usePointStyle: true,
+                },
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
       } //end if
 
       if ($('#myChart4').length) {
-          var ctx = document.getElementById("myChart4");
-          var myChart = new Chart(ctx, {
-              type: 'pie',
-              data: {
-                  labels: [' <%=topCategoryLabels[0]%>', '<%=topCategoryLabels[1]%>', '<%=topCategoryLabels[2]%>'],
-                  datasets: [
-                      {
-                          label: "payment",
-                          backgroundColor: ['#A5E69E','#a87bc7','#64b7f6'],
-                          barThickness: 10,
-                          data: ['<%=topCategoryCounts[0]%>','<%=topCategoryCounts[1]%>','<%=topCategoryCounts[2]%>'],
-                      }
-                  ]
-              },
-              options: {
-                  plugins: {
-                      legend: {
-                          labels: {
-                              usePointStyle: true,
-                          },
-                      }
-                  },
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  }
+        var ctx = document.getElementById("myChart4");
+        var myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: [' <%=topCategoryLabels[0]%>', '<%=topCategoryLabels[1]%>', '<%=topCategoryLabels[2]%>'],
+            datasets: [
+              {
+                label: "payment",
+                backgroundColor: ['#A5E69E', '#a87bc7', '#64b7f6'],
+                barThickness: 10,
+                data: ['<%=topCategoryCounts[0]%>', '<%=topCategoryCounts[1]%>', '<%=topCategoryCounts[2]%>'],
               }
-          });
+            ]
+          },
+          options: {
+            plugins: {
+              legend: {
+                labels: {
+                  usePointStyle: true,
+                },
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
       } //end if
 
 
-  })(jQuery);
-  // ,
-  // {
-  //     label: 'Visitors',
-  //     tension: 0.3,
-  //     fill: true,
-  //     backgroundColor: 'rgba(4, 209, 130, 0.2)',
-  //     borderColor: 'rgb(4, 209, 130)',
-  //     data: [40, 20, 17, 9, 23, 35, 39, 30, 34, 25, 27, 17]
-  // },
-  // {
-  //     label: 'Products',
-  //     tension: 0.3,
-  //     fill: true,
-  //     backgroundColor: 'rgba(380, 200, 230, 0.2)',
-  //     borderColor: 'rgb(380, 200, 230)',
-  //     data: [30, 10, 27, 19, 33, 15, 19, 20, 24, 15, 37, 6]
-  // }
-</script>
+    })(jQuery);
+    // ,
+    // {
+    //     label: 'Visitors',
+    //     tension: 0.3,
+    //     fill: true,
+    //     backgroundColor: 'rgba(4, 209, 130, 0.2)',
+    //     borderColor: 'rgb(4, 209, 130)',
+    //     data: [40, 20, 17, 9, 23, 35, 39, 30, 34, 25, 27, 17]
+    // },
+    // {
+    //     label: 'Products',
+    //     tension: 0.3,
+    //     fill: true,
+    //     backgroundColor: 'rgba(380, 200, 230, 0.2)',
+    //     borderColor: 'rgb(380, 200, 230)',
+    //     data: [30, 10, 27, 19, 33, 15, 19, 20, 24, 15, 37, 6]
+    // }
+  </script>
 
   <%- include('../layout/admin/footer.ejs') -%>

@@ -1,145 +1,150 @@
 <%- include('../layout/admin/header.ejs') -%>
 
-            <section class="content-main">
-                <form method="post" id="form" enctype="multipart/form-data">
-                <div class="row">
-                    
-                    <div class="col-9">
-                        <div class="content-header">
-                            <h2 class="content-title">Add New Product</h2>
-                            <div>
-                                <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
-                                <button class="btn btn-md rounded font-sm hover-up" type="submit">Publish</button>
-                            </div>
+    <section class="content-main">
+        <form method="post" id="form" enctype="multipart/form-data">
+            <div class="row">
+
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Product</h2>
+                        <div>
+                            <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                            <button class="btn btn-md rounded font-sm hover-up" type="submit">Publish</button>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h4>Product Details</h4>
-                            </div>
-                            
-                            <div class="card-body">
-                                
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Product Name</label>
-                                        <input type="text" name="name" placeholder="Type here" class="form-control" id="name" />
-                                        <div class="error" id="error-name"></div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="mb-4">
-                                                <label class="form-label">Quantity</label>
-                                                <div class="row gx-2">
-                                                    <input placeholder="0" name="quantity" type="number" id="quantity" class="form-control" />
-                                                </div>
-                                                <div class="error" id="error-quantity"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mb-4">
-                                                <label class="form-label">Product Price</label>
-                                                <input placeholder="₹" name="price" type="text" id="price" class="form-control" />
-                                                <div class="error" id="error-price"></div>
-                                            </div>
-                                            
-                                        </div>
-                                        <% console.log(Category)%>
-
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label">Category</label>
-                                            <select name="category" id="category" class="form-select">
-                                            <% for (let i=0;i< Category.length;i++) { %>
-                                                <option value="<%= Category[i]._id%>"><%= Category[i].name %></option>
-                                            <% } %> 
-                                            </select>
-                                            <div class="error" id="error-category"></div>
-                                            
-                                        </div>
-
-                                        
-                                    </div>
-                                    
-                                    <label class="form-check mb-4">
-                                        <input class="form-check-input" type="checkbox" value="" />
-                                        <span class="form-check-label"> Make a template </span>
-                                    </label>
-                                
-                            </div>
-                        
-                        </div>
-                        <!-- card end// -->
-                        
-                    
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h4>Media</h4>
-                                <p>Select 4 images of the product.</p>
-                            </div>
-                            <div class="card-body">
-                                <div class="input-upload">
-                                    <!-- Image container -->
-                                    <div class="uploaded-images mt-3" id="uploadedImages"></div>
-                                    <input class="form-control" type="file" name="images" id="fileInput" onchange="displayImages(this, 'uploadedImages')" multiple />
-                                    <br>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                
                 </div>
-            </form>
-            </section>
+                <div class="col-lg-6">
 
-            <script>
-            function displayImages(input, targetId) {
-    const target = document.getElementById(targetId);
-    target.innerHTML = ''; // Clear previous content
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Product Details</h4>
+                        </div>
 
-    const files = input.files;
-    for (const file of files) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const imageContainer = document.createElement('div');
-            imageContainer.className = 'uploaded-image-container';
+                        <div class="card-body">
 
-            const img = document.createElement('img');
-            img.src = e.target.result;
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Product Name</label>
+                                <input type="text" name="name" placeholder="Type here" class="form-control" id="name" />
+                                <div class="error" id="error-name"></div>
+                            </div>
 
-            const cancelIcon = document.createElement('i');
-            cancelIcon.className = 'fas fa-times cancel-icon';
-            cancelIcon.onclick = function () {
-                removeImage(imageContainer, input);
-            };
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-4">
+                                        <label class="form-label">Quantity</label>
+                                        <div class="row gx-2">
+                                            <input placeholder="0" name="quantity" type="number" id="quantity"
+                                                class="form-control" />
+                                        </div>
+                                        <div class="error" id="error-quantity"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-4">
+                                        <label class="form-label">Product Price</label>
+                                        <input placeholder="₹" name="price" type="text" id="price"
+                                            class="form-control" />
+                                        <div class="error" id="error-price"></div>
+                                    </div>
 
-            const imageWrapper = document.createElement('div');
-            imageWrapper.className = 'image-wrapper';
-            imageWrapper.appendChild(img);
-            imageWrapper.appendChild(cancelIcon);
+                                </div>
+                                <% console.log(Category)%>
 
-            imageContainer.appendChild(imageWrapper);
-            target.appendChild(imageContainer);
-        };
-        reader.readAsDataURL(file);
-    }
-}
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="form-label">Category</label>
+                                        <select name="category" id="category" class="form-select">
+                                            <% for (let i=0;i< Category.length;i++) { %>
+                                                <option value="<%= Category[i]._id%>">
+                                                    <%= Category[i].name %>
+                                                </option>
+                                                <% } %>
+                                        </select>
+                                        <div class="error" id="error-category"></div>
 
-function removeImage(container, input) {
-    container.remove();
+                                    </div>
 
-    // Clear the corresponding file from the input
-    input.value = '';
-}
 
-        </script>
-            
-            
-            <!-- content-main end// -->
-            <script src="/asset/js/productValidation.js"></script>
-            
-            <%- include('../layout/admin/footer.ejs') -%>
+                            </div>
+
+                            <label class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" value="" />
+                                <span class="form-check-label"> Make a template </span>
+                            </label>
+
+                        </div>
+
+                    </div>
+                    <!-- card end// -->
+
+
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Media</h4>
+                            <p>Select 4 images of the product.</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-upload">
+                                <!-- Image container -->
+                                <div class="uploaded-images mt-3" id="uploadedImages"></div>
+                                <input class="form-control" type="file" name="images" id="fileInput"
+                                    onchange="displayImages(this, 'uploadedImages')" multiple />
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+    </section>
+
+    <script>
+        function displayImages(input, targetId) {
+            const target = document.getElementById(targetId);
+            target.innerHTML = ''; // Clear previous content
+
+            const files = input.files;
+            for (const file of files) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imageContainer = document.createElement('div');
+                    imageContainer.className = 'uploaded-image-container';
+
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+
+                    const cancelIcon = document.createElement('i');
+                    cancelIcon.className = 'fas fa-times cancel-icon';
+                    cancelIcon.onclick = function () {
+                        removeImage(imageContainer, input);
+                    };
+
+                    const imageWrapper = document.createElement('div');
+                    imageWrapper.className = 'image-wrapper';
+                    imageWrapper.appendChild(img);
+                    imageWrapper.appendChild(cancelIcon);
+
+                    imageContainer.appendChild(imageWrapper);
+                    target.appendChild(imageContainer);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage(container, input) {
+            container.remove();
+
+            // Clear the corresponding file from the input
+            input.value = '';
+        }
+
+    </script>
+
+
+    <!-- content-main end// -->
+    <script src="/asset/js/productValidation.js"></script>
+
+    <%- include('../layout/admin/footer.ejs') -%>

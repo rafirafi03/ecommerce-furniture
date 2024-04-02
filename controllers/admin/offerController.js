@@ -65,8 +65,7 @@ const applyOffer = async (req,res) => {
     try {
         const productId = req.body.productId;
         const offerId = req.body.id;
-        console.log(productId,":prdctiddd")
-        console.log(offerId,":ofridd");
+
 
         const product = await productModel.findOne({_id:productId})
 
@@ -105,16 +104,13 @@ const categoryOffer = async (req,res) => {
     try {
         const categoryId = req.body.categoryId;
         const offerId = req.body.id;
-        console.log(categoryId,":categoryId")
-        console.log(offerId,":ofridd");
+
 
         const product = await productModel.find({category:categoryId})
 
-        console.log(product,":prdctttt")
 
         const offer = await offerModel.findOne({_id:offerId})
 
-        console.log(offer,":offrrr")
 
         for (const prod of product) {
             const updatedOfferPercentage = prod.price - (prod.price * offer.discount / 100);

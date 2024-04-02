@@ -89,9 +89,16 @@
                                                         </div><!-- End .cart-product-quantity -->
 
                                                     </td>
-                                                    <td class="total-col">
-                                                       ₹ <%=prod.totalPrice %>
-                                                    </td>
+                                                    <%if(prod.productId.offerId){%>
+                                                        <td class="total-col">
+                                                            ₹ <%=prod.productId.offerPercentage * prod.quantity %>
+                                                         </td>
+                                                        <%}else{%>
+                                                            <td class="total-col">
+                                                                ₹ <%=prod.productId.price * prod.quantity %>
+                                                             </td>
+                                                            <%}%>
+                                                    
                                                     <td class="remove-col">
                                                         <button class="btn-remove"
                                                             data-product-id="<%= prod.productId._id %>"><i
@@ -129,7 +136,7 @@
                                             <tbody>
                                                 <tr class="summary-subtotal">
                                                     <td>Subtotal:</td>
-                                                    <td id="sbtotl">₹ <%=subTotal%></sub></td>
+                                                    <td id="sbtotl">₹ <%=subTotal.toFixed(2)%></sub></td>
                                                 </tr><!-- End .summary-subtotal -->
 
                                                 <!-- <tr class="summary-shipping">
@@ -139,7 +146,7 @@
 
                                                 <tr class="summary-total">
                                                     <td>Total:</td>
-                                                    <td>₹ <%=subTotal%></td>
+                                                    <td>₹ <%=subTotal.toFixed(2)%></td>
                                                 </tr><!-- End .summary-total -->
                                             </tbody>
                                         </table><!-- End .table table-summary -->

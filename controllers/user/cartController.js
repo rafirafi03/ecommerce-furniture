@@ -7,12 +7,18 @@ const loadCart = async (req,res) => {
         const userId = req.session.user_id;
         const product = await cartModel.findOne({user:userId}).populate('product.productId');
 
-        console.log(product,":prdctttttt")
 
-        let subTotal;
+        let subTotal =0;
         if (product) {
-            subTotal = product.product.reduce((acc,curr)=> acc+curr.totalPrice ,0);
+            for(let i=0;i<product.product.length;i++){
+                if (product.product[i].productId.offerId) {
+                    subTotal += product.product[i].productId.offerPercentage * product.product[i].quantity 
+                }else{
+                    subTotal += product.product[i].productId.price * product.product[i].quantity
+                }   
+            }
         }
+
         res.render('user/cart',{product,subTotal});
         
     } catch (error) {
@@ -35,8 +41,6 @@ const addToCart = async (req, res) => {
                 }else if(productData.offerId) {
                     const data = {
                         productId: productId,
-                        price: productPrice,
-                        totalPrice: productData.offerPercentage
                     };
 
                     await cartModel.findOneAndUpdate({ user: userId }, { $set: { user: userId }, $push: { product: data } }, { upsert: true, new: true });
@@ -50,8 +54,6 @@ const addToCart = async (req, res) => {
                 }else {
                     const data = {
                         productId: productId,
-                        price: productPrice,
-                        totalPrice: productPrice
                     };
 
                     await cartModel.findOneAndUpdate({ user: userId }, { $set: { user: userId }, $push: { product: data } }, { upsert: true, new: true });
@@ -106,10 +108,6 @@ const quantity = async (req,res) => {
 
         const cartProduct = await cartModel.findOne({user: userId,'product.productId':productId}).populate('product.productId');
 
-        // const currQuantity =  userCart.product.find((item)=>{
-        //     return item._id.toString() === id.toString();
-        // })
-
         let totalPrice;
 
         if(product.offerId){
@@ -117,9 +115,6 @@ const quantity = async (req,res) => {
         }else{
             totalPrice = quantity * product.price
         }
-
-        
-
 
         if (product.quantity < quantity) {
             res.json({stockOut:true})
@@ -129,7 +124,6 @@ const quantity = async (req,res) => {
                 {
                   $set: {
                     'product.$.quantity': quantity,
-                    'product.$.totalPrice': totalPrice
                   },
                 },
                 { new: true }
@@ -145,35 +139,6 @@ const quantity = async (req,res) => {
         console.log(error);
     }
 }
-
-// const addShipping = async(req,res) => {
-
-//     try {
-//         const id = req.session.user_id
-
-//         console.log(id);
-
-//         console.log("ethiiiiiii");
-
-//     const option = req.body.option;
-//     const amount = req.body.amount;
-
-//     await cartModel.findOneAndUpdate(
-//         {user : id},
-//         {$set:{
-//             shippingMethod : option,
-//             shippingAmount : amount
-//         }},{new:true}
-//     )
-
-//     res.json({success:true})
-//     } catch (error) {
-//         console.log(error.message);
-//         res.status(500).render('500');
-//     }
-
-    
-// }
 
 module.exports = {
 

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        section.content-main {
+            margin: 20px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 9px;
+            width: 23%;
+            /* Adjust the width based on your preference */
+            box-sizing: border-box;
+            height: 80px;
+            background-color: #9d9461;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        h2.content-title {
+            margin-bottom: 10px;
+            color: rgb(77, 41, 5);
+        }
+
+        .brand {
+            color: rgb(216, 126, 36)
+        }
+
+        .order-info-wrap {
+            margin-top: 20px;
+        }
+
+        article.icontext {
+            display: flex;
+            align-items: start;
+        }
+
+        article.icontext .icon {
+            margin-right: 15px;
+        }
+
+        table.table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #9d9461;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table.table th,
+        table.table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table.table th {
+            background-color: #9d9461;
+        }
+
+        footer.main-footer {
+            margin-top: 20px;
+            font-size: 12px;
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        footer.main-footer a {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div style="display: flex; justify-content: center;" class="content-header">
+            <h2 class="brand mb-3 text-center text-muted">Molla Furniture</h2>
+        </div>
+        <div style="display: flex; justify-content: end;">
+            <p>Date : <%=orders.orderDate.toLocaleDateString('en-US', { weekday: 'short' , year: 'numeric' ,
+                month: 'short' , day: 'numeric' })%></p>
+        </div>
+    </div>
+    
+    <hr>
+    <section class="content-main">
+
+        <div class="content-header">
+            <h2 class="content-title mb-3 ">Invoice</h2>
+            <br>
+            <p>Order Id : <%=orders._id%></p>
+        </div>
+
+        <div class="row">
+            <div>
+                <p>Billing Name : <%=orders.deliveryAddress.fullName%></p>
+                <p>Email : <%=orders.deliveryAddress.email%></p>
+                <p>Mobile : <%=orders.deliveryAddress.mobile%></p>
+                <p>Billing Address : <%=orders.deliveryAddress.address%></p>
+                <p>Pincode : <%=orders.deliveryAddress.pincode%></p>
+                <br>
+    
+            </div>
+
+        </div>
+        
+
+        
+
+        <p class="text-center">All orders</p>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="5%">ID</th>
+                        <th width="20%">Products</th>
+                        <th width="15%">Price</th>
+                        <th width="20%">Quantity</th>
+                        <th width="15%">Total</th>
+                        <th width="20%">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.product.forEach((val, index)=> { %>
+                        <tr>
+                            <td>
+                                <%=index + 1%>
+                            </td>
+                            <td>
+                                <%= val.productId.name %>
+                            </td>
+                            <%if(val.productId.offerId){%>
+                            <td><%=val.productId.offerPercentage%></td>
+                            <%}else{%>
+                                <td><%=val.productId.price%></td>
+                                <%}%>
+                            <td><%=val.quantity%></td>
+                            <%if(val.productId.offerId){%>
+                                <td><%=val.productId.offerPercentage * val.quantity %></td>
+                                <%}else{%>
+                                    <td>₹<%= val.productId.price * val.quantity %>
+                                    </td>
+                                    <%}%>
+                            
+                            <td>
+                                <%= val.orderStatus %>
+                            </td>
+                        </tr>
+                        <% }); %>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>subTotal:</td>
+                                <td><%=orders.totalPrice%></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Shipping charge:</td>
+                                <td><%=orders.shippingCharge ? orders.shippingCharge : 0 %></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>discount:</td>
+                                <td><%=orders.discountAmount%></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total:</td>
+                                <td><%=orders.totalPrice%></td>
+                            </tr>
+                </tbody>
+            </table>
+
+            <div style="display: flex; justify-content: center;" class="content-header">
+                <h4 class="brand mb-3 text-center text-muted">Thankyou for buying from Molla stores</h4>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="row">
+            <script>
+                document.write(new Date().getFullYear());
+            </script>
+            &copy; MOLLA - The paradise of furniture.
+        </div>
+    </footer><br><br>
+    <hr>
+</body>
+
+</html>

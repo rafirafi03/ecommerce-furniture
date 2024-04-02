@@ -52,29 +52,83 @@ const loginPost = async (req, res) => {
 const loadHome = async (req, res) => {
   try {
 
-    const orders = await orderModel.find({})
+    const orders = await orderModel.find({orderStatus:'delivered'})
     const products = await productModel.find({})
     const categories = await categoryModel.find({})
 
+    let labels;
+
+    let graphValue;
+
+    const filter = req.query.filter;
+
     const revenue = await orderModel.aggregate([
+      { $match: { orderStatus: 'delivered' } }, 
       {
         $group: {
           _id: null,
-          revenue: { $sum: "$totalPrice" }
-        }
-      }
+          revenue: { $sum: "$totalPrice" },
+        },
+      },
     ]);
 
+    if (filter === 'yearly') {
+
+      const currentYear = new Date().getFullYear();
+
+const years = [currentYear - 4, currentYear - 3, currentYear - 2, currentYear - 1, currentYear];
+labels = years
+
+const yearlyRevenues = [];
+
+for (const year of years) {
+    const startOfYear = new Date(year, 0, 1);
+    const endOfYear = new Date(year + 1, 0, 1);
+    endOfYear.setMilliseconds(endOfYear.getMilliseconds() - 1);
+
+    const yearlyRevenue = await orderModel.aggregate([
+        {
+            $match: {
+                orderStatus: 'delivered',
+                orderDate: {
+                    $gte: startOfYear,
+                    $lt: endOfYear
+                }
+            }
+        },
+        {
+            $group: {
+                _id: { $year: '$orderDate' },
+                yearlyRevenue: { $sum: '$totalPrice' }
+            }
+        }
+    ]);
+
+    yearlyRevenues.push({ year, yearlyRevenue });
+}
+
+   graphValue = Array(5).fill(0);
+
+yearlyRevenues.forEach((yearData, index) => {
+    graphValue[index] = yearData.yearlyRevenue.length > 0 ? yearData.yearlyRevenue[0].yearlyRevenue : 0;
+});
+
+
+    } else {
+
+    labels = [1, 2, 3, 4, 5,6, 7, 8,9, 10, 11, 12];
+
+
     const currentMonth = new Date();
-    const currentMonthIndex = currentMonth.getMonth();
+
     const startOfMonth = new Date(currentMonth.getFullYear(),0,1);
     const endOfMonth = new Date(currentMonth.getFullYear()+1,0,1);
     endOfMonth.setMilliseconds(endOfMonth.getMilliseconds()-1);
-    const currentMonthName = (new Date()).toLocaleString('default',{month:'long'});
 
     const monthlyRevenue = await orderModel.aggregate([
       {
         $match : {
+          orderStatus : 'delivered',
           orderDate : {
             $gte:startOfMonth,
             $lt: endOfMonth
@@ -89,20 +143,23 @@ const loadHome = async (req, res) => {
       }
     ]);
 
-    const graphValue = Array(12).fill(0);
+      graphValue = Array(12).fill(0);
 
     monthlyRevenue .forEach(entry => {
       const monthIndex = entry._id -1;
       graphValue[monthIndex] = entry.monthlyRevenue;
     })
 
-    const COD = await orderModel.countDocuments({ payment : 'cash on delivery'});
+  }
 
-    const Wallet = await orderModel.countDocuments({ payment : 'wallet'});
+    const COD = await orderModel.countDocuments({ payment : 'cash on delivery',orderStatus:'delivered'});
 
-    const Razorpay = await orderModel.countDocuments({ payment : 'Razorpay'});
+    const Wallet = await orderModel.countDocuments({ payment : 'wallet',orderStatus:'delivered'});
+
+    const Razorpay = await orderModel.countDocuments({ payment : 'Razorpay',orderStatus:'delivered'});
 
     const topSellingProducts = await orderModel.aggregate([
+      { $match: { orderStatus: 'delivered' } },
       { $unwind: "$product" },
       {
         $lookup: {
@@ -128,6 +185,7 @@ const loadHome = async (req, res) => {
     const topProductCounts = topSellingProducts.map(product => product.totalSold);
 
     const topSellingCategories = await orderModel.aggregate([
+      { $match: { orderStatus: 'delivered' } },
       { $unwind: "$product" }, 
       {
         $lookup: { 
@@ -161,11 +219,9 @@ const loadHome = async (req, res) => {
     const topCategoryLabels = topSellingCategories.map(category => category.categoryName);
     const topCategoryCounts = topSellingCategories.map(category => category.totalSold);
 
-    console.log(topProductLabels,"labelsssssssss");
 
-    console.log(topProductCounts,"countsssssss");
 
-    res.render("admin/home", {orders,products,categories,revenue,graphValue,COD,Wallet,Razorpay,topProductLabels,topProductCounts,topCategoryLabels,topCategoryCounts});
+    res.render("admin/home", {orders,products,categories,revenue,graphValue,labels,COD,Wallet,Razorpay,topProductLabels,topProductCounts,topCategoryLabels,topCategoryCounts});
   } catch (error) {
     console.log(error.message);
   }

@@ -1,58 +1,62 @@
 <%- include('../layout/admin/header.ejs') -%>
 
 
-<section class="content-main">
+  <section class="content-main">
     <div class="card mb-4">
-        <header class="card-header">
-          <h4 class="card-title">Latest orders</h4>
-          <div class="row align-items-center">
-            <div class="col-md-2 col-6 me-auto mb-md-0 mb-3">
-              <div class="custom_select">
-                <select onchange="filter(value)" class="form-select select-nice">
-                  <option selected>Filter by</option>
-                  <option value="all">All</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
-              </div>
-            </div>
-            
-            <div class="col-md-2 col-6">
-              <input type="date" id="startDate" class="form-control" />
-            </div>
-
-            to
-
-            <div class="col-md-2 col-6">
-              <input type="date" id="endDate" class="form-control"/>
-            </div>
-
-            <div class="col-md-2 col-6">
-            <button class="badge badge-pill badge-soft-success" onclick="dateFilter()">filter</button>
-            </div>
-
-            <div class="login-error" id="error-div-date"></div>
-
-            <div class="col-md-2 col-2 mt-2">
-                <a class="badge btn-secondary print ms-2" href="/admin/salesReport"><i class="icon material-icons md-print"></i>pdf</a>
-            </div>
-          
-            <div class="col-md-2 col-2 mt-2">
-                <a class="badge btn-primary print ms-2" href="/admin/salerReportExcel"><i class="icon material-icons md-print"></i>excel</a>
+      <header class="card-header">
+        <h4 class="card-title">Latest orders</h4>
+        <div class="row align-items-center">
+          <div class="col-md-2 col-6 me-auto mb-md-0 mb-3">
+            <div class="custom_select">
+              <select onchange="filter(value)" class="form-select select-nice">
+                <option selected>Filter by</option>
+                <option value="all">All</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+              </select>
             </div>
           </div>
-        </header>
-        <h6 class="text-success text-center"><%=message%></h6>
-        <div class="card-body">
-          
+
+          <div class="col-md-2 col-6">
+            <input type="date" id="startDate" class="form-control" />
+          </div>
+
+          to
+
+          <div class="col-md-2 col-6">
+            <input type="date" id="endDate" class="form-control" />
+          </div>
+
+          <div class="col-md-2 col-6">
+            <button class="badge badge-pill badge-soft-success" onclick="dateFilter()">filter</button>
+          </div>
+
+          <div class="login-error" id="error-div-date"></div>
+
+          <div class="col-md-2 col-2 mt-2">
+            <a class="badge btn-secondary print ms-2" href="/admin/salesReport"><i
+                class="icon material-icons md-print"></i>pdf</a>
+          </div>
+
+          <div class="col-md-2 col-2 mt-2">
+            <a class="badge btn-primary print ms-2" href="/admin/salerReportExcel"><i
+                class="icon material-icons md-print"></i>excel</a>
+          </div>
+        </div>
+      </header>
+      <h6 class="text-success text-center">
+        <%=message%>
+      </h6>
+      <div class="card-body">
+
+        <div class="table-responsive">
+
           <div class="table-responsive">
-            
-            <div class="table-responsive">
-              <table class="table align-middle table-nowrap mb-0">
-                <%if(orders && orders.length>0){%>
+            <table class="table align-middle table-nowrap mb-0">
+              <%if(orders && orders.length>0){%>
                 <thead class="table-light">
-                    
+
                   <tr>
                     <th class="align-middle" scope="col">ID</th>
                     <th class="align-middle" scope="col">Billing Name</th>
@@ -63,95 +67,102 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <%orders.forEach((val,index)=>{%>
-                  <tr>
-                    <td><a class="fw-bold"><%=index%></a></td>
-                    <td><%=val.deliveryAddress.fullName%></td>
-                    <td><%=val.orderDate.toLocaleDateString('en-US', {
-                        weekday: 'short' , year: 'numeric' ,
-                        month: 'short' , day: 'numeric' })%></td>
-                    <td><%=val.totalPrice%></td>
-                    <td>
-                      <span class="badge badge-pill badge-soft-success"><%=val.orderStatus%></span>
-                    </td>
-                    <td>
-                      <i class="material-icons md-payment font-xxl text-muted mr-5"></i>
-                      <%=val.payment%>
-                    </td>
-                  </tr>
-                  <%})%>
+                  <%orders.forEach((val,index)=>{%>
+                    <tr>
+                      <td><a class="fw-bold">
+                          <%=index%>
+                        </a></td>
+                      <td>
+                        <%=val.deliveryAddress.fullName%>
+                      </td>
+                      <td><%=val.orderDate.toLocaleDateString('en-US', { weekday: 'short' , year: 'numeric' ,
+                          month: 'short' , day: 'numeric' })%></td>
+                      <td>
+                        <%=val.totalPrice%>
+                      </td>
+                      <td>
+                        <span class="badge badge-pill badge-soft-success">
+                          <%=val.orderStatus%>
+                        </span>
+                      </td>
+                      <td>
+                        <i class="material-icons md-payment font-xxl text-muted mr-5"></i>
+                        <%=val.payment%>
+                      </td>
+                    </tr>
+                    <%})%>
                 </tbody>
                 <%}else{%>
-                    <p class="text-muted">No sales reports found</p>
+                  <p class="text-muted">No sales reports found</p>
                   <%}%>
-              </table>
-              
-            </div>
+            </table>
+
           </div>
-          <!-- table-responsive end// -->
         </div>
+        <!-- table-responsive end// -->
       </div>
-    <div class="pagination-area mt-15 mb-50">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">16</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                </li>
-            </ul>
-        </nav>
     </div>
-</section>
+    <div class="pagination-area mt-15 mb-50">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-start">
+          <li class="page-item active"><a class="page-link" href="#">01</a></li>
+          <li class="page-item"><a class="page-link" href="#">02</a></li>
+          <li class="page-item"><a class="page-link" href="#">03</a></li>
+          <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+          <li class="page-item"><a class="page-link" href="#">16</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
 
-<script>
-    function filter(val){
+  <script>
+    function filter(val) {
 
-    var newUrl = `/admin/sales?filter=${val}`;
+      var newUrl = `/admin/sales?filter=${val}`;
 
-    window.location.href = newUrl;
+      window.location.href = newUrl;
     }
 
-</script>
-
-  
-<script>
-
-function dateFilter() {
-  const startDateInput = document.getElementById('startDate');
-  const endDateInput = document.getElementById('endDate');
-  const errorDiv = document.getElementById('error-div-date'); 
-
-  
-  errorDiv.textContent = '';
-
-  
-  const startDate = new Date(startDateInput.value);
-  const endDate = new Date(endDateInput.value);
-
-  
-  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-    errorDiv.textContent = 'Invalid date format. Please use YYYY-MM-DD.';
-    return; 
-  }
-
-  if (startDate > endDate) {
-    errorDiv.textContent = 'Start date cannot be after end date.';
-    return;
-  }
-
-  
-  const newUrl = `/admin/sales?start=${startDate.toISOString().split('T')[0]}&end=${endDate.toISOString().split('T')[0]}`;
-
-  
-  window.location.href = newUrl;
-}
+  </script>
 
 
-</script>
+  <script>
+
+    function dateFilter() {
+      const startDateInput = document.getElementById('startDate');
+      const endDateInput = document.getElementById('endDate');
+      const errorDiv = document.getElementById('error-div-date');
 
 
-<%- include('../layout/admin/footer.ejs') -%>
+      errorDiv.textContent = '';
+
+
+      const startDate = new Date(startDateInput.value);
+      const endDate = new Date(endDateInput.value);
+
+
+      if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        errorDiv.textContent = 'Invalid date format. Please use YYYY-MM-DD.';
+        return;
+      }
+
+      if (startDate > endDate) {
+        errorDiv.textContent = 'Start date cannot be after end date.';
+        return;
+      }
+
+
+      const newUrl = `/admin/sales?start=${startDate.toISOString().split('T')[0]}&end=${endDate.toISOString().split('T')[0]}`;
+
+
+      window.location.href = newUrl;
+    }
+
+
+  </script>
+
+
+  <%- include('../layout/admin/footer.ejs') -%>

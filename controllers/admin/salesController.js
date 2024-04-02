@@ -3,9 +3,9 @@ const path = require('path');
 const ejs = require('ejs');
 const puppeteer = require('puppeteer');
 const ExcelJS = require('exceljs');
+const xlsx = require('xlsx')
 const productModel = require('../../models/productModel');
 const categoryModel = require('../../models/categoryModel');
-const { order } = require('../user/checkoutController');
 
 
 let orders;
@@ -38,7 +38,6 @@ const getSales = async (req,res)=> {
 
           message = `showing ${startDate} to ${endDate} sales reports.`
 
-          console.log(orders,"ordrrrrrrrrrrsssssss");
           
         }else if (filterValue) {
 
@@ -65,11 +64,9 @@ const getSales = async (req,res)=> {
 
             
         }
-        console.log(filter)
-
 
         if (Object.keys(filter).length > 0) { 
-            console.log('uytytruytr');
+            
             orders = await orderModel.find({ orderStatus: 'delivered', ...filter });
             console.log(orders);
         }
@@ -88,6 +85,7 @@ const salesReport = async (req,res)=> {
         const categories = await categoryModel.find({})
 
         const revenue = await orderModel.aggregate([
+          { $match: { orderStatus: 'delivered' } },
             {
               $group: {
                 _id: null,
@@ -115,11 +113,11 @@ const salesReport = async (req,res)=> {
 
 const salesReportExel = async (req, res) => {
     try {
-      console.log('heloooooooooo');
-      const totalOrders = await orderModel.countDocuments();
-      const totalProducts = await productModel.countDocuments();
+      const totalOrders = await orderModel.countDocuments({orderStatus : 'delivered'});
+      const totalProducts = await orderModel.countDocuments({orderStatus : 'delivered'});
   
       const revenue = await orderModel.aggregate([
+        { $match: { orderStatus: 'delivered' } },
         {
           $group: {
             _id: null,
@@ -129,30 +127,63 @@ const salesReportExel = async (req, res) => {
       ]);
   
       const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet('Sales Report');
-  
-      worksheet.addRow(['Order ID', 'Billing Name', 'Date', 'Total', 'Payment Method']);
-  
-      orders.forEach(order => {
-        worksheet.addRow([
-          order._id,
-          order.deliveryAddress.fullName,
-          order.orderDate,
-          order.totalPrice,
-          order.payment
-        ]);
-      });
-  
-      worksheet.addRow(['', '', '', 'Total Orders:', totalOrders]);
-      worksheet.addRow(['', '', '', 'Total Products:', totalProducts]);
-      worksheet.addRow(['', '', '', 'Total Revenue:', revenue[0] ? revenue[0].revenue : 0]);
-  
-      const buffer = await workbook.xlsx.writeBuffer();
-  
-      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      res.setHeader('Content-Disposition', 'attachment; filename=sales_report.xlsx');
-  
-      res.send(buffer);
+const worksheet = workbook.addWorksheet('Sales Report');
+
+worksheet.addRow(['Billing Name', 'Date', 'Total', 'Payment Method']);
+worksheet.getRow(1).font = { bold: true };
+worksheet.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFF00' } }; 
+worksheet.getRow(1).border = { bottom: { style: 'thin' } };
+
+orders.forEach(order => {
+  worksheet.addRow([
+    order.deliveryAddress.fullName,
+    order.orderDate.toLocaleDateString('en-US', {
+      weekday: 'short' , year: 'numeric' ,
+      month: 'short' , day: 'numeric' }),
+    order.totalPrice,
+    order.payment
+  ]);
+});
+
+worksheet.addRow([]);
+
+worksheet.mergeCells('D2', 'D2'); 
+worksheet.addRow(['Total Orders:', totalOrders]);
+worksheet.getRow(3).getCell('A').font = { bold: true };
+worksheet.getRow(3).getCell('D').alignment = { horizontal: 'right' };
+worksheet.getRow(3).getCell('D').numberFormat = '#,##0'; 
+
+worksheet.mergeCells('D3', 'D3'); 
+worksheet.addRow(['Total Products:', totalProducts]);
+worksheet.getRow(4).getCell('A').font = { bold: true };
+worksheet.getRow(4).getCell('D').alignment = { horizontal: 'right' };
+worksheet.getRow(4).getCell('D').numberFormat = '#,##0';
+
+worksheet.mergeCells('D4', 'D4'); 
+worksheet.addRow(['Total Revenue:', revenue[0] ? revenue[0].revenue : 0]);
+worksheet.getRow(5).getCell('A').font = { bold: true };
+worksheet.getRow(5).getCell('D').alignment = { horizontal: 'right' };
+worksheet.getRow(5).getCell('D').numberFormat = '#,##0.00'; 
+
+
+const minimalWidth = 12; 
+worksheet.columns.forEach(column => {
+  let maxColumnLength = 0;
+  column.eachCell({ includeEmpty: true }, cell => {
+    const cellValue = cell.value ? cell.value.toString().length : 0;
+    maxColumnLength = Math.max(maxColumnLength, minimalWidth, cellValue);
+  });
+  column.width = maxColumnLength + 2; 
+});
+
+const buffer = await workbook.xlsx.writeBuffer();
+
+res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+res.setHeader('Content-Disposition', 'attachment; filename=sales_report.xlsx');
+
+res.send(buffer);
+
+
   
     } catch (error) {
       console.log(error.message);

@@ -31,9 +31,7 @@ const getOrderDetails = async (req,res)=> {
 const patchOrderStatus = async (req,res) => {
     try {
         const status = req.body.val
-        console.log(status,":statusssssssss");
         const orderId = req.body.id
-        console.log(orderId,":idddddd");
 
         await orderModel.findOneAndUpdate({_id:orderId},
             {$set:

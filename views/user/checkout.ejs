@@ -369,7 +369,7 @@
                                                         <h2 class="card-title mb-1">
                                                             <label class="custom-radio">
                                                                 <input type="radio" disabled>
-                                                                Wallet <span class="text-danger small ml-3">balance : ₹ <%=user.wallet%>.00</span>
+                                                                Wallet <span class="text-danger small ml-3">balance : ₹ <%=user.wallet.toFixed(2)%></span>
                                                                 <br>
                                                                 <p class="text-danger small ml-4 mt-1">Not enough money in your wallet</p>
                                                             </label>

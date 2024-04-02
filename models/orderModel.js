@@ -31,14 +31,6 @@ const orderSchema = new Schema({
             type: Number,
             default: 1,
         },
-        price: {
-            type: Number,
-            required: true
-        },
-        totalPrice: {
-            type: Number,
-            required: true
-        },
         orderStatus: {
             type: String,
             dafault: 'pending',
@@ -64,8 +56,14 @@ const orderSchema = new Schema({
 
     orderStatus: {
         type: String,
-        dafault: 'pending',
+        default: 'pending',
         enum: ['pending', 'placed', 'out for delivery', 'shipped', 'delivered', 'Cancelled', 'returned']
+    },
+
+    paymentStatus : {
+        type : String,
+        default : 'Pending',
+        enum: ['pending', 'complete','refunded','failed']
     },
 
     orderDate: {

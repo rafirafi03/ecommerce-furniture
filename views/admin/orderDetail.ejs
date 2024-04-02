@@ -1,199 +1,224 @@
 <%- include('../layout/admin/header.ejs') -%>
 
-<section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Order detail</h2>
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Order detail</h2>
+            </div>
         </div>
-    </div>
-    <div class="card">
-        <header class="card-header">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
-                    <span> <i class="material-icons md-calendar_today"></i> <b><%=orders.orderDate.toLocaleDateString('en-US', {
-                        weekday: 'short' , year: 'numeric' ,
-                        month: 'short' , day: 'numeric' })%></b> </span> <br />
-                    <small class="text-muted">Order ID: <%=orders._id%></small>
+        <div class="card">
+            <header class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                        <span> <i class="material-icons md-calendar_today"></i>
+                            <b><%=orders.orderDate.toLocaleDateString('en-US', { weekday: 'short' , year: 'numeric' ,
+                                    month: 'short' , day: 'numeric' })%></b> </span> <br />
+                        <small class="text-muted">Order ID: <%=orders._id%></small>
+                    </div>
+                    <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                        <%if(orders.orderStatus==='placed'){%>
+                            <select class="form-select d-inline-block mb-lg-0 mr-5 mw-200"
+                                onchange="orderStatus(this.value,'<%=orders._id%>')">
+                                <option value="placed">placed</option>
+                                <option value="shipped">shipped</option>
+                                <option value="out for delivery">out for delivery</option>
+                                <option value="delivered">delivered</option>
+                            </select>
+
+                            <%}else if(orders.orderStatus==='pending' ){%>
+                                <select disabled class="form-select d-inline-block mb-lg-0 mr-5 mw-200">
+                                    <option>Pending</option>
+                                </select>
+
+                                <%}else if(orders.orderStatus==='Cancelled' ){%>
+                                    <select disabled class="form-select d-inline-block mb-lg-0 mr-5 mw-200">
+                                        <option>Cancelled</option>
+                                    </select>
+                                    <%} else if(orders.orderStatus==='shipped' ){%>
+                                        <select class="form-select d-inline-block mb-lg-0 mr-5 mw-200"
+                                            onchange="orderStatus(this.value,'<%=orders._id%>')">
+                                            <option value="shipped">shipped</option>
+                                            <option value="out for delivery">out for delivery</option>
+                                            <option value="delivered">delivered</option>
+                                        </select>
+                                        <%} else if(orders.orderStatus==='out for delivery' ){%>
+                                            <select class="form-select d-inline-block mb-lg-0 mr-5 mw-200"
+                                                onchange="orderStatus(this.value,'<%=orders._id%>')">
+                                                <option value="out for delivery">out for delivery</option>
+                                                <option value="delivered">delivered</option>
+                                            </select>
+                                            <%}else if(orders.orderStatus==='delivered' ){%>
+                                                <select disabled class="form-select d-inline-block mb-lg-0 mr-5 mw-200">
+                                                    <option>delivered</option>
+                                                </select>
+                                                <%} else if(orders.orderStatus==='pending' ){%>
+                                                    <select class="form-select d-inline-block mb-lg-0 mr-5 mw-200"
+                                                        onchange="orderStatus(this.value,'<%=orders._id%>')">
+                                                        <option value="placed">pending</option>
+                                                        <option value="placed">placed</option>
+                                                        <option value="shipped">shipped</option>
+                                                        <option value="out for delivery">out for delivery</option>
+                                                        <option value="delivered">delivered</option>
+                                                    </select>
+                                                    <%}%>
+                                                        <a class="btn btn-secondary print ms-2" href="#"><i
+                                                                class="icon material-icons md-print"></i></a>
+                    </div>
                 </div>
-                <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                    <%if(orders.orderStatus==='placed'){%>
-                        <select class="form-select d-inline-block mb-lg-0 mr-5 mw-200" onchange="orderStatus(this.value,'<%=orders._id%>')">
-                            <option value="placed">placed</option>
-                            <option value="shipped">shipped</option>
-                            <option value="out for delivery">out for delivery</option>
-                            <option value="delivered">delivered</option>
-                        </select>
-                        
-                    <%}else if(orders.orderStatus==='pending'){%>
-                        <select disabled class="form-select d-inline-block mb-lg-0 mr-5 mw-200">
-                            <option>Pending</option>
-                        </select>
-                        
-                        <%}else if(orders.orderStatus==='Cancelled'){%>
-                        <select disabled class="form-select d-inline-block mb-lg-0 mr-5 mw-200">
-                            <option>Cancelled</option>
-                        </select>
-                    <%} else if(orders.orderStatus==='shipped'){%>
-                        <select class="form-select d-inline-block mb-lg-0 mr-5 mw-200" onchange="orderStatus(this.value,'<%=orders._id%>')">
-                            <option value="shipped">shipped</option>
-                            <option value="out for delivery">out for delivery</option>
-                            <option value="delivered">delivered</option>
-                        </select>
-                    <%} else if(orders.orderStatus==='out for delivery'){%>
-                        <select class="form-select d-inline-block mb-lg-0 mr-5 mw-200" onchange="orderStatus(this.value,'<%=orders._id%>')">
-                            <option value="out for delivery">out for delivery</option>
-                            <option value="delivered">delivered</option>
-                        </select>
-                    <%}else if(orders.orderStatus==='delivered'){%>
-                        <select disabled class="form-select d-inline-block mb-lg-0 mr-5 mw-200">
-                            <option>delivered</option>
-                        </select>
-                    <%} else if(orders.orderStatus==='pending'){%>
-                        <select class="form-select d-inline-block mb-lg-0 mr-5 mw-200" onchange="orderStatus(this.value,'<%=orders._id%>')">
-                            <option value="placed">pending</option>
-                            <option value="placed">placed</option>
-                            <option value="shipped">shipped</option>
-                            <option value="out for delivery">out for delivery</option>
-                            <option value="delivered">delivered</option>
-                        </select>
-                    <%}%>
-                    <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
+            </header>
+            <!-- card-header end// -->
+            <div class="card-body">
+                <div class="row mb-50 mt-20 order-info-wrap">
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                <i class="text-primary material-icons md-person"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1">Customer</h6>
+                                <p class="mb-1">
+                                    <%=orders.deliveryAddress.fullName%> <br />
+                                        <%=orders.deliveryAddress.email%> <br />
+                                            <%=orders.deliveryAddress.mobile%>
+                                </p>
+                                <!-- <a href="#">View profile</a> -->
+                            </div>
+                        </article>
+                    </div>
+                    <!-- col// -->
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                <i class="text-primary material-icons md-local_shipping"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1">Order info</h6>
+                                <p class="mb-1">
+                                    Shipping: Normal shipping <br />
+                                    Pay method: <%=orders.payment%> <br />
+                                        Status: new
+                                </p>
+                                <!-- <a href="#">Download info</a> -->
+                            </div>
+                        </article>
+                    </div>
+                    <!-- col// -->
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                <i class="text-primary material-icons md-place"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1">Deliver to</h6>
+                                <p class="mb-1">
+                                    Address: <%=orders.deliveryAddress.address%>, <%=orders.deliveryAddress.district%>
+                                            <br />
+                                            <%=orders.deliveryAddress.pincode%> <br />
+                                                <%=orders.deliveryAddress.state%>, <%=orders.deliveryAddress.country%>
+                                </p>
+                                <!-- <a href="#">View profile</a> -->
+                            </div>
+                        </article>
+                    </div>
+                    <!-- col// -->
                 </div>
-            </div>
-        </header>
-        <!-- card-header end// -->
-        <div class="card-body">
-            <div class="row mb-50 mt-20 order-info-wrap">
-                <div class="col-md-4">
-                    <article class="icontext align-items-start">
-                        <span class="icon icon-sm rounded-circle bg-primary-light">
-                            <i class="text-primary material-icons md-person"></i>
-                        </span>
-                        <div class="text">
-                            <h6 class="mb-1">Customer</h6>
-                            <p class="mb-1">
-                                <%=orders.deliveryAddress.fullName%> <br />
-                                <%=orders.deliveryAddress.email%> <br />
-                                <%=orders.deliveryAddress.mobile%>
-                            </p>
-                            <!-- <a href="#">View profile</a> -->
-                        </div>
-                    </article>
-                </div>
-                <!-- col// -->
-                <div class="col-md-4">
-                    <article class="icontext align-items-start">
-                        <span class="icon icon-sm rounded-circle bg-primary-light">
-                            <i class="text-primary material-icons md-local_shipping"></i>
-                        </span>
-                        <div class="text">
-                            <h6 class="mb-1">Order info</h6>
-                            <p class="mb-1">
-                                Shipping: Normal shipping <br />
-                                Pay method: <%=orders.payment%> <br />
-                                Status: new
-                            </p>
-                            <!-- <a href="#">Download info</a> -->
-                        </div>
-                    </article>
-                </div>
-                <!-- col// -->
-                <div class="col-md-4">
-                    <article class="icontext align-items-start">
-                        <span class="icon icon-sm rounded-circle bg-primary-light">
-                            <i class="text-primary material-icons md-place"></i>
-                        </span>
-                        <div class="text">
-                            <h6 class="mb-1">Deliver to</h6>
-                            <p class="mb-1">
-                                Address: <%=orders.deliveryAddress.address%>, <%=orders.deliveryAddress.district%> <br /><%=orders.deliveryAddress.pincode%> <br />
-                                <%=orders.deliveryAddress.state%>, <%=orders.deliveryAddress.country%>
-                            </p>
-                            <!-- <a href="#">View profile</a> -->
-                        </div>
-                    </article>
-                </div>
-                <!-- col// -->
-            </div>
-            <!-- row // -->
-            
+                <!-- row // -->
+
                 <div class="col-lg-12">
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th width="40%">Product</th>
+                                    <th width="30%">Product</th>
                                     <th width="20%">Unit Price</th>
                                     <th width="20%">Quantity</th>
                                     <th width="20%">Status</th>
-                                    <th width="20%" class="text-end">Total</th>
+                                    <th width="20%" class="text-start">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <%orders.product.forEach((val)=>{%>
-                                <tr>
-                                    <td>
-                                        <a class="itemside" href="#">
-                                            <div class="left">
-                                                <img src="/multerimages/<%=val.productId.images[0]%>" width="40" height="40" class="img-xs" alt="Item" />
-                                            </div>
-                                            <div class="info"><%=val.productId.name%></div>
-                                        </a>
-                                    </td>
-                                    <td>₹ <%=val.price%>.00</td>
-                                    <td><%=val.quantity%></td>
-                                    <%if(val.orderStatus==='return requested'){%>
-                                        <td><span style="cursor: pointer;" onclick="returnProduct('<%=val.productId._id%>','<%=orders._id%>','<%=val.returnReason%>')" class="badge rounded-pill alert-danger">Requested</span></td>
-                                    <%}else{%>
-                                    <td><%=val.orderStatus%></td>
-                                    <%}%>
-                                    <td class="text-end">₹ <%=val.totalPrice%>.00</td>
-                                </tr>
-
-                                <%})%>
-                                
-                                <tr>
-                                    <td colspan="4">
-                                        <article class="float-end">
-                                            <dl class="dlist">
-                                                <dt>Subtotal:</dt>
-                                                <dd>₹ <%=orders.totalPrice+orders.discountAmount%>.00</dd>
-                                            </dl>
-                                            <%if(orders.shippingCharge){%>
-                                            <dl class="dlist">
-                                                <dt>Shipping cost:</dt>
-                                                <dd>₹ <%=orders.shippingCharge%></dd>
-                                            </dl>
+                                    <tr>
+                                        <td>
+                                            <a class="itemside" href="#">
+                                                <div class="left">
+                                                    <img src="/multerimages/<%=val.productId.images[0]%>" width="40"
+                                                        height="40" class="img-xs" alt="Item" />
+                                                </div>
+                                                <div class="info">
+                                                    <%=val.productId.name%>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>₹ <%=val.productId.price%>.00</td>
+                                        <td>
+                                            <%=val.quantity%>
+                                        </td>
+                                        <%if(val.orderStatus==='return requested'){%>
+                                            <td><span style="cursor: pointer;"
+                                                    onclick="returnProduct('<%=val.productId._id%>','<%=orders._id%>','<%=val.returnReason%>')"
+                                                    class="badge rounded-pill alert-danger">Requested</span></td>
                                             <%}else{%>
-                                                <dl class="dlist">
-                                                    <dt>Shipping cost:</dt>
-                                                    <dd>₹ 0.00</dd>
-                                                </dl>
+                                                <td>
+                                                    <%=val.orderStatus%>
+                                                </td>
                                                 <%}%>
-                                            <dl class="dlist">
-                                                <dt>Discount:</dt>
-                                                <dd>₹ <%=orders.discountAmount%>.00</dd>
-                                            </dl>
-                                            
-                                            <dl class="dlist">
-                                                <dt>Grand total:</dt>
-                                                <dd><b class="h5"></b>₹ <%=orders.totalPrice%>.00</dd>
-                                            </dl>
-                                            <dl class="dlist">
-                                                <dt class="text-muted">Status:</dt>
-                                                <dd>
-                                                    <%if(orders.orderStatus==='Cancelled'){%>
-                                                    <span class="badge rounded-pill alert-danger text-danger">Cancelled</span>
-                                                    <%}else if(orders.orderStatus==='delivered'){%>
-                                                    <span class="badge rounded-pill alert-success text-success">Payment Done</span>
-                                                    <%}else{%>
-                                                    <span class="badge rounded-pill alert-warning text-warning">Pending</span>
-                                                    <%}%>   
-                                                </dd>
-                                            </dl>
-                                        </article>
-                                    </td>
-                                </tr>
+                                                    <td class="text-start">₹ <%=(val.productId.price *
+                                                            val.quantity).toFixed(2)%>
+                                                    </td>
+                                    </tr>
+
+                                    <%})%>
+
+                                        <tr>
+                                            <td colspan="4">
+                                                <article class="float-end">
+                                                    <dl class="dlist">
+                                                        <dt>Subtotal:</dt>
+                                                        <dd>₹ <%=orders.totalPrice+orders.discountAmount%>.00</dd>
+                                                    </dl>
+                                                    <%if(orders.shippingCharge){%>
+                                                        <dl class="dlist">
+                                                            <dt>Shipping cost:</dt>
+                                                            <dd>₹ <%=orders.shippingCharge%>
+                                                            </dd>
+                                                        </dl>
+                                                        <%}else{%>
+                                                            <dl class="dlist">
+                                                                <dt>Shipping cost:</dt>
+                                                                <dd>₹ 0.00</dd>
+                                                            </dl>
+                                                            <%}%>
+                                                                <dl class="dlist">
+                                                                    <dt>Discount:</dt>
+                                                                    <dd>₹ <%=orders.discountAmount%>.00</dd>
+                                                                </dl>
+
+                                                                <dl class="dlist">
+                                                                    <dt>Grand total:</dt>
+                                                                    <dd><b class="h5"></b>₹ <%=orders.totalPrice%>.00
+                                                                    </dd>
+                                                                </dl>
+                                                                <dl class="dlist">
+                                                                    <dt class="text-muted">Status:</dt>
+                                                                    <dd>
+                                                                        <%if(orders.orderStatus==='Cancelled'){%>
+                                                                            <span
+                                                                                class="badge rounded-pill alert-danger text-danger">Cancelled</span>
+                                                                            <%}else if(orders.orderStatus==='delivered'
+                                                                                ){%>
+                                                                                <span
+                                                                                    class="badge rounded-pill alert-success text-success">Payment
+                                                                                    Done</span>
+                                                                                <%}else{%>
+                                                                                    <span
+                                                                                        class="badge rounded-pill alert-warning text-warning">Pending</span>
+                                                                                    <%}%>
+                                                                    </dd>
+                                                                </dl>
+                                                </article>
+                                            </td>
+                                        </tr>
                             </tbody>
                         </table>
                     </div>
@@ -219,79 +244,79 @@
                     </div>
                 </div> -->
                 <!-- col// -->
-            
+
+            </div>
+            <!-- card-body end// -->
         </div>
-        <!-- card-body end// -->
-    </div>
-    <!-- card end// -->
-</section>
+        <!-- card end// -->
+    </section>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-<script>
-    function orderStatus(val,id){
-        console.log(val)
-        fetch('/admin/changeOrderStatus',{
-            method:'PATCH',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({val,id})
+    <script>
+        function orderStatus(val, id) {
+            console.log(val)
+            fetch('/admin/changeOrderStatus', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ val, id })
 
-        })
-        .then(response => response.json())
-        .then(data=>{
-            if (data.status===true) {
-                Swal.fire({
-                    title:'Updated',
-                    text:'shipping status updated',
-                    icon:'success',
-                    confirmButtonColor:'#c96',
-                    confirmButtonText:'Ok',
-                    timer:2000
-                }).then(()=>{
-                    location.reload();
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === true) {
+                        Swal.fire({
+                            title: 'Updated',
+                            text: 'shipping status updated',
+                            icon: 'success',
+                            confirmButtonColor: '#c96',
+                            confirmButtonText: 'Ok',
+                            timer: 2000
+                        }).then(() => {
+                            location.reload();
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'error',
+                            text: 'Updationfailed',
+                            icon: 'error',
+                            confirmButtonColor: '#c96',
+                            confirmButtonText: 'Ok',
+                            timer: 2000
+                        }).then(() => {
+                            location.reload()
+                        })
+                    }
                 })
-            } else {
-                Swal.fire({
-                    title:'error',
-                    text:'Updationfailed',
-                    icon:'error',
-                    confirmButtonColor:'#c96',
-                    confirmButtonText:'Ok',
-                    timer:2000
-                }).then(()=>{
-                    location.reload()
-                })
-            }
-        })
-    }
-</script>
+        }
+    </script>
 
-<script>
-    async function returnProduct(id,orderId,reason){
-      
-        Swal.fire({
-            title:'Return request',
-            text:`Reason: ${reason}`,
-            icon:'warning',
-            showCancelButton:true,
-            confirmButtonColor:'#d33',
-            cancelButtonText : 'Decline',
-            cancelButtonColor:'#c96',
-            confirmButtonText:'Accept'
-        }).then(async(result)=>{
-            if (result.isConfirmed) {
-                try {
-                    const response = fetch('/admin/return',{
-            method:'PATCH',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({id,orderId})
-        })
-        .then((response => response.json()))
+    <script>
+        async function returnProduct(id, orderId, reason) {
+
+            Swal.fire({
+                title: 'Return request',
+                text: `Reason: ${reason}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonText: 'Decline',
+                cancelButtonColor: '#c96',
+                confirmButtonText: 'Accept'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        const response = fetch('/admin/return', {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ id, orderId })
+                        })
+                            .then((response => response.json()))
                             .then(data => {
                                 if (data.accepted === true) {
                                     Swal.fire({
@@ -317,21 +342,21 @@
                                     })
                                 }
                             })
-        
-                } catch (error) {
-                    console.log(error.message);
-                    Swal.fire('Error','Failed to delete','error')
-                }
-            } else {
-                try {
-                    const response = fetch('/admin/returnCancel',{
-            method:'PATCH',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({id,orderId})
-        })
-        .then((response => response.json()))
+
+                    } catch (error) {
+                        console.log(error.message);
+                        Swal.fire('Error', 'Failed to delete', 'error')
+                    }
+                } else {
+                    try {
+                        const response = fetch('/admin/returnCancel', {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ id, orderId })
+                        })
+                            .then((response => response.json()))
                             .then(data => {
                                 if (data.declined === true) {
                                     Swal.fire({
@@ -357,14 +382,14 @@
                                     })
                                 }
                             })
-        
-                } catch (error) {
-                    console.log(error.message);
-                    Swal.fire('Error','Failed to delete','error')
-                }
-            }
-        })
-    }
-</script>
 
-<%- include('../layout/admin/footer.ejs') -%>
+                    } catch (error) {
+                        console.log(error.message);
+                        Swal.fire('Error', 'Failed to delete', 'error')
+                    }
+                }
+            })
+        }
+    </script>
+
+    <%- include('../layout/admin/footer.ejs') -%>

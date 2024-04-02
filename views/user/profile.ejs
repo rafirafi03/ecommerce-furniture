@@ -528,22 +528,40 @@
                                                                     <%=val.payment%>
                                                                 </td>
                                                                 <%if(val.orderStatus==='Cancelled'){%>
-                                                                    <td><span class="badge rounded-pill alert-danger">Cancelled</span></td>
-                                                                    <%}else if(val.orderStatus==='delivered'){%>
-                                                                    <td><span class="badge rounded-pill alert-success">Delivered</span></td>
-                                                                    <%}else if(val.orderStatus==='pending'){%>
-                                                                    <td><span class="badge rounded-pill alert-warning">Pending</span></td>
-                                                                    <%}else if(val.orderStatus==='out for delivery'){%>
-                                                                        <td><span class="badge rounded-pill alert-success">Out for delivery</span></td>
-                                                                        <%}else if(val.orderStatus==='placed'){%>
-                                                                        <td><span class="badge rounded-pill alert-success">Placed</span></td>
-                                                                        <%}else if(val.orderStatus==='returned'){%>
-                                                                        <td><span class="badge rounded-pill alert-danger">Returned</span></td>
-                                                                        <%}%>
+                                                                    <td><span
+                                                                            class="badge rounded-pill alert-danger">Cancelled</span>
+                                                                    </td>
+                                                                    <%}else if(val.orderStatus==='delivered' ){%>
+                                                                        <td><span
+                                                                                class="badge rounded-pill alert-success">Delivered</span>
+                                                                        </td>
+                                                                        <%}else if(val.orderStatus==='pending' ){%>
+                                                                            <td><span
+                                                                                    class="badge rounded-pill alert-warning">Pending</span>
+                                                                            </td>
+                                                                            <%}else
+                                                                                if(val.orderStatus==='out for delivery'
+                                                                                ){%>
+                                                                                <td><span
+                                                                                        class="badge rounded-pill alert-success">Out
+                                                                                        for delivery</span></td>
+                                                                                <%}else if(val.orderStatus==='placed'
+                                                                                    ){%>
+                                                                                    <td><span
+                                                                                            class="badge rounded-pill alert-success">Placed</span>
+                                                                                    </td>
+                                                                                    <%}else
+                                                                                        if(val.orderStatus==='returned'
+                                                                                        ){%>
+                                                                                        <td><span
+                                                                                                class="badge rounded-pill alert-danger">Returned</span>
+                                                                                        </td>
+                                                                                        <%}%>
 
-                                                                <td>
-                                                                    <a href="/orderDetails?id=<%=val._id%>">View</a>
-                                                                </td>
+                                                                                            <td>
+                                                                                                <a
+                                                                                                    href="/orderDetails?id=<%=val._id%>">View</a>
+                                                                                            </td>
                                                             </tr>
                                                             <%})%>
                                                     </tbody>
@@ -569,7 +587,8 @@
                                             <table class="table">
                                                 <thead>
                                                     <h4 style="color: #c96;">Wallet History</h4>
-                                                    <h6 class="text-success mt-3">Balance : ₹ <%=users.wallet%></h6>
+                                                    <h6 class="text-success mt-3">Balance : ₹ <%=users.wallet%>
+                                                    </h6>
                                                     <br>
                                                     <tr>
                                                         <th class="name">
@@ -603,7 +622,7 @@
 
 
                                                                     <td class="text-danger">-₹ <%=Math.abs(val.amount)%>
-                                                                            
+
                                                                     </td>
                                                                     <%}%>
 
@@ -763,14 +782,15 @@
                                                                 <label>Full Name *</label>
                                                                 <input type="text" name="fullName" id="fullName"
                                                                     class="form-control">
-                                                                    <div class="login-error" id="error-address-name"></div>
+                                                                <div class="login-error" id="error-address-name"></div>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <label>Address *</label>
                                                                 <input type="text" name="address" id="address"
                                                                     class="form-control">
-                                                                    <div class="login-error" id="error-address-address"></div>
+                                                                <div class="login-error" id="error-address-address">
+                                                                </div>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
 
@@ -779,14 +799,15 @@
                                                                 <label>Email *</label>
                                                                 <input type="text" name="email" id="email"
                                                                     class="form-control">
-                                                                    <div class="login-error" id="error-address-email"></div>
+                                                                <div class="login-error" id="error-address-email"></div>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <label>Mobile *</label>
                                                                 <input type="text" name="mobile" id="mobile"
                                                                     class="form-control">
-                                                                    <div class="login-error" id="error-address-mobile"></div>
+                                                                <div class="login-error" id="error-address-mobile">
+                                                                </div>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
 
@@ -795,14 +816,15 @@
                                                                 <label>Country *</label>
                                                                 <input type="text" name="country" id="country"
                                                                     class="form-control">
-                                                                    <div class="login-error" id="error-address-country"></div>
+                                                                <div class="login-error" id="error-address-country">
+                                                                </div>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <label>State *</label>
                                                                 <input type="text" name="state" id="state"
                                                                     class="form-control">
-                                                                    <div class="login-error" id="error-address-state"></div>
+                                                                <div class="login-error" id="error-address-state"></div>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
 
@@ -811,14 +833,16 @@
                                                                 <label>District *</label>
                                                                 <input type="text" name="district" id="district"
                                                                     class="form-control">
-                                                                    <div class="login-error" id="error-address-district"></div>
+                                                                <div class="login-error" id="error-address-district">
+                                                                </div>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <label>Pincode *</label>
                                                                 <input type="text" name="pincode" id="pincode"
                                                                     class="form-control">
-                                                                    <div class="login-error" id="error-address-pincode"></div>
+                                                                <div class="login-error" id="error-address-pincode">
+                                                                </div>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
 
@@ -1236,62 +1260,62 @@
 
             let isValid = true;
 
-            if (currentPassword.trim()==="" || currentPassword.length<8) {
+            if (currentPassword.trim() === "" || currentPassword.length < 8) {
                 document.getElementById('currentPassError').innerText = "Incorrect Password";
                 isValid = false
             }
-            if(newPassword.trim()==="" || newPassword.length<8){
-                document.getElementById('newPassError').innerText="Atleast 8 characters required!!"
-                isValid=false;
+            if (newPassword.trim() === "" || newPassword.length < 8) {
+                document.getElementById('newPassError').innerText = "Atleast 8 characters required!!"
+                isValid = false;
             }
 
-            if(confirmPassword.trim()==="" || confirmPassword.length<8){
-                document.getElementById('confirmPassError').innerText="Atleast 8 characters required!!"
-                isValid=false;
+            if (confirmPassword.trim() === "" || confirmPassword.length < 8) {
+                document.getElementById('confirmPassError').innerText = "Atleast 8 characters required!!"
+                isValid = false;
             }
 
 
-            if (isValid ===true) {
+            if (isValid === true) {
                 let data = {
-                currentPass: document.getElementById('currentPass').value,
-                newPass: document.getElementById('newPass').value,
-                confirmPass: document.getElementById('confirmPass').value
+                    currentPass: document.getElementById('currentPass').value,
+                    newPass: document.getElementById('newPass').value,
+                    confirmPass: document.getElementById('confirmPass').value
+                }
+
+                fetch('/resetPass', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ data })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.add === true) {
+                            Swal.fire({
+                                title: 'Changed',
+                                text: 'Password changed',
+                                icon: 'success',
+                                confirmButtonColor: '#c96',
+                                confirmButtonText: 'ok'
+                            }).then(() => {
+                                location.reload()
+                            })
+                        } else {
+                            Swal.fire({
+                                title: 'error',
+                                text: 'Password doesnt match!!',
+                                icon: 'error',
+                                confirmButtonColor: '#c96',
+                                confirmButtonText: 'ok',
+                                timer: 3000
+                            }).then(() => {
+                                location.reload()
+                            })
+                        }
+                    })
             }
 
-            fetch('/resetPass', {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ data })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.add === true) {
-                        Swal.fire({
-                            title: 'Changed',
-                            text: 'Password changed',
-                            icon: 'success',
-                            confirmButtonColor: '#c96',
-                            confirmButtonText: 'ok'
-                        }).then(() => {
-                            location.reload()
-                        })
-                    } else {
-                        Swal.fire({
-                            title: 'error',
-                            text: 'Password doesnt match!!',
-                            icon: 'error',
-                            confirmButtonColor: '#c96',
-                            confirmButtonText: 'ok',
-                            timer: 3000
-                        }).then(() => {
-                            location.reload()
-                        })
-                    }
-                })
-            }
-            
         })
     </script>
 
@@ -1390,87 +1414,87 @@
 
             const form = document.getElementById('addAddress');
 
-            form.addEventListener('submit',(e)=>{
+            form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 document.getElementById("error-address-name").innerText = "";
-            document.getElementById("error-address-address").innerText = "";
-            document.getElementById("error-address-mobile").innerText = "";
-            document.getElementById("error-address-email").innerText = "";
-            document.getElementById("error-address-country").innerText = "";
-            document.getElementById("error-address-state").innerText = "";
-            document.getElementById("error-address-district").innerText = "";
-            document.getElementById("error-address-pincode").innerText = "";
+                document.getElementById("error-address-address").innerText = "";
+                document.getElementById("error-address-mobile").innerText = "";
+                document.getElementById("error-address-email").innerText = "";
+                document.getElementById("error-address-country").innerText = "";
+                document.getElementById("error-address-state").innerText = "";
+                document.getElementById("error-address-district").innerText = "";
+                document.getElementById("error-address-pincode").innerText = "";
 
-            const fullName = document.getElementById('fullName').value;
-            const address = document.getElementById('address').value;
-            const email = document.getElementById('email').value;
-            const mobile = document.getElementById('mobile').value;
-            const country = document.getElementById('country').value;
-            const state = document.getElementById('state').value;
-            const district = document.getElementById('district').value;
-            const pincode = document.getElementById('pincode').value;
-            
+                const fullName = document.getElementById('fullName').value;
+                const address = document.getElementById('address').value;
+                const email = document.getElementById('email').value;
+                const mobile = document.getElementById('mobile').value;
+                const country = document.getElementById('country').value;
+                const state = document.getElementById('state').value;
+                const district = document.getElementById('district').value;
+                const pincode = document.getElementById('pincode').value;
 
-            const verified = validateInputs(fullName,address,email,mobile,country,state,district,pincode);
-            if (verified === false) {
-                return;
-            }
 
-            try {
-                fetch('/addAddress', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    fullName,
-                    address,
-                    email,
-                    mobile,
-                    country,
-                    state,
-                    district,
-                    pincode
+                const verified = validateInputs(fullName, address, email, mobile, country, state, district, pincode);
+                if (verified === false) {
+                    return;
+                }
 
-                }),
+                try {
+                    fetch('/addAddress', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            fullName,
+                            address,
+                            email,
+                            mobile,
+                            country,
+                            state,
+                            district,
+                            pincode
+
+                        }),
+
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.add === true) {
+                                Swal.fire({
+                                    title: 'Added',
+                                    text: 'Address addedd successfull',
+                                    icon: 'success',
+                                    confirmButtonColor: '#c96',
+                                    confirmButtonText: 'ok',
+                                    timer: 3000
+                                }).then(() => {
+                                    location.reload()
+                                })
+                            } else {
+                                Swal.fire({
+                                    title: 'error',
+                                    text: 'Address adding failed!!',
+                                    icon: 'error',
+                                    confirmButtonColor: '#c96',
+                                    confirmButtonText: 'ok',
+                                    timer: 3000
+                                }).then(() => {
+                                    location.reload()
+                                })
+                            }
+                        })
+                } catch (error) {
+                    console.log(error.message);
+                }
+
 
             })
-            .then(response => response.json())
-                .then(data => {
-                    if (data.add === true) {
-                        Swal.fire({
-                            title: 'Added',
-                            text: 'Address addedd successfull',
-                            icon: 'success',
-                            confirmButtonColor: '#c96',
-                            confirmButtonText: 'ok',
-                            timer : 3000
-                        }).then(() => {
-                            location.reload()
-                        })
-                    } else {
-                        Swal.fire({
-                            title: 'error',
-                            text: 'Address adding failed!!',
-                            icon: 'error',
-                            confirmButtonColor: '#c96',
-                            confirmButtonText: 'ok',
-                            timer: 3000
-                        }).then(() => {
-                            location.reload()
-                        })
-                    }
-                })
-            } catch (error) {
-                console.log(error.message);
-            }
-            
-            
-            })
 
-            
 
-            function validateInputs(fullName,address,email,mobile,country,state,district,pincode) {
+
+            function validateInputs(fullName, address, email, mobile, country, state, district, pincode) {
                 let isValid = true;
 
                 if (fullName.trim() === "") {
@@ -1478,17 +1502,17 @@
                     isValid = false;
                 }
 
-                if (email.trim() === "" ) {
+                if (email.trim() === "") {
                     document.getElementById("error-address-email").innerText = "Email is required.";
                     isValid = false;
-                }else if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+                } else if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
                     document.getElementById("error-address-email").innerText = "Provide a valid email.";
                     isValid = false;
                 }
 
                 if (mobile.trim() === "") {
                     document.getElementById("error-address-mobile").innerText =
-                    "Mobile number is required.";
+                        "Mobile number is required.";
                     isValid = false;
                 } else if (mobile.length < 10 || mobile.length > 10) {
                     isValid = false;
@@ -1497,38 +1521,38 @@
 
                 if (address.trim() === "") {
                     document.getElementById("error-address-address").innerText =
-                    "address is required.";
+                        "address is required.";
                     isValid = false;
-                } 
+                }
 
                 if (country.trim() === "") {
                     document.getElementById("error-address-country").innerText =
-                    "Country name is required.";
+                        "Country name is required.";
                     isValid = false;
                 }
 
                 if (state.trim() === "") {
                     document.getElementById("error-address-state").innerText =
-                    "State name is required.";
+                        "State name is required.";
                     isValid = false;
                 }
 
                 if (district.trim() === "") {
                     document.getElementById("error-address-district").innerText =
-                    "District name is required.";
+                        "District name is required.";
                     isValid = false;
                 }
 
                 if (pincode.trim() === "") {
                     document.getElementById("error-address-pincode").innerText =
-                    "Pincode is required.";
+                        "Pincode is required.";
                     isValid = false;
                 }
 
                 return isValid;
-                }
+            }
 
-            
+
         }
     </script>
 
@@ -1559,140 +1583,140 @@
 
         function editAddress(id) {
 
-const editForm = document.getElementById('editAddressForm')
+            const editForm = document.getElementById('editAddressForm')
 
-editForm.addEventListener('submit',(e)=>{
-    e.preventDefault()
+            editForm.addEventListener('submit', (e) => {
+                e.preventDefault()
 
-    document.getElementById('error-edit-fullName').innerText = "";
-    document.getElementById('error-edit-address').innerText = "";
-    document.getElementById('error-edit-email').innerText = "";
-    document.getElementById('error-edit-mobile').innerText = "";
-    document.getElementById('error-edit-country').innerText = "";
-    document.getElementById('error-edit-state').innerText = "";
-    document.getElementById('error-edit-district').innerText = "";
-    document.getElementById('error-edit-pincode').innerText = "";
-})
-
-const fullName = document.getElementById('editFullName').value;
-const address = document.getElementById('addressEdit').value;
-const email = document.getElementById('editEmail').value;
-const mobile = document.getElementById('editMobile').value;
-const country = document.getElementById('editCountry').value;
-const state = document.getElementById('editState').value;
-const district = document.getElementById('editDistrict').value;
-const pincode = document.getElementById('editPincode').value;
-
-const isValid = validateEditAddress(fullName,address,email,mobile,country,state,district,pincode);
-
-if (!isValid) {
-    return
-}
-
-fetch('/editAddress', {
-    method: 'PATCH',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        addressId,
-        fullName,
-        address,
-        email,
-        mobile,
-        country,
-        state,
-        district,
-        pincode
-
-    }),
-
-})
-    .then(response => response.json())
-    .then(data => {
-        if (data.edit===true) {
-            Swal.fire({
-                title:'Edit Success',
-                text:'Address edited successfully',
-                icon:'success',
-                confirmButtonText:'Ok',
-                confirmButtonColor:'#c96',
-                timer:3000
-
-            }).then(()=>{
-                location.reload()
+                document.getElementById('error-edit-fullName').innerText = "";
+                document.getElementById('error-edit-address').innerText = "";
+                document.getElementById('error-edit-email').innerText = "";
+                document.getElementById('error-edit-mobile').innerText = "";
+                document.getElementById('error-edit-country').innerText = "";
+                document.getElementById('error-edit-state').innerText = "";
+                document.getElementById('error-edit-district').innerText = "";
+                document.getElementById('error-edit-pincode').innerText = "";
             })
-        } else {
-            Swal.fire({
-                title:'Error',
-                text:'Edit address failed',
-                icon:'error',
-                confirmButtonText:'Ok',
-                confirmButtonColor:'#c96',
-                timer:3000
 
-            }).then(()=>{
-                location.reload()
+            const fullName = document.getElementById('editFullName').value;
+            const address = document.getElementById('addressEdit').value;
+            const email = document.getElementById('editEmail').value;
+            const mobile = document.getElementById('editMobile').value;
+            const country = document.getElementById('editCountry').value;
+            const state = document.getElementById('editState').value;
+            const district = document.getElementById('editDistrict').value;
+            const pincode = document.getElementById('editPincode').value;
+
+            const isValid = validateEditAddress(fullName, address, email, mobile, country, state, district, pincode);
+
+            if (!isValid) {
+                return
+            }
+
+            fetch('/editAddress', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    addressId,
+                    fullName,
+                    address,
+                    email,
+                    mobile,
+                    country,
+                    state,
+                    district,
+                    pincode
+
+                }),
+
             })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.edit === true) {
+                        Swal.fire({
+                            title: 'Edit Success',
+                            text: 'Address edited successfully',
+                            icon: 'success',
+                            confirmButtonText: 'Ok',
+                            confirmButtonColor: '#c96',
+                            timer: 3000
+
+                        }).then(() => {
+                            location.reload()
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Edit address failed',
+                            icon: 'error',
+                            confirmButtonText: 'Ok',
+                            confirmButtonColor: '#c96',
+                            timer: 3000
+
+                        }).then(() => {
+                            location.reload()
+                        })
+                    }
+                })
+
+
+            function validateEditAddress(name, address, email, mobile, country, state, district, pincode) {
+                let isValid = true;
+
+                if (name.trim() === "") {
+                    document.getElementById('error-edit-fullName').innerText = "Fullname is required.";
+                    isValid = false;
+                }
+
+                if (address.trim() === "") {
+                    document.getElementById('error-edit-address').innerText = "Address is required.";
+                    isValid = false;
+                }
+
+                if (email.trim() === "") {
+                    document.getElementById('error-edit-email').innerText = "email is required.";
+                    isValid = false;
+                } else if (
+                    !email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+                ) {
+                    document.getElementById("error-edit-email").innerText =
+                        "Provide a valid email.";
+                    isValid = false;
+                }
+
+                if (mobile.trim() === "") {
+                    document.getElementById('error-edit-mobile').innerText = "Mobile is required.";
+                    isValid = false;
+                } else if (mobile.length !== 10) {
+                    document.getElementById('error-edit-mobile').innerText = "Invalid mobile number.";
+                    isValid = false;
+                }
+
+                if (country.trim() === "") {
+                    document.getElementById('error-edit-state').innerText = "Country is required.";
+                    isValid = false;
+                }
+
+                if (state.trim() === "") {
+                    document.getElementById('error-edit-state').innerText = "State is required.";
+                    isValid = false;
+                }
+
+                if (district.trim() === "") {
+                    document.getElementById('error-edit-district').innerText = "District is required.";
+                    isValid = false;
+                }
+
+                if (pincode.trim() === "") {
+                    document.getElementById('error-edit-pincode').innerText = "Pincode is required.";
+                    isValid = false;
+                }
+
+                return isValid;
+            }
         }
-    })
-
-
-    function validateEditAddress(name,address,email,mobile,country,state,district,pincode) {
-    let isValid = true;
-
-    if (name.trim() === "") {
-        document.getElementById('error-edit-fullName').innerText = "Fullname is required.";
-        isValid = false;
-    }
-
-    if (address.trim() === "") {
-        document.getElementById('error-edit-address').innerText = "Address is required.";
-        isValid = false;
-    }
-
-    if (email.trim() === "") {
-        document.getElementById('error-edit-email').innerText = "email is required.";
-        isValid = false;
-    }else if (
-        !email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-    ) {
-        document.getElementById("error-edit-email").innerText =
-        "Provide a valid email.";
-        isValid = false;
-    }
-
-    if (mobile.trim() === "") {
-        document.getElementById('error-edit-mobile').innerText = "Mobile is required.";
-        isValid = false;
-    } else if (mobile.length !== 10) {
-        document.getElementById('error-edit-mobile').innerText = "Invalid mobile number.";
-        isValid = false;
-    }
-
-    if (country.trim() === "") {
-        document.getElementById('error-edit-state').innerText = "Country is required.";
-        isValid = false;
-    }
-
-    if (state.trim() === "") {
-        document.getElementById('error-edit-state').innerText = "State is required.";
-        isValid = false;
-    }
-
-    if (district.trim() === "") {
-        document.getElementById('error-edit-district').innerText = "District is required.";
-        isValid = false;
-    }
-
-    if (pincode.trim() === "") {
-        document.getElementById('error-edit-pincode').innerText = "Pincode is required.";
-        isValid = false;
-    }
-
-    return isValid;
-}
-}
     </script>
 
     <script>

@@ -20,15 +20,7 @@ const getAddCoupon = async (req,res)=>{
 
 const postAddCoupon = async (req,res) => {
     try {
-        // let data = {
-        //     name : req.body.name,
-        //     code : req.body.code,
-        //     discount : req.body.discountAmount,
-        //     criteria : req.body.criteriaAmount,
-        //     activation_date : req.body.activationDate,
-        //     expiry_date : req.body.expiryDate
-        // }
-        // console.log(data,":dataaaaaa")
+        
 
         const couponExists = await couponModel.findOne({name:req.body.name})
 
@@ -74,7 +66,6 @@ const postAddCoupon = async (req,res) => {
 
 const deleteCoupon = async (req,res)=>{
     const id = req.body.id;
-    console.log(id,":iddddd")
     
     await couponModel.findOneAndDelete({_id:id})
 

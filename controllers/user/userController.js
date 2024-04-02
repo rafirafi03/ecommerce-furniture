@@ -1,9 +1,11 @@
-// const express = require("express");
+
 const User = require("../../models/userModel");
 const UserOTPVerification = require("../../models/userOtpVerification");
 const product = require('../../models/productModel')
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const wishlistModel = require("../../models/wishlistModel");
+const cartModel = require('../../models/cartModel')
 require("dotenv").config();
 
 // // signup
@@ -40,10 +42,10 @@ const signUpPost = async (req, res) => {
         password: hashedPassword
       });
       const result = await newUser.save();
-      // req.session.user_id = result._id;
+      
       sendOTPVerificationEmail(result, res,req,referral);
     });
-        // Try to create new user
+        
   
   } catch (error) {
     console.log(error.message)
@@ -70,15 +72,14 @@ const loginPost = async (req, res) => {
       return res.render('user/login',{message:"Not a User. Please signup!"})
     }
 
-    // Compare the provided password with the hashed password in the database
+    
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (passwordMatch) {
-      // Passwords match, user is authenticated
-      // You can set up a session or create a JWT token here for user authentication
+      
       req.session.user_id = user._id;
 
-      return res.redirect("/"); // Redirect to the user's dashboard or any desired page
+      return res.redirect("/"); 
     } else {
       // Passwords do not match
       return res.render("user/login", {
@@ -95,9 +96,12 @@ const loginPost = async (req, res) => {
 const loadHome = async (req, res) => {
   try {
     const userId = req.session.user_id;
+
+    const wishlistCount = await wishlistModel.find({user:userId}).countDocuments()
+    const cartCount = await cartModel.find({user:userId}).countDocuments()
     
     const products = await product.find({isListed:true}).populate('category')
-    res.render("user/home",{products,userId});
+    res.render("user/home",{products,userId,wishlistCount,cartCount});
   } catch (error) {
     console.log(error.message);
   }
@@ -136,12 +140,10 @@ const loadOtp = async (req, res) => {
 const sendOTPVerificationEmail = async (result, res,req,referral) => {
   const { _id, email } = result;
   try {
-    console.log(_id,":idddinside");
-    console.log(email,":emailllllinside")
+
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
-    console.log(otp,":otpinside")
+
     const expirationTime = Date.now() + 30000;
-    console.log(expirationTime,":expirtyinside")
 
     req.session.otpExpirationTime = expirationTime;
 
@@ -171,7 +173,6 @@ const sendOTPVerificationEmail = async (result, res,req,referral) => {
     await transporter.sendMail(mailoptions);
     res.redirect(`/otp?id=${_id}&ref=${referral}`);
   } catch (error) {
-    console.log('error aaan')
     console.log(error.message)
 
   }
@@ -216,7 +217,7 @@ const verifyPost = async (req, res) => {
             let referralCode;
 
             const generateReferralCode = () => {
-              console.log('inside function')
+
               const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
               referralCode = '';
           
@@ -274,32 +275,10 @@ const verifyPost = async (req, res) => {
   }
 };
 
-// resend verification
-// const verifyOTP = async (req, res) => {
-//   try {
-//     let { userId, email } = req.body;
-
-//     if (!userId || !email) {
-//       throw Error("Empty user details are not allowed");
-//     } else {
-//       // delete existing records and resend
-//       await UserOTPVerification.deleteMany({ userId });
-//       sendOTPVerificationEmail({ _id: userId, email }, res);
-//     }
-//   } catch (error) {
-//     res.json({
-//       status: "FAILED",
-//       message: error.message,
-//     });
-//   }
-// };
-
 const resendOtp = async (req, res) => {
   try {
     const userId = req.query.id;
     const user = await User.findOne({ _id: userId});
-    console.log(user , " ","user");
-    console.log(userId," ","id");
 
 
     if (!user) {

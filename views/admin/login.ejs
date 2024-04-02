@@ -71,33 +71,35 @@
         <div class="card-body">
           <h4 class="card-title mb-4">Sign in</h4>
           <form method="post" id="form">
-            <%if(typeof message != 'undefined') {%>
-              <h6 class="login-message text-danger"><%=message%></h6>
+            <%if(typeof message !='undefined' ) {%>
+              <h6 class="login-message text-danger">
+                <%=message%>
+              </h6>
               <%}%>
-            <div class="mb-3">
-              <input id="email" class="form-control" placeholder="Email" type="text" name="email" />
-            </div>
-            <div id="errorEmail" class="login-error mb-3"></div>
-            <!-- form-group// -->
-            <div class="mb-3">
-              <input id="password" class="form-control" placeholder="Password" type="password" name="password" />
-            </div>
-            <div class="login-error mb-3" id="errorPassword"></div>
-            <!-- form-group// -->
-            <div class="mb-3">
-              <a href="#" class="float-end font-sm text-muted">Forgot password?</a>
-              <label class="form-check">
-                <input type="checkbox" class="form-check-input" checked="" />
-                <span class="form-check-label">Remember</span>
-              </label>
-            </div>
-            <!-- form-group form-check .// -->
-            <div class="mb-4">
-              <button type="submit" class="btn btn-primary w-100">
-                Login
-              </button>
-            </div>
-            <!-- form-group// -->
+                <div class="mb-3">
+                  <input id="email" class="form-control" placeholder="Email" type="text" name="email" />
+                </div>
+                <div id="errorEmail" class="login-error mb-3"></div>
+                <!-- form-group// -->
+                <div class="mb-3">
+                  <input id="password" class="form-control" placeholder="Password" type="password" name="password" />
+                </div>
+                <div class="login-error mb-3" id="errorPassword"></div>
+                <!-- form-group// -->
+                <div class="mb-3">
+                  <a href="#" class="float-end font-sm text-muted">Forgot password?</a>
+                  <label class="form-check">
+                    <input type="checkbox" class="form-check-input" checked="" />
+                    <span class="form-check-label">Remember</span>
+                  </label>
+                </div>
+                <!-- form-group form-check .// -->
+                <div class="mb-4">
+                  <button type="submit" class="btn btn-primary w-100">
+                    Login
+                  </button>
+                </div>
+                <!-- form-group// -->
           </form>
 
           <!-- <p class="text-center mb-4">Don't have account? <a href="#">Sign up</a></p> -->
@@ -105,14 +107,14 @@
       </div>
     </section>
     <footer class="main-footer text-center">
-                <!-- <p class="font-xs">
+      <!-- <p class="font-xs">
                     <script>
                         document.write(new Date().getFullYear());
                     </script>
                     &copy; Nest - HTML Ecommerce Template .
                 </p>
                 <p class="font-xs mb-30">All rights reserved</p> -->
-            </footer>
+    </footer>
   </main>
   <script src="asset/js/vendors/jquery-3.6.0.min.js"></script>
   <script src="asset/js/vendors/bootstrap.bundle.min.js"></script>

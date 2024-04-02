@@ -2,7 +2,11 @@ const user = require("../../models/userModel");
 const userAddress = require("../../models/adressModel");
 const orderModel = require("../../models/orderModel");
 const productModel = require("../../models/productModel");
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const ejs = require('ejs');
+const path = require('path');
+const puppeteer = require('puppeteer');
+
 
 const loadProfile = async (req, res) => {
   const userId = req.session.user_id;
@@ -83,8 +87,6 @@ const editAddress = async (req, res) => {
       pincode,
     } = req.body;
 
-    console.log(req.body,"adrs")
-
     await userAddress.findOneAndUpdate(     
       { "user": userId, "address._id": addressId },
       {
@@ -135,24 +137,16 @@ const PatchResetPass = async (req, res) => {
 
   const users =  await user.findOne({ _id: userId });
 
-  console.log(users,":usrrrrrrr")
-
   let { currentPass, newPass } = req.body.data;
 
-  console.log(req.body.data,":reqqqqqqqq");
-
-  console.log(currentPass,":currrrr")
-
   const passwordCompare = await bcrypt.compare(currentPass, users.password);
-
-  console.log(passwordCompare,":cmprrrrr")
 
   if (passwordCompare) {
     const saltRounds = 10;
     console.log('yessss')
     
     bcrypt.hash(newPass, saltRounds).then(async (hashedPassword) => {
-      console.log(hashedPassword,":hsdpswrdddd")
+
       await user.findOneAndUpdate(
         { _id: userId },
         { password: hashedPassword }
@@ -177,12 +171,35 @@ const loadOrderDetails = async (req, res) => {
     const orders = await orderModel
       .findOne({ _id: orderId })
       .populate("product.productId");
-    console.log(orders, ":ordrssssssssssssssss");
     res.render("user/orderDetail", { orders });
   } catch (error) {
     console.log(error.message);
   }
 };
+
+const invoice = async (req,res)=> {
+  try {
+
+    const orderId = req.query.id;
+
+    const orders = await orderModel.findOne({_id:orderId}).populate('product.productId');
+      
+      const ejsPagePath = path.join(__dirname, '../../views/user/orderInvoice.ejs');
+      const ejsPage = await ejs.renderFile(ejsPagePath,{orders});
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      await page.setContent(ejsPage);
+      const pdfBuffer = await page.pdf();
+      await browser.close();
+
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
+      res.send(pdfBuffer);
+
+  } catch (error) {
+      console.log(error.message)
+  }
+}
 
 const cancelOrder = async (req, res) => {
   try {
@@ -257,7 +274,7 @@ const returnProduct = async (req,res)=>{
       },
       {
         arrayFilters: [{ 'prod.productId': productId }],
-        new: true // To return the updated document
+        new: true 
       }
     );
 
@@ -288,5 +305,6 @@ module.exports = {
   cancelOrder,
   loadOrderDetails,
   PatchResetPass,
-  returnProduct
+  returnProduct,
+  invoice
 };

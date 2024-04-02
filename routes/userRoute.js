@@ -10,6 +10,7 @@ const profileController = require('../controllers/user/profileController');
 const cartController = require('../controllers/user/cartController');
 const wishlistController = require('../controllers/user/wishlistController');
 const checkoutController = require('../controllers/user/checkoutController');
+const comingSoonCotroller = require('../controllers/user/comingSoonController')
 
 
 userRoute.use(
@@ -92,6 +93,10 @@ userRoute.patch('/cancelOrder',auth.isLogin,profileController.cancelOrder);
 
 userRoute.patch('/razorpayVerify',checkoutController.razorpayVerify);
 
+userRoute.patch('/continueOrder',checkoutController.continueOrder);
+
+userRoute.patch('/razorpayContinue',checkoutController.razorpayContinue);
+
 userRoute.patch('/resetPass',auth.isLogin,profileController.PatchResetPass);
 
 userRoute.patch('/applyCoupon',auth.isLogin,checkoutController.applyCoupon);
@@ -99,6 +104,10 @@ userRoute.patch('/applyCoupon',auth.isLogin,checkoutController.applyCoupon);
 userRoute.delete('/removeCoupon',auth.isLogin,checkoutController.removeCoupon);
 
 userRoute.patch('/return',auth.isLogin,profileController.returnProduct);
+
+userRoute.get('/invoice',auth.isLogin,profileController.invoice);
+
+userRoute.get('/comingSoon',comingSoonCotroller.comingSoon);
 
 userRoute.get('/logout',auth.isLogin,profileController.logout);
 

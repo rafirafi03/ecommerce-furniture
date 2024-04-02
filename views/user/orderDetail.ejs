@@ -1,206 +1,218 @@
 <%- include('../layout/user/header2.ejs') -%>
 
-        <main class="main">
-            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
-                <div class="container d-flex align-items-center">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Products</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Default</li>
-                    </ol>
+    <main class="main">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+            <div class="container d-flex align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Default</li>
+                </ol>
 
-                    <nav class="product-pager ml-auto" aria-label="Product">
-                        <a class="product-pager-link product-pager-prev" href="#" aria-label="Previous" tabindex="-1">
-                            <i class="icon-angle-left"></i>
-                            <span>Prev</span>
-                        </a>
+                <nav class="product-pager ml-auto" aria-label="Product">
+                    <a class="product-pager-link product-pager-prev" href="#" aria-label="Previous" tabindex="-1">
+                        <i class="icon-angle-left"></i>
+                        <span>Prev</span>
+                    </a>
 
-                        <a class="product-pager-link product-pager-next" href="#" aria-label="Next" tabindex="-1">
-                            <span>Next</span>
-                            <i class="icon-angle-right"></i>
-                        </a>
-                    </nav><!-- End .pager-nav -->
-                </div><!-- End .container -->
-            </nav><!-- End .breadcrumb-nav -->
+                    <a class="product-pager-link product-pager-next" href="#" aria-label="Next" tabindex="-1">
+                        <span>Next</span>
+                        <i class="icon-angle-right"></i>
+                    </a>
+                </nav><!-- End .pager-nav -->
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
 
-            <div class="page-content">
-                <div class="container">
-                    <div class="row">
-                        <div id="reloadArea">
-                            <h3 class="order-detail mt-4  text-center">ORDER DETAILS</h3><br>
-                            <h4 class="name text-center text-muted">OrderId: <%=orders._id%></h4>
-                            <p class="text-center text-muted"><b>Date: <%=orders.orderDate.toLocaleDateString('en-US', {
-                                        weekday: 'short' , year: 'numeric' , month: 'short' , day: 'numeric' })%></b>
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div id="reloadArea">
+                        <h3 class="order-detail mt-4  text-center">ORDER DETAILS</h3><br>
+                        <h4 class="name text-center text-muted">OrderId: <%=orders._id%>
+                        </h4>
+                        <p class="text-center text-muted"><b>Date: <%=orders.orderDate.toLocaleDateString('en-US', {
+                                    weekday: 'short' , year: 'numeric' , month: 'short' , day: 'numeric' })%></b>
 
-                                <br><b>Payment Method: <%=orders.payment%></b>
-                                <br>
-                                <b>Address: <%=orders.deliveryAddress.fullName%>, <%=orders.deliveryAddress.address%>,
-                                            <%=orders.deliveryAddress.pincode%></b>
-                                <br>
-                                <b>Discount : ₹ <%=orders.discountAmount%>.00</b>
-                                <br>
-                                <%if(orders.shippingCharge){%>
+                            <br><b>Payment Method: <%=orders.payment%></b>
+                            <br>
+                            <b>Address: <%=orders.deliveryAddress.fullName%>, <%=orders.deliveryAddress.address%>,
+                                        <%=orders.deliveryAddress.pincode%></b>
+                            <br>
+                            <b>Discount : ₹ <%=orders.discountAmount%>.00</b>
+                            <br>
+                            <%if(orders.shippingCharge){%>
                                 <b>Shipping : ₹ <%=orders.discountAmount%>.00</b>
                                 <%}else{%>
                                     <b>Shipping : ₹ 0.00</b>
                                     <%}%>
-                                <br>
-                                <b>Total amount : ₹ <%=orders.totalPrice%></b>
-                                <!-- <b>Shipping: </b> -->
-                                <br>
-                            </p>
+                                        <br>
+                                        <b>Total amount : ₹ <%=orders.totalPrice%></b>
+                                        <!-- <b>Shipping: </b> -->
+                                        <br>
+                        </p>
 
-                            <div class="container mt-5">
-                                <h3 class="mb-4 text-center">Ordered Products</h3>
+                        <br>
 
-                                <div class="card mt-3">
-                                    <div class="row">
-                                        <% orders.product.forEach((val)=>{%>
-                                            <div class="card-body d-flex justify-content-start mt-3">
-                                                <div class="product-card d-flex">
-                                                    <div class="product-image">
-                                                        <a href="">
-                                                            <img src="/multerimages/<%=val.productId.images[0]%>" alt=""
-                                                                class="img-thumbnail" style="max-width: 200px;">
-                                                        </a>
-                                                    </div>
-                                                    <div class="mx-3" style="width: 180px;">
-                                                        <h5 class="product-details"><a href="">
-                                                                <%= val.productId.name%>
-                                                            </a></h5>
-                                                        <p class="product-details">
-                                                            <br>
-                                                            Price : ₹ <%=val.price%>.00 <br>
-                                                                Quantity : <%=val.quantity%> <br>
-                                                                    Total : ₹ <%=val.totalPrice%>.00 <br>
-                                                                        Status : <%=val.orderStatus%>
-                                                        </p>
+                        <div style="justify-content: center; display: flex;">
+                            <a class="btn btn-secondary print ms-2" href="/invoice?id=<%=orders._id%>"><i
+                                class="icon material-icons md-print">Download Invoice</i></a>
+                        </div>
+
+                        
+
+                        <div class="container mt-5">
+                            <h3 class="mb-4 text-center">Ordered Products</h3>
+
+                            <div class="card mt-3">
+                                <div class="row">
+                                    <% orders.product.forEach((val)=>{%>
+                                        <div class="card-body d-flex justify-content-start mt-3">
+                                            <div class="product-card d-flex">
+                                                <div class="product-image">
+                                                    <a href="">
+                                                        <img src="/multerimages/<%=val.productId.images[0]%>" alt=""
+                                                            class="img-thumbnail" style="max-width: 200px;">
+                                                    </a>
+                                                </div>
+                                                <div class="mx-3" style="width: 180px;">
+                                                    <h5 class="product-details"><a href="">
+                                                            <%= val.productId.name%>
+                                                        </a></h5>
+                                                    <p class="product-details">
                                                         <br>
-                                                        <%if(val.orderStatus==='delivered'){%>
-                                                            <button type="button" class="btn btn-primary"
-                                                                onclick="openReturnModal('<%=val.productId._id%>','<%=orders._id%>')"
-                                                                data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                                Return Product
-                                                            </button>
-                                                            <%}%>
-                                                    </div>
+                                                        Price : ₹ <%=val.productId.price%>.00 <br>
+                                                            Quantity : <%=val.quantity%> <br>
+                                                                Total : ₹ <%=(val.productId.price *
+                                                                    val.quantity).toFixed(2)%> <br>
+                                                                    Payment status : <%=orders.paymentStatus%> <br>
+                                                                        Status : <%=val.orderStatus%>
+                                                    </p>
+                                                    <br>
+                                                    <%if(val.orderStatus==='delivered'){%>
+                                                        <button type="button" class="btn btn-primary"
+                                                            onclick="openReturnModal('<%=val.productId._id%>','<%=orders._id%>')"
+                                                            data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                            Return Product
+                                                        </button>
+                                                        <%}%>
                                                 </div>
                                             </div>
-                                            <%})%>
-                                                <br>
+                                        </div>
+                                        <%})%>
+                                            <br>
 
-                                    </div>
-
-                                    <%if(orders.orderStatus==='Cancelled'){%>
-                                        <button disabled class="btn btn-outline-primary-2 btn-cancel-order btn-block">
-                                            <span class="btn-text">Order Cancelled</span>
-                                            <span class="btn-hover-text">Order Cancelled</span>
-                                        </button>
                                 </div>
-                                <%}else if(orders.orderStatus==='pending' ){%>
-                                    <button type="submit" onclick="continueOrder('<%=orders._id%>')"
-                                        class="btn btn-outline-primary-2 btn-cancel-order btn-block">
-                                        <span class="btn-text">Continue Order</span>
-                                        <span class="btn-hover-text">Continue</span>
+
+                                <%if(orders.orderStatus==='Cancelled'){%>
+                                    <button disabled class="btn btn-outline-primary-2 btn-cancel-order btn-block">
+                                        <span class="btn-text">Order Cancelled</span>
+                                        <span class="btn-hover-text">Order Cancelled</span>
                                     </button>
-                                    <%}else if(orders.orderStatus!=='delivered' ){%>
-                                        <button type="submit" onclick="cancelOrder('<%=orders._id%>')"
-                                            class="btn btn-outline-primary-2 btn-cancel-order btn-block">
-                                            <span class="btn-text">Cancell Order</span>
-                                            <span class="btn-hover-text">Cancel</span>
-                                        </button>
-                                        <%}%>
                             </div>
-
+                            <%}else if(orders.orderStatus==='pending' ){%>
+                                <button type="submit" onclick="continueOrder('<%=orders._id%>')"
+                                    class="btn btn-outline-primary-2 btn-cancel-order btn-block">
+                                    <span class="btn-text">Continue Order</span>
+                                    <span class="btn-hover-text">Continue</span>
+                                </button>
+                                <%}else if(orders.orderStatus!=='delivered' ){%>
+                                    <button type="submit" onclick="cancelOrder('<%=orders._id%>')"
+                                        class="btn btn-outline-primary-2 btn-cancel-order btn-block">
+                                        <span class="btn-text">Cancell Order</span>
+                                        <span class="btn-hover-text">Cancel</span>
+                                    </button>
+                                    <%}%>
                         </div>
+
                     </div>
+                </div>
 
-                </div><!-- End .container -->
-            </div><!-- End .page-content -->
-        </main><!-- End .main -->
+            </div><!-- End .container -->
+        </div><!-- End .page-content -->
+    </main><!-- End .main -->
 
-        <footer class="footer">
-            <div class="footer-middle">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget widget-about">
-                                <img src="assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105"
-                                    height="25">
-                                <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate
-                                    magna eros eu erat. </p>
+    <footer class="footer">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget widget-about">
+                            <img src="assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105"
+                                height="25">
+                            <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate
+                                magna eros eu erat. </p>
 
-                                <div class="social-icons">
-                                    <a href="#" class="social-icon" target="_blank" title="Facebook"><i
-                                            class="icon-facebook-f"></i></a>
-                                    <a href="#" class="social-icon" target="_blank" title="Twitter"><i
-                                            class="icon-twitter"></i></a>
-                                    <a href="#" class="social-icon" target="_blank" title="Instagram"><i
-                                            class="icon-instagram"></i></a>
-                                    <a href="#" class="social-icon" target="_blank" title="Youtube"><i
-                                            class="icon-youtube"></i></a>
-                                    <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
-                                            class="icon-pinterest"></i></a>
-                                </div><!-- End .soial-icons -->
-                            </div><!-- End .widget about-widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" target="_blank" title="Facebook"><i
+                                        class="icon-facebook-f"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Twitter"><i
+                                        class="icon-twitter"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Instagram"><i
+                                        class="icon-instagram"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Youtube"><i
+                                        class="icon-youtube"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
+                                        class="icon-pinterest"></i></a>
+                            </div><!-- End .soial-icons -->
+                        </div><!-- End .widget about-widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
 
-                                <ul class="widget-list">
-                                    <li><a href="about.html">About Molla</a></li>
-                                    <li><a href="#">How to shop on Molla</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                    <li><a href="contact.html">Contact us</a></li>
-                                    <li><a href="login.html">Log in</a></li>
-                                </ul><!-- End .widget-list -->
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
+                            <ul class="widget-list">
+                                <li><a href="about.html">About Molla</a></li>
+                                <li><a href="#">How to shop on Molla</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="contact.html">Contact us</a></li>
+                                <li><a href="login.html">Log in</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
 
-                                <ul class="widget-list">
-                                    <li><a href="#">Payment Methods</a></li>
-                                    <li><a href="#">Money-back guarantee!</a></li>
-                                    <li><a href="#">Returns</a></li>
-                                    <li><a href="#">Shipping</a></li>
-                                    <li><a href="#">Terms and conditions</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                </ul><!-- End .widget-list -->
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
+                            <ul class="widget-list">
+                                <li><a href="#">Payment Methods</a></li>
+                                <li><a href="#">Money-back guarantee!</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Terms and conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
 
-                                <ul class="widget-list">
-                                    <li><a href="#">Sign In</a></li>
-                                    <li><a href="cart.html">View Cart</a></li>
-                                    <li><a href="#">My Wishlist</a></li>
-                                    <li><a href="#">Track My Order</a></li>
-                                    <li><a href="#">Help</a></li>
-                                </ul><!-- End .widget-list -->
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
-                    </div><!-- End .row -->
-                </div><!-- End .container -->
-            </div><!-- End .footer-middle -->
+                            <ul class="widget-list">
+                                <li><a href="#">Sign In</a></li>
+                                <li><a href="cart.html">View Cart</a></li>
+                                <li><a href="#">My Wishlist</a></li>
+                                <li><a href="#">Track My Order</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .footer-middle -->
 
-            <div class="footer-bottom">
-                <div class="container">
-                    <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
-                    <!-- End .footer-copyright -->
-                    <figure class="footer-payments">
-                        <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
-                    </figure><!-- End .footer-payments -->
-                </div><!-- End .container -->
-            </div><!-- End .footer-bottom -->
-        </footer><!-- End .footer -->
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
+                <!-- End .footer-copyright -->
+                <figure class="footer-payments">
+                    <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                </figure><!-- End .footer-payments -->
+            </div><!-- End .container -->
+        </div><!-- End .footer-bottom -->
+    </footer><!-- End .footer -->
     </div><!-- End .page-wrapper -->
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 
@@ -343,227 +355,296 @@
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title ml-3" id="staticBackdropLabel">Return</h5>
-                        <button onclick="closeReturnModal()" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"><i class="fas fa-times"></i></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="tab-pane" id="tab-staticBackdrop">
-                            
-                            <div class="select-custom">
-                                <div>Select a reason</div>
-                                <select name="return" id="returnBy" class="form-control">
-                                    <option >Select</option>
-                                    <option value="Quality not Good">Quality not Good</option>
-                                    <option  value="Damaged Product">Damaged Product</option>
-                                    <option  value="Price issue">Price issue</option>
-                                    <option value="no need of this product anymore">No need of this product anymore</option>
-                                </select>
-                            </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ml-3" id="staticBackdropLabel">Return</h5>
+                    <button onclick="closeReturnModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="tab-pane" id="tab-staticBackdrop">
 
-                        </div><!-- .End .tab-pane -->
-                    </div>
-                    <div class="modal-footer">
-                        <button onclick="closeReturnModal()" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
-                        <button type="button" onclick="returnProduct()" class="btn btn-primary">Save Changes</button>
-                    </div>
+                        <div class="select-custom">
+                            <div>Select a reason</div>
+                            <select name="return" id="returnBy" class="form-control">
+                                <option>Select</option>
+                                <option value="Quality not Good">Quality not Good</option>
+                                <option value="Damaged Product">Damaged Product</option>
+                                <option value="Price issue">Price issue</option>
+                                <option value="no need of this product anymore">No need of this product anymore</option>
+                            </select>
+                        </div>
+
+                    </div><!-- .End .tab-pane -->
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeReturnModal()" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" onclick="returnProduct()" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
+        <script>
 
-        function cancelOrder(id) {
+            function cancelOrder(id) {
 
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'You are about to cancel this order !!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#c96',
-                confirmButtonText: 'Yes'
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    try {
-                        fetch('/cancelOrder', {
-                            method: 'PATCH',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ id: id })
-                        })
-                            .then((response => response.json()))
-                            .then(data => {
-                                if (data.success === true) {
-                                    Swal.fire({
-                                        title: 'Cancelled',
-                                        text: "You'r order has been cancelled !!",
-                                        icon: 'success',
-                                        confirmButtonColor: '#c96',
-                                        confirmButtonText: 'Ok',
-                                        timer: 2000
-                                    }).then((result) => {
-                                        location.href = '/profile'
-                                    })
-                                }
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to cancel this order !!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#c96',
+                    confirmButtonText: 'Yes'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            fetch('/cancelOrder', {
+                                method: 'PATCH',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ id: id })
                             })
-                    } catch (error) {
-                        console.log(error.message)
+                                .then((response => response.json()))
+                                .then(data => {
+                                    if (data.success === true) {
+                                        Swal.fire({
+                                            title: 'Cancelled',
+                                            text: "You'r order has been cancelled !!",
+                                            icon: 'success',
+                                            confirmButtonColor: '#c96',
+                                            confirmButtonText: 'Ok',
+                                            timer: 2000
+                                        }).then((result) => {
+                                            location.href = '/profile'
+                                        })
+                                    }
+                                })
+                        } catch (error) {
+                            console.log(error.message)
+                        }
                     }
-                }
-            })
+                })
 
 
-        }
+            }
 
-        function continueOrder(id) {
+            function continueOrder(id) {
 
-            Swal.fire({
-                title: 'Continue order?',
-                text: 'Do you want to continue this order !!',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#c96',
-                confirmButtonText: 'Yes'
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    try {
-                        fetch('/checkout', {
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ continueOrderId: id })
-                        })
-                    } catch (error) {
-                        console.log(error.message)
-                    }
-                }
-            })
-
-
-        }
-
-        function returnOrder(id) {
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'You are about to return this order !!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#c96',
-                confirmButtonText: 'Yes'
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    try {
-                        fetch('/returnOrder', {
-                            method: 'PATCH',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ id: id })
-                        })
-                            .then((response => response.json()))
-                            .then(data => {
-                                if (data.success === true) {
-                                    Swal.fire({
-                                        title: 'Accepted',
-                                        text: "You'r product will be returned in 7 days!!",
-                                        icon: 'success',
-                                        confirmButtonColor: '#c96',
-                                        confirmButtonText: 'Ok',
-                                        timer: 2000
-                                    }).then((result) => {
-                                        location.href = '/profile'
-                                    })
-                                }
+                Swal.fire({
+                    title: 'Continue order?',
+                    text: 'Do you want to continue this order !!',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#c96',
+                    confirmButtonText: 'Yes'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            fetch('/continueOrder', {
+                                method: 'PATCH',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ id: id })
                             })
-                    } catch (error) {
-                        console.log(error.message)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.continue === true) {
+                                        razorpay(data.order, id);
+                                    }
+                                })
+
+
+                        } catch (error) {
+                            console.log(error.message)
+                        }
                     }
-                }
-            })
+                })
 
 
-        }
-    </script>
+            }
 
-    <script>
+            function returnOrder(id) {
 
-        let productId;
-        let orderId ;
-        async function openReturnModal(id,OrderId){
-            productId = id;
-            orderId = OrderId;
-            console.log('modal ethiii')
-            $('#staticBackdrop').modal('show')
-        }
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to return this order !!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#c96',
+                    confirmButtonText: 'Yes'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            fetch('/returnOrder', {
+                                method: 'PATCH',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ id: id })
+                            })
+                                .then((response => response.json()))
+                                .then(data => {
+                                    if (data.success === true) {
+                                        Swal.fire({
+                                            title: 'Accepted',
+                                            text: "You'r product will be returned in 7 days!!",
+                                            icon: 'success',
+                                            confirmButtonColor: '#c96',
+                                            confirmButtonText: 'Ok',
+                                            timer: 2000
+                                        }).then((result) => {
+                                            location.href = '/profile'
+                                        })
+                                    }
+                                })
+                        } catch (error) {
+                            console.log(error.message)
+                        }
+                    }
+                })
 
-        function closeReturnModal(){
-            $('#staticBackdrop').modal('hide')
-        }
 
-        async function returnProduct(){
-            const reason = document.getElementById('returnBy').value;
+            }
+        </script>
 
-            await fetch('/return',{
-                method : 'PATCH',
-                headers:{
-                    'Content-Type':'application/json',
-                },
-                body:JSON.stringify({productId,orderId,reason})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.return === true) {
-                    Swal.fire({
-                        title : 'Requested',
-                        text : 'request has been send',
-                        icon:'success',
-                        confirmButtonText : 'ok',
-                        confirmButtonColor:'#c96',
-                        timer:3000
-                    }).then(()=>{
-                        location.reload()
+        <script>
+
+            let productId;
+            let orderId;
+            async function openReturnModal(id, OrderId) {
+                productId = id;
+                orderId = OrderId;
+                console.log('modal ethiii')
+                $('#staticBackdrop').modal('show')
+            }
+
+            function closeReturnModal() {
+                $('#staticBackdrop').modal('hide')
+            }
+
+            async function returnProduct() {
+                const reason = document.getElementById('returnBy').value;
+
+                await fetch('/return', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ productId, orderId, reason })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.return === true) {
+                            Swal.fire({
+                                title: 'Requested',
+                                text: 'request has been send',
+                                icon: 'success',
+                                confirmButtonText: 'ok',
+                                confirmButtonColor: '#c96',
+                                timer: 3000
+                            }).then(() => {
+                                location.reload()
+                            })
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Request cancelled',
+                                icon: 'error',
+                                confirmButtonText: 'Ok',
+                                confirmButtonColor: '#c96',
+                                timer: 3000
+
+                            }).then(() => {
+                                location.reload()
+                            })
+                        }
                     })
-                }else {
-            Swal.fire({
-                title:'Error',
-                text:'Request cancelled',
-                icon:'error',
-                confirmButtonText:'Ok',
-                confirmButtonColor:'#c96',
-                timer:3000
+            }
+        </script>
 
-            }).then(()=>{
-                location.reload()
-            })
-        }
-            })
-        }
-    </script>
+        <button id="rzp-button1">Pay</button>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+            function razorpay(order, id) {
+                console.log('razorpat eyhiiiiiiiii', order, ":order")
+                console.log(id, "idddddrazorpayiddd")
+                var options = {
+                    "key": "rzp_test_1sHKSD9RFByTBQ", // Enter the Key ID generated from the Dashboard
+                    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "currency": "INR",
+                    "name": "Molla", //your business name
+                    "description": "Test Transaction",
+                    "image": "https://example.com/your_logo",
+                    "order_id": order.id,
+                    "handler": function (response) {
+                        razorpayVerify(response, order, id)
+                    },
+                    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
+                        "name": "Gaurav Kumar", //your customer's name
+                        "email": "gaurav.kumar@example.com",
+                        "contact": "9000090000"  //Provide the customer's phone number for better conversion rates 
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                let raz = new Razorpay(options);
+                raz.open();
+            }
 
-    <!-- Plugins JS File -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/jquery.hoverIntent.min.js"></script>
-    <script src="assets/js/jquery.waypoints.min.js"></script>
-    <script src="assets/js/superfish.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/bootstrap-input-spinner.js"></script>
-    <script src="assets/js/jquery.elevateZoom.min.js"></script>
-    <script src="assets/js/bootstrap-input-spinner.js"></script>
-    <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
-</body>
+
+            function razorpayVerify(response, order, id) {
+                console.log('fjbkknknsknc');
+                fetch('/razorpayContinue', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ response, order, id })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success === true) {
+                            Swal.fire({
+                                title: 'Success',
+                                text: 'Payment done',
+                                icon: 'success',
+                                confirmButtonColor: "#c96",
+                                confirmButtonText: 'Ok',
+                                timer: 2000
+                            }).then(() => {
+                                location.href = '/shopPage'
+                            })
+                        }
+                    })
+            }
+        </script>
+
+        <!-- Plugins JS File -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/jquery.hoverIntent.min.js"></script>
+        <script src="assets/js/jquery.waypoints.min.js"></script>
+        <script src="assets/js/superfish.min.js"></script>
+        <script src="assets/js/owl.carousel.min.js"></script>
+        <script src="assets/js/bootstrap-input-spinner.js"></script>
+        <script src="assets/js/jquery.elevateZoom.min.js"></script>
+        <script src="assets/js/bootstrap-input-spinner.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <!-- Main JS File -->
+        <script src="assets/js/main.js"></script>
+        </body>
 
 
-<!-- Mirrored from portotheme.com/html/molla/product.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 07 Jan 2024 09:06:11 GMT -->
+        <!-- Mirrored from portotheme.com/html/molla/product.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 07 Jan 2024 09:06:11 GMT -->
 
-</html>
+        </html>

@@ -97,40 +97,29 @@
             <h2 class="content-title mb-3 ">Invoice</h2>
         </div>
 
-        <div class="card-container">
-            <div class="card">
-                <article class="icontext">
-                    <div class="text">
-                        <p class="mb-1">
-                            <b>TOTAL REVENUE</b><br>
-                            ₹<%=revenue[0].revenue.toFixed(2)%>
-                        </p>
-                    </div>
-                </article>
+        <div class="row">
+            <div>
+                <p>Billing Name : <%=orders.deliveryAddress.fullName%></p>
+                <br>
+                <p>Email : <%=orders.deliveryAddress.email%></p>
+                <br>
+                <p>Mobile : <%=orders.deliveryAddress.mobile%></p>
+                <br>
+                <p>Billing Address : <%=orders.deliveryAddress.address%></p>
+                <br>
+                <p>Pincode : <%=orders.deliveryAddress.pincode%></p>
+                <br>
+    
             </div>
 
-            <div class="card">
-                <article class="icontext">
-                    <div class="text">
-                        <p class="mb-1">
-                            <b>TOTAL ORDERS</b><br>
-                            <%=orders.length%>
-                        </p>
-                    </div>
-                </article>
-            </div>
-
-            <div class="card">
-                <article class="icontext">
-                    <div class="text">
-                        <p class="mb-1">
-                            <b>TOTAL PRODUCTS</b><br>
-                            <%=products.length%>
-                        </p>
-                    </div>
-                </article>
+            <div>
+                <p>Date : <%=orders.orderDate.toLocaleDateString('en-US', { weekday: 'short' , year: 'numeric' ,
+                    month: 'short' , day: 'numeric' })%></p>
             </div>
         </div>
+        
+
+        
 
         <p class="text-center">All orders</p>
         <div class="table-responsive">
@@ -138,8 +127,8 @@
                 <thead>
                     <tr>
                         <th width="5%">ID</th>
-                        <th width="30%">Billing name</th>
-                        <th width="25%">Date</th>
+                        <th width="30%">Products</th>
+                        <th width="25%">Quantity</th>
                         <th width="20%">Total</th>
                         <th width="20%">payment</th>
                     </tr>

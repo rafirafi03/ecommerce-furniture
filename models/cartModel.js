@@ -24,14 +24,6 @@ const cartSchema = new Schema ({
         quantity: {
             type : Number,
             default: 1,
-        },
-        price : {
-            type : Number,
-            required : true
-        },
-        totalPrice : {
-            type : Number,
-            required : true
         }
     }],
 

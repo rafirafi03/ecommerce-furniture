@@ -32,13 +32,6 @@ const postAddProducts = async (req, res) => {
   try {
   let { name, quantity, category, price } = req.body;
 
-  console.log(category)
-
-  
-  // let { image1, image2, image3, image4 } = req.files;
-
-  // Ensure image1 is defined and is an array
-
   const files = req.files.map((item)=>{
     return item.filename;
   })
@@ -56,7 +49,6 @@ const postAddProducts = async (req, res) => {
     await product.save();
     res.redirect('/admin/products');
   } catch (error) {
-    console.log('post errorrrrrrrrr');
     // Handle the error here, e.g., send an error response
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -82,12 +74,10 @@ const postEditProducts = async (req, res) => {
     const { name, quantity, category, price } = req.body;
     const id = req.query.id;
 
-    console.log(req.body,":bdyyyyyyyyyy");
 
     // Get filenames of uploaded images
     const files = req.files.map((file) => file.filename);
 
-    console.log(req.files,":flsssssssssssss")
     // Find existing product data
     const existingData = await products.findOne({ _id: id });
 

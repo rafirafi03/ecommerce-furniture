@@ -1,216 +1,214 @@
-<%-include('../layout/user/header2.ejs')-%>
+<%-include('.. /layout/user/header2.ejs')-%>
 
-        <main class="main">
-            <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
-                <div class="container">
-                    <h1 class="page-title">My Account<span>Shop</span></h1>
-                </div><!-- End .container -->
-            </div><!-- End .page-header -->
-            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
-                <div class="container">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
-                    </ol>
-                </div><!-- End .container -->
-            </nav><!-- End .breadcrumb-nav -->
+    <main class="main">
+        <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+            <div class="container">
+                <h1 class="page-title">My Account<span>Shop</span></h1>
+            </div><!-- End .container -->
+        </div><!-- End .page-header -->
+        <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
 
-            <div class="page-content">
-                <div class="dashboard">
-                    <div class="container">
-                        <div class="row">
-                            <aside class="col-md-4 col-lg-3">
-                                <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab"
-                                            href="#tab-dashboard" role="tab" aria-controls="tab-dashboard"
-                                            aria-selected="true">User</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders"
-                                            role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="tab-downloads-link" data-toggle="tab"
-                                            href="#tab-downloads" role="tab" aria-controls="tab-downloads"
-                                            aria-selected="false">Downloads</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address"
-                                            role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account"
-                                            role="tab" aria-controls="tab-account" aria-selected="false">Account
-                                            Details</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="tab-resetPass-link" data-toggle="tab" href="#tab-resetPass"
-                                            role="tab" aria-controls="tab-resetPass" aria-selected="false">Reset
-                                            Password</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#" onclick="logout()">Sign Out</a>
-                                    </li>
-                                </ul>
-                            </aside><!-- End .col-lg-3 -->
-
-                            <div class="col-md-8 col-lg-9">
-                                <div class="tab-content">  
-
-                                                        <div class="tab-pane fade" id="tab-addAddress" role="tabpanel"
-                                                            aria-labelledby="tab-addAddress-link">
-                                                            <form id="addAddress">
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>Full Name *</label>
-                                                                        <input type="text" name="fullName" id="fullName" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-
-                                                                    <div class="col-sm-6">
-                                                                        <label>Address *</label>
-                                                                        <input type="text" name="address" id="address" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
-
-                                                                
-
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>Email *</label>
-                                                                        <input type="text" name="email" id="email" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-
-                                                                    <div class="col-sm-6">
-                                                                        <label>Mobile *</label>
-                                                                        <input type="text" name="mobile" id="mobile" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
-
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>Country *</label>
-                                                                        <input type="text" name="country" id="country" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-
-                                                                    <div class="col-sm-6">
-                                                                        <label>State *</label>
-                                                                        <input type="text" name="state" id="state" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
-
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>District *</label>
-                                                                        <input type="text" name="district" id="district" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-
-                                                                    <div class="col-sm-6">
-                                                                        <label>Pincode *</label>
-                                                                        <input type="text" name="pincode" id="pincode" class="form-control">
-                                                                    </div><!-- End .col-sm-6 -->
-                                                                </div><!-- End .row -->
-
-                                                                <button type="submit" onclick="addAddress()"
-                                                                    class="btn btn-outline-primary-2">
-                                                                    <span>SAVE CHANGES</span>
-                                                                    <i class="icon-long-arrow-right"></i>
-                                                                </button>
-                                                            </form>
-                                                        </div><!-- .End .tab-pane -->
-
-                                                        <!-- Edit address code -->
-                                                        
-                                </div>
-                            </div><!-- End .col-lg-9 -->
-                        </div><!-- End .row -->
-                    </div><!-- End .container -->
-                </div><!-- End .dashboard -->
-            </div><!-- End .page-content -->
-        </main><!-- End .main -->
-
-        <footer class="footer">
-            <div class="footer-middle">
+        <div class="page-content">
+            <div class="dashboard">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget widget-about">
-                                <img src="assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105"
-                                    height="25">
-                                <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate
-                                    magna eros eu erat. </p>
+                        <aside class="col-md-4 col-lg-3">
+                            <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab"
+                                        href="#tab-dashboard" role="tab" aria-controls="tab-dashboard"
+                                        aria-selected="true">User</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders"
+                                        role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads"
+                                        role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address"
+                                        role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account"
+                                        role="tab" aria-controls="tab-account" aria-selected="false">Account
+                                        Details</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tab-resetPass-link" data-toggle="tab" href="#tab-resetPass"
+                                        role="tab" aria-controls="tab-resetPass" aria-selected="false">Reset
+                                        Password</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" onclick="logout()">Sign Out</a>
+                                </li>
+                            </ul>
+                        </aside><!-- End .col-lg-3 -->
 
-                                <div class="social-icons">
-                                    <a href="#" class="social-icon" target="_blank" title="Facebook"><i
-                                            class="icon-facebook-f"></i></a>
-                                    <a href="#" class="social-icon" target="_blank" title="Twitter"><i
-                                            class="icon-twitter"></i></a>
-                                    <a href="#" class="social-icon" target="_blank" title="Instagram"><i
-                                            class="icon-instagram"></i></a>
-                                    <a href="#" class="social-icon" target="_blank" title="Youtube"><i
-                                            class="icon-youtube"></i></a>
-                                    <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
-                                            class="icon-pinterest"></i></a>
-                                </div><!-- End .soial-icons -->
-                            </div><!-- End .widget about-widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
+                        <div class="col-md-8 col-lg-9">
+                            <div class="tab-content">
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+                                <div class="tab-pane fade" id="tab-addAddress" role="tabpanel"
+                                    aria-labelledby="tab-addAddress-link">
+                                    <form id="addAddress">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label>Full Name *</label>
+                                                <input type="text" name="fullName" id="fullName" class="form-control">
+                                            </div><!-- End .col-sm-6 -->
 
-                                <ul class="widget-list">
-                                    <li><a href="about.html">About Molla</a></li>
-                                    <li><a href="#">How to shop on Molla</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                    <li><a href="contact.html">Contact us</a></li>
-                                    <li><a href="login.html">Log in</a></li>
-                                </ul><!-- End .widget-list -->
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
+                                            <div class="col-sm-6">
+                                                <label>Address *</label>
+                                                <input type="text" name="address" id="address" class="form-control">
+                                            </div><!-- End .col-sm-6 -->
+                                        </div><!-- End .row -->
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
 
-                                <ul class="widget-list">
-                                    <li><a href="#">Payment Methods</a></li>
-                                    <li><a href="#">Money-back guarantee!</a></li>
-                                    <li><a href="#">Returns</a></li>
-                                    <li><a href="#">Shipping</a></li>
-                                    <li><a href="#">Terms and conditions</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                </ul><!-- End .widget-list -->
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label>Email *</label>
+                                                <input type="text" name="email" id="email" class="form-control">
+                                            </div><!-- End .col-sm-6 -->
 
-                                <ul class="widget-list">
-                                    <li><a href="#">Sign In</a></li>
-                                    <li><a href="cart.html">View Cart</a></li>
-                                    <li><a href="#">My Wishlist</a></li>
-                                    <li><a href="#">Track My Order</a></li>
-                                    <li><a href="#">Help</a></li>
-                                </ul><!-- End .widget-list -->
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
+                                            <div class="col-sm-6">
+                                                <label>Mobile *</label>
+                                                <input type="text" name="mobile" id="mobile" class="form-control">
+                                            </div><!-- End .col-sm-6 -->
+                                        </div><!-- End .row -->
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label>Country *</label>
+                                                <input type="text" name="country" id="country" class="form-control">
+                                            </div><!-- End .col-sm-6 -->
+
+                                            <div class="col-sm-6">
+                                                <label>State *</label>
+                                                <input type="text" name="state" id="state" class="form-control">
+                                            </div><!-- End .col-sm-6 -->
+                                        </div><!-- End .row -->
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label>District *</label>
+                                                <input type="text" name="district" id="district" class="form-control">
+                                            </div><!-- End .col-sm-6 -->
+
+                                            <div class="col-sm-6">
+                                                <label>Pincode *</label>
+                                                <input type="text" name="pincode" id="pincode" class="form-control">
+                                            </div><!-- End .col-sm-6 -->
+                                        </div><!-- End .row -->
+
+                                        <button type="submit" onclick="addAddress()" class="btn btn-outline-primary-2">
+                                            <span>SAVE CHANGES</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+                                    </form>
+                                </div><!-- .End .tab-pane -->
+
+                                <!-- Edit address code -->
+
+                            </div>
+                        </div><!-- End .col-lg-9 -->
                     </div><!-- End .row -->
                 </div><!-- End .container -->
-            </div><!-- End .footer-middle -->
+            </div><!-- End .dashboard -->
+        </div><!-- End .page-content -->
+    </main><!-- End .main -->
 
-            <div class="footer-bottom">
-                <div class="container">
-                    <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
-                    <!-- End .footer-copyright -->
-                    <figure class="footer-payments">
-                        <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
-                    </figure><!-- End .footer-payments -->
-                </div><!-- End .container -->
-            </div><!-- End .footer-bottom -->
-        </footer><!-- End .footer -->
+    <footer class="footer">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget widget-about">
+                            <img src="assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105"
+                                height="25">
+                            <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate
+                                magna eros eu erat. </p>
+
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" target="_blank" title="Facebook"><i
+                                        class="icon-facebook-f"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Twitter"><i
+                                        class="icon-twitter"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Instagram"><i
+                                        class="icon-instagram"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Youtube"><i
+                                        class="icon-youtube"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
+                                        class="icon-pinterest"></i></a>
+                            </div><!-- End .soial-icons -->
+                        </div><!-- End .widget about-widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="about.html">About Molla</a></li>
+                                <li><a href="#">How to shop on Molla</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="contact.html">Contact us</a></li>
+                                <li><a href="login.html">Log in</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="#">Payment Methods</a></li>
+                                <li><a href="#">Money-back guarantee!</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Terms and conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="#">Sign In</a></li>
+                                <li><a href="cart.html">View Cart</a></li>
+                                <li><a href="#">My Wishlist</a></li>
+                                <li><a href="#">Track My Order</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .footer-middle -->
+
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
+                <!-- End .footer-copyright -->
+                <figure class="footer-payments">
+                    <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                </figure><!-- End .footer-payments -->
+            </div><!-- End .container -->
+        </div><!-- End .footer-bottom -->
+    </footer><!-- End .footer -->
     </div><!-- End .page-wrapper -->
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 
@@ -348,111 +346,112 @@
     </div><!-- End .mobile-menu-container -->
 
     <!-- Sign in / Register Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="tab-pane fade" id="tab-editAddress" role="tabpanel"
+                        aria-labelledby="tab-editAddress-link">
+                        <form id="editAddress">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Full Name *</label>
+                                    <input type="text" name="fullName" id="editFullName" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>Address *</label>
+                                    <input type="text" name="address" id="addressEdit" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Email *</label>
+                                    <input type="text" name="email" id="editEmail" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>Mobile *</label>
+                                    <input type="text" name="mobile" id="editMobile" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Country *</label>
+                                    <input type="text" name="country" id="editCountry" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>State *</label>
+                                    <input type="text" name="state" id="editState" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>District *</label>
+                                    <input type="text" name="district" id="editDistrict" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>Pincode *</label>
+                                    <input type="text" name="pincode" id="editPincode" class="form-control">
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <button type="submit" class="btn btn-outline-primary-2">
+                                <span>SAVE CHANGES</span>
+                                <i class="icon-long-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div><!-- .End .tab-pane -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="tab-pane fade" id="tab-editAddress" role="tabpanel"
-                aria-labelledby="tab-editAddress-link">
-                <form id="editAddress">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label>Full Name *</label>
-                            <input type="text" name="fullName" id="editFullName" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-
-                        <div class="col-sm-6">
-                            <label>Address *</label>
-                            <input type="text" name="address" id="addressEdit" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-                    </div><!-- End .row -->                                                           
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label>Email *</label>
-                            <input type="text" name="email" id="editEmail" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-
-                        <div class="col-sm-6">
-                            <label>Mobile *</label>
-                            <input type="text" name="mobile" id="editMobile" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-                    </div><!-- End .row -->
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label>Country *</label>
-                            <input type="text" name="country" id="editCountry" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-
-                        <div class="col-sm-6">
-                            <label>State *</label>
-                            <input type="text" name="state" id="editState" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-                    </div><!-- End .row -->
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label>District *</label>
-                            <input type="text" name="district" id="editDistrict" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-
-                        <div class="col-sm-6">
-                            <label>Pincode *</label>
-                            <input type="text" name="pincode" id="editPincode" class="form-control">
-                        </div><!-- End .col-sm-6 -->
-                    </div><!-- End .row -->
-
-                    <button type="submit"
-                        class="btn btn-outline-primary-2">
-                        <span>SAVE CHANGES</span>
-                        <i class="icon-long-arrow-right"></i>
-                    </button>
-                </form>
-            </div><!-- .End .tab-pane -->            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Understood</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer src="assets/js/profileValidation.js"></script>
 
 
     <script>
         function editAddressProfile(index) {
-    console.log(index, 'index');
+            console.log(index, 'index');
 
-    // Ensure 'address' is defined and 'address.address' is an array
-    if (address && address.address && Array.isArray(address.address) && address.address.length > index) {
-        var selectedAddress = address.address[index];
-        console.log(selectedAddress, 'address');
+            // Ensure 'address' is defined and 'address.address' is an array
+            if (address && address.address && Array.isArray(address.address) && address.address.length > index) {
+                var selectedAddress = address.address[index];
+                console.log(selectedAddress, 'address');
 
-        // Set the values in the edit form
-        document.getElementById('editFullName').value = selectedAddress.fullName || '';
-        document.getElementById('addressEdit').value = selectedAddress.address || '';
-        document.getElementById('editEmail').value = selectedAddress.email || '';
-        document.getElementById('editMobile').value = selectedAddress.mobile || '';
-        document.getElementById('editCountry').value = selectedAddress.country || '';
-        document.getElementById('editState').value = selectedAddress.state || '';
-        document.getElementById('editDistrict').value = selectedAddress.district || '';
-        document.getElementById('editPincode').value = selectedAddress.pincode || '';
+                // Set the values in the edit form
+                document.getElementById('editFullName').value = selectedAddress.fullName || '';
+                document.getElementById('addressEdit').value = selectedAddress.address || '';
+                document.getElementById('editEmail').value = selectedAddress.email || '';
+                document.getElementById('editMobile').value = selectedAddress.mobile || '';
+                document.getElementById('editCountry').value = selectedAddress.country || '';
+                document.getElementById('editState').value = selectedAddress.state || '';
+                document.getElementById('editDistrict').value = selectedAddress.district || '';
+                document.getElementById('editPincode').value = selectedAddress.pincode || '';
 
-        // Show the "Edit Address" tab
-        document.getElementById('tab-editAddress').classList.add('show', 'active');
+                // Show the "Edit Address" tab
+                document.getElementById('tab-editAddress').classList.add('show', 'active');
 
-        // Optionally, you might want to hide the other tabs
-        document.getElementById('tab-address').classList.remove('show', 'active');
-    } else {
-        console.log('Invalid index or address array is undefined/empty');
-    }
-}
+                // Optionally, you might want to hide the other tabs
+                document.getElementById('tab-address').classList.remove('show', 'active');
+            } else {
+                console.log('Invalid index or address array is undefined/empty');
+            }
+        }
 
 
     </script>
@@ -480,76 +479,76 @@
 
     <script>
 
-function editProfile() {
-  const form = document.getElementById('editForm');
-  const errorName = document.getElementById('error-name');
-  const errorMobile = document.getElementById('error-mobile');
+        function editProfile() {
+            const form = document.getElementById('editForm');
+            const errorName = document.getElementById('error-name');
+            const errorMobile = document.getElementById('error-mobile');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
 
-    // Clear error messages
-    errorName.innerText = "";
-    errorMobile.innerText = "";
+                // Clear error messages
+                errorName.innerText = "";
+                errorMobile.innerText = "";
 
-    const name = document.getElementById('userName').value;
-    const mobile = document.getElementById('userMobile').value;
+                const name = document.getElementById('userName').value;
+                const mobile = document.getElementById('userMobile').value;
 
-    const isValid = validateInputs(name, mobile);
+                const isValid = validateInputs(name, mobile);
 
-    if (!isValid) {
-      return;
-    }
+                if (!isValid) {
+                    return;
+                }
 
-    try {
-      const response = await fetch('/profile', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          mobile,
-          name
-        }),
-      });
+                try {
+                    const response = await fetch('/profile', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            mobile,
+                            name
+                        }),
+                    });
 
-      if (!response.ok) {
-        console.log('Error editing profile');
-      } else {
-        // $('#editDiv').load('/profile' ,'#editDiv')
-        location.href = '/profile';
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  });
+                    if (!response.ok) {
+                        console.log('Error editing profile');
+                    } else {
+                        // $('#editDiv').load('/profile' ,'#editDiv')
+                        location.href = '/profile';
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
 
-  function validateInputs(name, mobile) {
-    let isValid = true;
+            function validateInputs(name, mobile) {
+                let isValid = true;
 
-    if (name.trim() === "") {
-      errorName.innerText = "Username is required.";
-      isValid = false;
-    }
+                if (name.trim() === "") {
+                    errorName.innerText = "Username is required.";
+                    isValid = false;
+                }
 
-    if (mobile.trim() === "") {
-      errorMobile.innerText = "Mobile is required.";
-      isValid = false;
-    } else if (mobile.length !== 10) {
-      errorMobile.innerText = "Invalid mobile number.";
-      isValid = false;
-    }
+                if (mobile.trim() === "") {
+                    errorMobile.innerText = "Mobile is required.";
+                    isValid = false;
+                } else if (mobile.length !== 10) {
+                    errorMobile.innerText = "Invalid mobile number.";
+                    isValid = false;
+                }
 
-    return isValid;
-  }
-}
+                return isValid;
+            }
+        }
 
 
     </script>
 
     <script>
 
-        function addAddress(){
+        function addAddress() {
             const fullName = document.getElementById('fullName').value;
             const address = document.getElementById('address').value;
             const email = document.getElementById('email').value;
@@ -559,82 +558,82 @@ function editProfile() {
             const district = document.getElementById('district').value;
             const pincode = document.getElementById('pincode').value;
 
-            fetch('/addAddress',{
+            fetch('/addAddress', {
                 method: 'POST',
                 headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        fullName,
-                        address,
-                        email,
-                        mobile,
-                        country,
-                        state,
-                        district,
-                        pincode
-                        
-                    }),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    fullName,
+                    address,
+                    email,
+                    mobile,
+                    country,
+                    state,
+                    district,
+                    pincode
+
+                }),
 
             })
-            .then(respons =>{
-                if(!respons.add){
-                    console.log('error adding address')
-                }else{
-                    location.href = '/profile'
-                }
-            })
+                .then(respons => {
+                    if (!respons.add) {
+                        console.log('error adding address')
+                    } else {
+                        location.href = '/profile'
+                    }
+                })
         }
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert CDN -->
 
-<script>
-    function deleteAddress(addressId) {
-        // Display SweetAlert confirmation dialog
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor:'red',
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // If user confirms, send DELETE request
-                fetch(`/profile/address/${addressId}`, {
-                    method: 'DELETE',
-                    credentials: 'same-origin'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Display success message with SweetAlert
-                        Swal.fire(
-                            'Deleted!',
-                            'Your address has been deleted.',
-                            'success'
-                        )
+    <script>
+        function deleteAddress(addressId) {
+            // Display SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: 'red',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, send DELETE request
+                    fetch(`/profile/address/${addressId}`, {
+                        method: 'DELETE',
+                        credentials: 'same-origin'
+                    })
                         .then(response => {
-                            if (response) {
-                                location.reload(); // Optionally reload the page
+                            if (response.ok) {
+                                // Display success message with SweetAlert
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your address has been deleted.',
+                                    'success'
+                                )
+                                    .then(response => {
+                                        if (response) {
+                                            location.reload(); // Optionally reload the page
+                                        }
+
+                                    })
+                            } else {
+                                console.error('Error deleting address');
                             }
-                            
                         })
-                    } else {
-                        console.error('Error deleting address');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting address:', error);
-                });
-            }
-        });
-    }
-</script>
+                        .catch(error => {
+                            console.error('Error deleting address:', error);
+                        });
+                }
+            });
+        }
+    </script>
 
 
-    
+
     <!-- Plugins JS File -->
     <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="assets/js/jquery.min.js"></script>
@@ -645,9 +644,9 @@ function editProfile() {
     <script src="assets/js/owl.carousel.min.js"></script>
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
-</body>
+    </body>
 
 
-<!-- Mirrored from portotheme.com/html/molla/dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 07 Jan 2024 09:06:06 GMT -->
+    <!-- Mirrored from portotheme.com/html/molla/dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 07 Jan 2024 09:06:06 GMT -->
 
-</html>
+    </html>

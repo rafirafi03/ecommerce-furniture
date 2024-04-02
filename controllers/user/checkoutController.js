@@ -26,10 +26,17 @@ const loadCheckout = async (req, res) => {
 
         const product = await cartModel.findOne({user:userId}).populate({ path: 'product.productId', model: 'products' }).populate('coupon');
 
-        console.log("cpnprdctttt",product,":cpnprdctcpnnnnnnnnnnnnn");
+        let subTotal =0;
 
         
-        const subTotal = product.product.reduce((acc,curr)=>acc+curr.totalPrice ,0)
+        for (let i = 0; i < product.product.length; i++) {
+            if (product.product[i].productId.offerId) {
+                subTotal = product.product[i].productId.offerPercentage * product.product[i].quantity 
+            }else{
+                subTotal += product.product[i].productId.price * product.product[i].quantity
+            }
+            
+        }
 
 
         let discountamount = 0;
@@ -48,7 +55,6 @@ const loadCheckout = async (req, res) => {
 
         const coupon = await couponModel.find({criteria : {$lt:subTotal}})
 
-        console.log(coupon,":cpmnnnnnnnnn")
 
         res.render('user/checkout',{address,subTotal,user,coupon,discountamount,total,product})
     } catch (error) {
@@ -72,8 +78,6 @@ const addCheckoutAddress = async (req,res) => {
             pincode : req.body.data.pincode
         };
 
-        console.log(address," ","addresssssss")
-
         await addressModel.findOneAndUpdate(
             {user:userId},
             {$push:{address:address}},
@@ -94,11 +98,18 @@ const order = async (req,res) => {
 
         const {selectedAddress,selectedPayment} = req.body;
                 
-        console.log(selectedPayment,":slctpymntttttt")
 
-        const products = await cartModel.findOne({user:userId})
+        const products = await cartModel.findOne({user:userId}).populate('product.productId')
 
-        const totalPrice = products.product.reduce((acc,curr)=>acc+curr.totalPrice ,0);
+        let totalPrice = 0;
+
+        for(let i=0;i<products.product.length;i++){
+            if (products.product[i].productId.offerId) {
+                totalPrice += products.product[i].productId.offerPercentage * products.product[i].quantity 
+            }else{
+                totalPrice += products.product[i].productId.price * products.product[i].quantity
+            }   
+        }
 
         const coupon = await cartModel.findOne({user:userId}).populate('coupon');
 
@@ -120,6 +131,8 @@ const order = async (req,res) => {
 
         const orderStatus = selectedPayment==='Razorpay' ? 'pending' : 'placed';
 
+        const paymentStatus = selectedPayment === 'wallet' ? 'complete' : selectedPayment==='Razorpay'?'failed':'pending';
+
         console.log(orderStatus,":ststussss");
 
         const order = new orderModel({
@@ -131,14 +144,14 @@ const order = async (req,res) => {
             discountAmount: discount,
             totalPrice: total ? total : totalPrice,
             orderStatus: orderStatus,
+            paymentStatus : paymentStatus,
             orderDate: new Date(),
           });
+
 
           const createOrder = await order.save();
 
         const orderId = createOrder._id
-          console.log(orderId);
-
           
 
           for( let i=0 ; i < products.product.length ; i ++ ) {
@@ -154,10 +167,8 @@ const order = async (req,res) => {
                 {$inc:{quantity:-prdctQuantity}})
 
           }
-          console.log(orderStatus,'fffffffffffffffffffffffff');
 
           if (orderStatus === 'placed') {
-            console.log("ifffffffff");
             await cartModel.findOneAndDelete({user:userId});
             res.json({save:true})
           } 
@@ -181,7 +192,9 @@ const order = async (req,res) => {
                 currency: "INR",
                 receipt: "" + orderId,
               };
+
               razorpayInstance.orders.create(options, function (err, order) {
+
                 if (err) {
                   console.log(err);
                 }
@@ -202,9 +215,7 @@ const razorpayVerify = async (req,res) => {
         const data = req.body;
         const id = req.session.user_id;
         const cartData = await cartModel.findOne({user:id})
-        console.log(data,":dataaaa");
-        console.log(id,":idddddd");
-        console.log(cartData,":crtdataaaa")
+        
     
         const hmac = crypto.createHmac("sha256", process.env.key_secret);
         hmac.update(data.razorpay_order_id + "|" + data.razorpay_payment_id);
@@ -221,6 +232,7 @@ const razorpayVerify = async (req,res) => {
             {
                 $set: { 
                     orderStatus: 'placed',
+                    paymentStatus : 'complete',
                     "product.$[].orderStatus": 'placed'
                 }
             }
@@ -245,7 +257,7 @@ const applyCoupon = async (req,res) => {
 
         await cartModel.findOneAndUpdate({user:userId},{$set:{coupon:couponId}});
         res.json({success:true})
-        console.log(couponId,":cpnidddddddddddd")
+
     } catch (error) {
         console.log(error.message)
     }
@@ -261,11 +273,83 @@ const removeCoupon = async (req,res) => {
     }
 }
 
+const continueOrder = async (req,res) => {
+
+    try {
+      
+      const orderId = req.body.id;
+  
+  
+      const order = await orderModel.findOne({_id:orderId})
+  
+  
+      let options = {
+        amount : order.totalPrice  * 100,
+        currency:"INR",
+        receipt: "" + orderId
+      };
+
+      razorpayInstance.orders.create(options, function (err, order) {
+
+        if (err) {
+          console.log(err);
+        }
+        res.json({ continue: true, order });
+      });
+  
+  
+    } catch (error) {
+      
+    }
+  }
+
+  const razorpayContinue = async (req,res) => {
+
+    try {
+        const data = req.body;
+        const orderId = req.body.id
+        const orderData = await orderModel.findOne({_id:orderId})
+        
+    
+        const hmac = crypto.createHmac("sha256", process.env.key_secret);
+        hmac.update(data.razorpay_order_id + "|" + data.razorpay_payment_id);
+        const hmacValue = hmac.digest("hex");
+    
+        if (hmacValue == data.razorpay_signature) {
+          for (const data of orderData.product) {
+            const { productId, quantity } = data;
+            await productModel.updateOne({ _id: productId }, { $inc: { quantity: -quantity } });
+          }
+        }
+        const newOrder = await orderModel.findByIdAndUpdate(
+            {_id:data.order.receipt},
+            {
+                $set: { 
+                    orderStatus: 'placed',
+                    paymentStatus : 'complete',
+                    "product.$[].orderStatus": 'placed'
+                }
+            }
+        ); 
+
+        res.json({success:true})
+
+        await cartModel.findOneAndDelete({user:id});
+
+    } catch (error) {
+        console.log(error.message)
+    }
+
+    
+}
+
 module.exports = {
     loadCheckout,
     addCheckoutAddress,
     order,
     razorpayVerify,
     applyCoupon,
-    removeCoupon
+    removeCoupon,
+    continueOrder,
+    razorpayContinue
 }

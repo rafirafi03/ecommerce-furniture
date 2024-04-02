@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <!-- Mirrored from portotheme.com/html/molla/wishlist.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 07 Jan 2024 09:06:05 GMT -->
-  <!-- Added by HTTrack --><meta
+  <!-- Added by HTTrack -->
+  <meta
     http-equiv="content-type"
     content="text/html;charset=UTF-8"
   /><!-- /Added by HTTrack -->
+
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -87,12 +89,10 @@
                     <li>
                       <a href="/wishlist"
                         ><i class="icon-heart-o"></i>Wishlist
-                      </a
-                      >
+                      </a>
                     </li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
-                    
                   </ul>
                 </li>
               </ul>
@@ -414,12 +414,7 @@
               <!-- End .compare-dropdown -->
 
               <div class="dropdown cart-dropdown">
-                <a
-                  href="cart"
-                  class="dropdown-toggle"
-                  role="button"
-                  
-                >
+                <a href="cart" class="dropdown-toggle" role="button">
                   <i class="icon-shopping-cart"></i>
                   <span class="cart-count"></span>
                 </a>
@@ -461,7 +456,7 @@
 
         <div class="page-content">
           <div class="container">
-            <% if(product && product.product && product.product.length > 0 ) {%>
+            <% if(product && product.product && product.product.length> 0 ) {%>
             <table class="table table-wishlist table-mobile">
               <thead>
                 <tr>
@@ -474,7 +469,6 @@
               </thead>
 
               <tbody>
-                
                 <% product.product.forEach((prod,index)=> { %>
                 <tr>
                   <td class="product-col">
@@ -489,38 +483,49 @@
                       </figure>
 
                       <h3 class="product-title">
-                        <a href="#"><%= prod.productId.name %></a>
+                        <a href="#"> <%= prod.productId.name %> </a>
                       </h3>
                       <!-- End .product-title -->
                     </div>
                     <!-- End .product -->
                   </td>
                   <%if(prod.productId.offerId){%>
-                    <p class="text-danger"></p>
-                  <td class="price-col text-success"><s class="small text-danger">₹ <%= prod.productId.price %>/-</s> <br>₹ <%= prod.productId.offerPercentage %>/-</td>
+                  <p class="text-danger"></p>
+                  <td class="price-col text-success">
+                    <s class="small text-danger"
+                      >₹ <%= prod.productId.price %> /-</s
+                    >
+                    <br />₹ <%= prod.productId.offerPercentage %>/-
+                  </td>
                   <%}else{%>
-                    <td class="price-col"><%= prod.productId.price %></td>
+                  <td class="price-col"><%= prod.productId.price %></td>
+                  <%}%> <%if(prod.productId.quantity> 5) {%>
+                  <td class="stock-col">
+                    <span class="in-stock">In stock</span>
+                  </td>
+                  <%} else if(prod.productId.quantity < 6){%>
+                  <td class="stock-col">
+                    <span class="text-warning">Few left</span>
+                  </td>
+                  <%} else {%>
+                  <td class="stock-col">
+                    <span class="text-danger">Out of Stock</span>
+                  </td>
                   <%}%>
-                  <%if(prod.productId.quantity > 5) {%>
-                    <td class="stock-col">
-                        <span class="in-stock">In stock</span>
-                      </td>
-                    <%} else if(prod.productId.quantity < 6){%>
-                        <td class="stock-col">
-                            <span class="text-warning">Few left</span>
-                          </td>
-                    <%} else {%>
-                        <td class="stock-col">
-                            <span class="text-danger">Out of Stock</span>
-                          </td>
-                    <%}%>
                   <td class="action-col">
-                    <button type="button" onclick="addToCart('<%= prod.productId._id %>')" class="btn btn-block btn-outline-primary-2">
+                    <button
+                      type="button"
+                      onclick="addToCart('<%= prod.productId._id %>')"
+                      class="btn btn-block btn-outline-primary-2"
+                    >
                       <i class="icon-cart-plus"></i>Add to Cart
                     </button>
                   </td>
                   <td class="remove-col">
-                    <button class="btn-remove" data-product-id="<%= prod.productId._id %>">
+                    <button
+                      class="btn-remove"
+                      data-product-id="<%= prod.productId._id %>"
+                    >
                       <i class="icon-close"></i>
                     </button>
                   </td>
@@ -530,20 +535,26 @@
             </table>
 
             <% } else { %>
+            <div>
               <div>
-                <div>
-                    <div class="card card-dashboard ml-5 text-center">
-                        <div class="card-body">
-                            <br>
-                            
-                            <h5><i class="icon-shopping-cart" style="font-size: 50px;"></i><br><br>Your wishlist is empty</h5>
-                        </div><!-- End .card-body -->
-                    </div><!-- End .card-dashboard -->
-                </div><!-- End .col-lg-9 -->
-                
-            </div><!-- End .row -->
+                <div class="card card-dashboard ml-5 text-center">
+                  <div class="card-body">
+                    <br />
+
+                    <h5>
+                      <i class="icon-shopping-cart" style="font-size: 50px"></i
+                      ><br /><br />Your wishlist is empty
+                    </h5>
+                  </div>
+                  <!-- End .card-body -->
+                </div>
+                <!-- End .card-dashboard -->
+              </div>
+              <!-- End .col-lg-9 -->
+            </div>
+            <!-- End .row -->
             <% } %>
-              
+
             <!-- End .table table-wishlist -->
             <div class="wishlist-share">
               <div class="social-icons social-icons-sm mb-2">
@@ -945,7 +956,7 @@
       <!-- End .mobile-menu-wrapper -->
     </div>
     <!-- End .mobile-menu-container -->
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Plugins JS File -->
@@ -957,7 +968,7 @@
     <script src="assets/js/owl.carousel.min.js"></script>
     <script src="assets/js/addToCart.js"></script>
     <script src="assets/js/removeWishlist.js"></script>
-    
+
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
   </body>
