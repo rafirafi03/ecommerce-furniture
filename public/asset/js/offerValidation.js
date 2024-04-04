@@ -25,6 +25,9 @@ function validateInputs(){
     if (discount.trim()==="") {
         document.getElementById('error-discount').innerText = "Discount Percentage required!!";
         let isValid = false
+    } else if (discount > 99 || discount <1) {
+        document.getElementById('error-discount').innerText = "Percentage should be more than 1 and less than 99 !!";
+        let isValid = false
     }
 
     const date = document.getElementById('activationDate').value;

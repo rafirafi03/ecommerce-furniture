@@ -500,27 +500,56 @@
                   <%}else{%>
                   <td class="price-col"><%= prod.productId.price %></td>
                   <%}%> <%if(prod.productId.quantity> 5) {%>
+                    <%if(prod.productId.isListed === false) {%>
+                      <td class="stock-col">
+                        <span class="text-danger">Not available</span>
+                      </td>
+                      <%}else{%>
                   <td class="stock-col">
-                    <span class="in-stock">In stock</span>
+                    <span class="text-success">In Stock</span>
                   </td>
+                  <%}%>
                   <%} else if(prod.productId.quantity < 6){%>
+                    <%if(prod.productId.isListed === false) {%>
+                      <td class="stock-col">
+                        <span class="text-danger">Not available</span>
+                      </td>
+                      <%}else{%>
                   <td class="stock-col">
                     <span class="text-warning">Few left</span>
                   </td>
+                  <%}%>
                   <%} else {%>
+                    <%if(prod.productId.isListed === false) {%>
+                      <td class="stock-col">
+                        <span class="text-danger">Not available</span>
+                      </td>
+                      <%}else{%>
                   <td class="stock-col">
                     <span class="text-danger">Out of Stock</span>
                   </td>
                   <%}%>
-                  <td class="action-col">
-                    <button
-                      type="button"
-                      onclick="addToCart('<%= prod.productId._id %>')"
-                      class="btn btn-block btn-outline-primary-2"
-                    >
-                      <i class="icon-cart-plus"></i>Add to Cart
-                    </button>
-                  </td>
+                  <%}%>
+                  <%if(prod.productId.isListed === false) {%>
+                    <td class="action-col">
+                      <button disabled
+                        type="button"
+                        class="btn btn-block btn-outline-primary-2"
+                      >
+                        Not available
+                      </button>
+                    </td>
+                    <%}else{%> 
+                      <td class="action-col">
+                        <button
+                          type="button"
+                          onclick="addToCart('<%= prod.productId._id %>')"
+                          class="btn btn-block btn-outline-primary-2"
+                        >
+                          <i class="icon-cart-plus"></i>Add to Cart
+                        </button>
+                      </td>
+                      <%}%>
                   <td class="remove-col">
                     <button
                       class="btn-remove"

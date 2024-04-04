@@ -5,7 +5,7 @@ const categoryModel = require('../../models/categoryModel');
 const loadProductDetail = async (req,res) => {
     try {
       const id = req.query.id;
-      const products = await product.findOne({_id:id}).populate('category');
+      const products = await product.findOne({_id:id,isListed:true}).populate('category');
       res.render('user/productDetails',{products})
     } catch (error) {
       console.log(error.message);

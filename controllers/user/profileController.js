@@ -141,22 +141,28 @@ const PatchResetPass = async (req, res) => {
 
   const passwordCompare = await bcrypt.compare(currentPass, users.password);
 
-  if (passwordCompare) {
-    const saltRounds = 10;
-    console.log('yessss')
-    
-    bcrypt.hash(newPass, saltRounds).then(async (hashedPassword) => {
-
-      await user.findOneAndUpdate(
-        { _id: userId },
-        { password: hashedPassword }
-      );
-    });
-
-    res.json({add:true});
+  if (currentPass === newPass) {
+    res.json({exist:true})
   } else {
-    res.json({add:false});
+    if (passwordCompare) {
+      const saltRounds = 10;
+      console.log('yessss')
+      
+      bcrypt.hash(newPass, saltRounds).then(async (hashedPassword) => {
+  
+        await user.findOneAndUpdate(
+          { _id: userId },
+          { password: hashedPassword }
+        );
+      });
+  
+      res.json({add:true});
+    } else {
+      res.json({add:false});
+    }
   }
+
+  
   } catch (error) {
     console.log(error.message)
   }

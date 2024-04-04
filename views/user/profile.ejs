@@ -191,34 +191,14 @@
                                         </li>
                                         <li>
                                             <a href="#">Single Post</a>
-                                            <ul>
-                                                <li><a href="single.html">Default with sidebar</a></li>
-                                                <li><a href="single-fullwidth.html">Fullwidth no sidebar</a></li>
-                                                <li><a href="single-fullwidth-sidebar.html">Fullwidth with sidebar</a>
-                                                </li>
-                                            </ul>
+                                            
                                         </li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="elements-list.html" class="sf-with-ul">Elements</a>
 
-                                    <ul>
-                                        <li><a href="elements-products.html">Products</a></li>
-                                        <li><a href="elements-typography.html">Typography</a></li>
-                                        <li><a href="elements-titles.html">Titles</a></li>
-                                        <li><a href="elements-banners.html">Banners</a></li>
-                                        <li><a href="elements-product-category.html">Product Category</a></li>
-                                        <li><a href="elements-video-banners.html">Video Banners</a></li>
-                                        <li><a href="elements-buttons.html">Buttons</a></li>
-                                        <li><a href="elements-accordions.html">Accordions</a></li>
-                                        <li><a href="elements-tabs.html">Tabs</a></li>
-                                        <li><a href="elements-testimonials.html">Testimonials</a></li>
-                                        <li><a href="elements-blog-posts.html">Blog Posts</a></li>
-                                        <li><a href="elements-portfolio.html">Portfolio</a></li>
-                                        <li><a href="elements-cta.html">Call to Action</a></li>
-                                        <li><a href="elements-icon-boxes.html">Icon Boxes</a></li>
-                                    </ul>
+                                    
                                 </li>
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
@@ -375,11 +355,7 @@
                                         <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address"
                                             role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account"
-                                            role="tab" aria-controls="tab-account" aria-selected="false">Account
-                                            Details</a>
-                                    </li>
+                                    
                                     <li class="nav-item">
                                         <a class="nav-link" id="tab-resetPass-link" data-toggle="tab"
                                             href="#tab-resetPass" role="tab" aria-controls="tab-resetPass"
@@ -854,47 +830,7 @@
                                                     </form>
                                                 </div><!-- .End .tab-pane -->
 
-                                                <div class="tab-pane fade" id="tab-account" role="tabpanel"
-                                                    aria-labelledby="tab-account-link">
-                                                    <form action="#">
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <label>First Name *</label>
-                                                                <input type="text" class="form-control" required>
-                                                            </div><!-- End .col-sm-6 -->
-
-                                                            <div class="col-sm-6">
-                                                                <label>Last Name *</label>
-                                                                <input type="text" class="form-control" required>
-                                                            </div><!-- End .col-sm-6 -->
-                                                        </div><!-- End .row -->
-
-                                                        <label>Display Name *</label>
-                                                        <input type="text" class="form-control" required>
-                                                        <small class="form-text">This will be how your name will
-                                                            be displayed in the account section and in
-                                                            reviews</small>
-
-                                                        <label>Email address *</label>
-                                                        <input type="email" class="form-control" required>
-
-                                                        <label>Current password (leave blank to leave
-                                                            unchanged)</label>
-                                                        <input type="password" class="form-control">
-
-                                                        <label>New password (leave blank to leave
-                                                            unchanged)</label>
-                                                        <input type="password" class="form-control">
-
-                                                        <label>Confirm new password</label>
-                                                        <input type="password" class="form-control mb-2">
-
-                                                        <button type="submit" class="btn btn-outline-primary-2">
-                                                            <span>SAVE CHANGES</span>
-                                                            <i class="icon-long-arrow-right"></i>
-                                                        </button>
-                                                    </form>
-                                                </div><!-- .End .tab-pane -->
+                                                
 
                                                 <div class="tab-pane fade" id="tab-resetPass" role="tabpanel"
                                                     aria-labelledby="tab-resetPass-link">
@@ -1298,6 +1234,18 @@
                                 icon: 'success',
                                 confirmButtonColor: '#c96',
                                 confirmButtonText: 'ok'
+                            }).then(() => {
+                                location.reload()
+                            })
+                        }
+                        else if (data.exist===true) {
+                            Swal.fire({
+                                title: 'error',
+                                text: 'Current password and new password is same!!',
+                                icon: 'error',
+                                confirmButtonColor: '#c96',
+                                confirmButtonText: 'ok',
+                                timer: 3000
                             }).then(() => {
                                 location.reload()
                             })

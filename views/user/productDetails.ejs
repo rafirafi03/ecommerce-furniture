@@ -374,6 +374,7 @@
 
             <div class="page-content">
                 <div class="container">
+                    <%if(products){%>
                     <div class="product-details-top">
                         <div class="row">
                             <div class="col-md-6">
@@ -458,43 +459,6 @@
                                             </div><!-- End .product-price -->
                                             <%}%>
 
-
-
-                                                <!-- <div class="details-filter-row details-row-size">
-                                        <label>Color:</label>
-
-                                        <div class="product-nav product-nav-thumbs">
-                                            <a href="#" class="active">
-                                                <img src="assets/images/products/single/1-thumb.jpg" alt="product desc">
-                                            </a>
-                                            <a href="#">
-                                                <img src="assets/images/products/single/2-thumb.jpg" alt="product desc">
-                                            </a>
-                                        </div>End .product-nav
-                                    </div>End .details-filter-row -->
-
-                                                <!-- <div class="details-filter-row details-row-size">
-                                        <label for="size">Size:</label>
-                                        <div class="select-custom">
-                                            <select name="size" id="size" class="form-control">
-                                                <option value="#" selected="selected">Select a size</option>
-                                                <option value="s">Small</option>
-                                                <option value="m">Medium</option>
-                                                <option value="l">Large</option>
-                                                <option value="xl">Extra Large</option>
-                                            </select>
-                                        </div>End .select-custom
-
-                                        <a href="#" class="size-guide"><i class="icon-th-list"></i>size guide</a>
-                                    </div>End .details-filter-row -->
-
-                                                <!-- <div class="details-filter-row details-row-size">
-                                        <label for="qty">Qty:</label>
-                                        <div class="product-details-quantity">
-                                            <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
-                                        </div>
-                                    </div> -->
-
                                                 <div class="product-details-action">
                                                     <a style="cursor: pointer; color:black"
                                                         onclick="addToCart('<%= products._id %>')"
@@ -533,8 +497,14 @@
                     </div><!-- End .product-details-top -->
 
 
+                    <%}else{%>
 
-
+                        <div class="product-details-top">
+                            <div style="display: flex; justify-content: center;" class="row">
+                                <h4 class="text-muted text-center mt-5 mb-5">Currently this product is not available</h4>
+                            </div><!-- End .row -->
+                        </div><!-- End .product-details-top -->
+                        <%}%>
                 </div><!-- End .container -->
             </div><!-- End .page-content -->
         </main><!-- End .main -->

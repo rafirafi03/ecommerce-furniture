@@ -16,6 +16,8 @@ form.addEventListener('submit',(e)=>{
 function validateInputs(){
     let isValid = true;
 
+    const criteriaAmount = document.getElementById('criteriaAmount').value;
+
     const name = document.getElementById('couponName').value;
     if (name.trim()==="") {
         document.getElementById('error-name').innerText = "Coupon name required!!";
@@ -26,13 +28,15 @@ function validateInputs(){
     if (discount.trim()==="") {
         document.getElementById('error-discount').innerText = "Discount amount required!!";
         let isValid = false
+    } else if (discount >= criteriaAmount) {
+      document.getElementById('error-discount').innerText = "Discount amount should be less than criteria!!";
+      let isValid = false
     }
-
-    const criteriaAmount = document.getElementById('criteriaAmount').value;
+    
     if (criteriaAmount.trim()==="") {
         document.getElementById('error-criteria').innerText = "Criteria amount required!!";
         let isValid = false
-    }
+    } 
 
     const date = document.getElementById('activationDate').value;
     if (date.trim()==="") {
