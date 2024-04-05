@@ -369,7 +369,11 @@
                                                         <h2 class="card-title mb-1">
                                                             <label class="custom-radio">
                                                                 <input type="radio" disabled>
+                                                                <%if(user.wallet && user.wallet.length>0){%>
                                                                 Wallet <span class="text-danger small ml-3">balance : ₹ <%=(user.wallet).toFixed(2) %></span>
+                                                                <%}else{%>
+                                                                    Wallet <span class="text-danger small ml-3">balance : ₹ 0.00 %></span>
+                                                                <%}%>
                                                                 <br>
                                                                 <p class="text-danger small ml-4 mt-1">Not enough money in your wallet</p>
                                                             </label>
