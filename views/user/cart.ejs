@@ -91,7 +91,7 @@
                                                     </td>
                                                     <%if(prod.productId.offerId){%>
                                                         <td class="total-col">
-                                                            ₹ <%=prod.productId.offerPercentage * prod.quantity %>
+                                                            ₹ <%=(prod.productId.offerPercentage * prod.quantity).toFixed(2) %>
                                                          </td>
                                                         <%}else{%>
                                                             <td class="total-col">

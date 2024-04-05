@@ -31,12 +31,18 @@ const loadCheckout = async (req, res) => {
         
         for (let i = 0; i < product.product.length; i++) {
             if (product.product[i].productId.offerId) {
-                subTotal = product.product[i].productId.offerPercentage * product.product[i].quantity 
+                subTotal += product.product[i].productId.offerPercentage * product.product[i].quantity 
+                console.log(subTotal,"insidetotal")
+                console.log(product.product[i].quantity,"quuuuuuuuuuuu")
             }else{
                 subTotal += product.product[i].productId.price * product.product[i].quantity
+                console.log(subTotal,"insidetotal222222")
+                console.log(product.product[i].quantity,"quuuuuuuuuuuu22222")
             }
             
         }
+
+        console.log(subTotal,"subbbbbbbbbbbbbbbbbbbbbb")
 
 
         let discountamount = 0;
