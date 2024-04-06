@@ -24,13 +24,17 @@ const getSales = async (req,res)=> {
 
         orders = await orderModel.find({ orderStatus: 'delivered' });
 
+        const endDateTime = new Date(endDate);
+        endDateTime.setHours(23, 59, 59, 999);
+
+
 
         if (startDate) {
           orders = await orderModel.aggregate([
             {
               $match:{
                 orderStatus:'delivered',
-                orderDate:{$gte:new Date(startDate),$lte:new Date(endDate)}
+                orderDate:{$gte:new Date(startDate),$lte: endDateTime}
               }
             },
             

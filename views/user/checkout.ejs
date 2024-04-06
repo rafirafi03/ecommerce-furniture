@@ -634,7 +634,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.save===true) {
+                    if (data.success==true) {
                         Swal.fire({
                             title:'Ordered',
                             text:'Order added successfully',
@@ -847,7 +847,6 @@ document.getElementById('newPincodeError').innerText="";
     pincode : document.getElementById('newPincode').value
 }
 
-console.log(data," ","formDataaaaaaa")
 
 
 fetch('/checkoutAddAddress',{

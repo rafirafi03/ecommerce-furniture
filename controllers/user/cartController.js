@@ -11,11 +11,14 @@ const loadCart = async (req,res) => {
         let subTotal =0;
         if (product) {
             for(let i=0;i<product.product.length;i++){
-                if (product.product[i].productId.offerId) {
-                    subTotal += product.product[i].productId.offerPercentage * product.product[i].quantity 
-                }else{
-                    subTotal += product.product[i].productId.price * product.product[i].quantity
-                }   
+                if (product.product[i].productId.isListed) {
+                    if (product.product[i].productId.offerId) {
+                        subTotal += product.product[i].productId.offerPercentage * product.product[i].quantity 
+                    }else{
+                        subTotal += product.product[i].productId.price * product.product[i].quantity
+                    } 
+                }
+                  
             }
         }
 

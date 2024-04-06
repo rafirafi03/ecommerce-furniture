@@ -26,23 +26,31 @@ const loadCheckout = async (req, res) => {
 
         const product = await cartModel.findOne({user:userId}).populate({ path: 'product.productId', model: 'products' }).populate('coupon');
 
-        let subTotal =0;
-
-        
         for (let i = 0; i < product.product.length; i++) {
-            if (product.product[i].productId.offerId) {
-                subTotal += product.product[i].productId.offerPercentage * product.product[i].quantity 
-                console.log(subTotal,"insidetotal")
-                console.log(product.product[i].quantity,"quuuuuuuuuuuu")
-            }else{
-                subTotal += product.product[i].productId.price * product.product[i].quantity
-                console.log(subTotal,"insidetotal222222")
-                console.log(product.product[i].quantity,"quuuuuuuuuuuu22222")
+            if (product.product[i].productId.isListed == false) {
+                let product_id = product.product[i].productId
+                await cartModel.findOneAndUpdate(
+                    { user: userId},
+                    {$pull : {product : {productId : product_id}}},
+                    {new: true}
+                );
             }
             
         }
 
-        console.log(subTotal,"subbbbbbbbbbbbbbbbbbbbbb")
+        let subTotal =0;
+
+        
+        for (let i = 0; i < product.product.length; i++) {
+            if (product.product[i].productId.isListed) {
+                if (product.product[i].productId.offerId) {
+                    subTotal += product.product[i].productId.offerPercentage * product.product[i].quantity 
+                }else{
+                    subTotal += product.product[i].productId.price * product.product[i].quantity
+                }
+            }
+        }
+
 
 
         let discountamount = 0;
@@ -59,8 +67,13 @@ const loadCheckout = async (req, res) => {
         }
         
 
-        const coupon = await couponModel.find({criteria : {$lt:subTotal}})
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().split('T')[0];
 
+        const coupon = await couponModel.find({
+            criteria: { $lt: subTotal }, 
+            expiry_date: { $gt: formattedDate } 
+        });
 
         res.render('user/checkout',{address,subTotal,user,coupon,discountamount,total,product})
     } catch (error) {
@@ -97,70 +110,66 @@ const addCheckoutAddress = async (req,res) => {
     }
 }
 
-const order = async (req,res) => {
+const order = async (req, res) => {
     try {
-
         const userId = req.session.user_id;
+        const { selectedAddress, selectedPayment } = req.body;
 
-        const {selectedAddress,selectedPayment} = req.body;
-                
+        const products = await cartModel.findOne({ user: userId }).populate('product.productId');
 
-        const products = await cartModel.findOne({user:userId}).populate('product.productId')
+        if (!products || !products.product) {
+            // Handle case where products are not found
+            return res.status(404).json({ success: false, message: 'Products not found' });
+        }
 
         let totalPrice = 0;
 
-        for(let i=0;i<products.product.length;i++){
-            if (products.product[i].productId.offerId) {
-                totalPrice += products.product[i].productId.offerPercentage * products.product[i].quantity 
-            }else{
-                totalPrice += products.product[i].productId.price * products.product[i].quantity
-            }   
+        for (let i = 0; i < products.product.length; i++) {
+
+                if (products.product[i].productId.offerId) {
+                    totalPrice += products.product[i].productId.offerPercentage * products.product[i].quantity;
+                } else {
+                    totalPrice += products.product[i].productId.price * products.product[i].quantity;
+            }
         }
 
-        const coupon = await cartModel.findOne({user:userId}).populate('coupon');
+        const coupon = await cartModel.findOne({ user: userId }).populate('coupon');
 
         let discount = 0;
-
         let total = 0;
 
-        if (totalPrice < 1000 && coupon.coupon) {
+        if (totalPrice < 1000 && coupon && coupon.coupon) {
             discountamount = coupon.coupon.discount;
-            total = totalPrice-discountamount+50;  
-        }else if(totalPrice<1000){
+            total = totalPrice - discountamount + 50;
+        } else if (totalPrice < 1000) {
             total = totalPrice + 50;
-        } else if (coupon.coupon) {
+        } else if (coupon && coupon.coupon) {
             discountamount = coupon.coupon.discount;
-            total = totalPrice-discountamount;
+            total = totalPrice - discountamount;
         }
 
-        const address = await addressModel.findOne({user:userId,'address._id':selectedAddress},{ 'address.$': 1 })
+        const address = await addressModel.findOne({ user: userId, 'address._id': selectedAddress }, { 'address.$': 1 });
 
-        const orderStatus = selectedPayment==='Razorpay' ? 'pending' : 'placed';
+        const orderStatus = selectedPayment === 'Razorpay' ? 'pending' : 'placed';
+        const paymentStatus = selectedPayment === 'wallet' ? 'complete' : selectedPayment === 'Razorpay' ? 'failed' : 'pending';
 
-        const paymentStatus = selectedPayment === 'wallet' ? 'complete' : selectedPayment==='Razorpay'?'failed':'pending';
-
-        console.log(orderStatus,":ststussss");
-
-        const order = new orderModel({
+        const newOrder = new orderModel({
             user: userId,
             deliveryAddress: address.address[0],
             payment: selectedPayment,
             product: products.product,
-            shippingCharge : totalPrice<1000 ? 50 : null,
+            shippingCharge: totalPrice < 1000 ? 50 : null,
             discountAmount: discount,
             totalPrice: total ? total : totalPrice,
             orderStatus: orderStatus,
-            paymentStatus : paymentStatus,
+            paymentStatus: paymentStatus,
             orderDate: new Date(),
-          });
+        });
 
+        const createOrder = await newOrder.save();
+        const orderId = createOrder._id;
 
-          const createOrder = await order.save();
-
-        const orderId = createOrder._id
-          
-
-          for( let i=0 ; i < products.product.length ; i ++ ) {
+        for (let i = 0; i < products.product.length; i++) {
             let productId = products.product[i].productId;
             let prdctQuantity = products.product[i].quantity;
 
@@ -169,51 +178,49 @@ const order = async (req,res) => {
                 { $set: { 'product.$.orderStatus': orderStatus } }
             );
 
-            await productModel.findOneAndUpdate({_id:productId},
-                {$inc:{quantity:-prdctQuantity}})
+            await productModel.findOneAndUpdate({ _id: productId }, { $inc: { quantity: -prdctQuantity } });
+        }
 
-          }
-
-          if (orderStatus === 'placed') {
-            await cartModel.findOneAndDelete({user:userId});
-            res.json({save:true})
-          } 
-          
-          if(selectedPayment === 'wallet'){
+        if (orderStatus === 'placed') {
+            await cartModel.findOneAndDelete({ user: userId });
+            res.json({ success: true });
+        } else if (selectedPayment === 'wallet') {
             await userModel.findOneAndUpdate(
-                {_id:userId},
-                {$inc:{wallet:total ? -total : -totalPrice},
-                $push:{
-                    walletHistory:{
-                        date:Date.now(),
-                        amount:total ? -total : -totalPrice
+                { _id: userId },
+                {
+                    $inc: { wallet: total ? -total : -totalPrice },
+                    $push: {
+                        walletHistory: {
+                            date: Date.now(),
+                            amount: total ? -total : -totalPrice
+                        }
                     }
                 }
-                }
-            )
-            res.json({save:true})
-          } else {
+            );
+            res.json({ success: true });
+        } else {
             let options = {
                 amount: total ? total * 100 : totalPrice * 100,
                 currency: "INR",
                 receipt: "" + orderId,
-              };
+            };
 
-              razorpayInstance.orders.create(options, function (err, order) {
-
+            razorpayInstance.orders.create(options, function (err, order) {
                 if (err) {
-                  console.log(err);
+                    console.log(err);
+                    res.status(500).json({ success: false, message: 'An error occurred while creating the order.' });
+                } else {
+                    res.json({ success: false, order });
                 }
-                res.json({ success: false, order });
-              });
-
-
-          }
-
+            });
+        }
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ success: false, message: 'An error occurred while processing the order.' });
     }
 }
+
+
 
 const razorpayVerify = async (req,res) => {
 
