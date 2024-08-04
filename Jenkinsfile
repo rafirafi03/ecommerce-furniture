@@ -69,7 +69,7 @@ pipeline {
 
     post {
         always {
-            node('main') {
+            node() {
                 cleanWs()
             }
         }
