@@ -6,8 +6,8 @@ pipeline {
         REPO = 'rafi03/molla-ecom'
         IMAGE = 'rafi03/molla-ecom'
         TAG = 'latest'
-        KUBECONFIG_CREDENTIALS_ID = 'kube-file'
-        KUBECONFIG = credentials('kube-file')
+        KUBECONFIG_CREDENTIALS_ID = 'kub-credential'
+        KUBECONFIG = credentials('kub-credential')
         DOCKER_CREDENTIALS_ID = 'dockerhub_credentials'
         GIT_CREDENTIALS_ID = 'github_credentials'
         GIT_CREDENTIALS = credentials('github_credentials')
