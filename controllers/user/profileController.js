@@ -2,7 +2,7 @@ const user = require("../../models/userModel");
 const userAddress = require("../../models/adressModel");
 const orderModel = require("../../models/orderModel");
 const productModel = require("../../models/productModel");
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const ejs = require('ejs');
 const path = require('path');
 const puppeteer = require('puppeteer');
@@ -139,7 +139,7 @@ const PatchResetPass = async (req, res) => {
 
   let { currentPass, newPass } = req.body.data;
 
-  const passwordCompare = await bcrypt.compare(currentPass, users.password);
+  const passwordCompare = await bcryptjs.compare(currentPass, users.password);
 
   if (currentPass === newPass) {
     res.json({exist:true})
@@ -148,7 +148,7 @@ const PatchResetPass = async (req, res) => {
       const saltRounds = 10;
       console.log('yessss')
       
-      bcrypt.hash(newPass, saltRounds).then(async (hashedPassword) => {
+      bcryptjs.hash(newPass, saltRounds).then(async (hashedPassword) => {
   
         await user.findOneAndUpdate(
           { _id: userId },

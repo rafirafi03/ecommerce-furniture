@@ -79,24 +79,24 @@
                                     <a href="/" class="">Home</a>
                                 </li>
                                 <li>
-                                    <a href="shopPage" >Shop</a>
+                                    <a href="shopPage">Shop</a>
 
                                 </li>
                                 <li>
                                     <a href="comingSoon">New</a>
-                                    
+
                                 </li>
                                 <li>
-                                    <a href="comingSoon" >Pages</a>
-                                    
+                                    <a href="comingSoon">Pages</a>
+
                                 </li>
                                 <li>
-                                    <a href="comingSoon" >Blog</a>
-                                    
+                                    <a href="comingSoon">Blog</a>
+
                                 </li>
                                 <li>
-                                    <a href="comingSoon" >Elements</a>
-                                    
+                                    <a href="comingSoon">Elements</a>
+
                                 </li>
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
@@ -106,11 +106,11 @@
                             <a href="#" class="search-toggle" role="button" title="Search"><i
                                     class="icon-search"></i></a>
 
-                                <div class="header-search-wrapper">
-                                    <label for="q" class="sr-only">Search</label>
-                                    <input type="search" onchange="searchValue(value)" class="form-control" name="search" id="q"
-                                        placeholder="Search in..." required>
-                                </div><!-- End .header-search-wrapper -->
+                            <div class="header-search-wrapper">
+                                <label for="q" class="sr-only">Search</label>
+                                <input type="search" onchange="searchValue(value)" class="form-control" name="search"
+                                    id="q" placeholder="Search in..." required>
+                            </div><!-- End .header-search-wrapper -->
                         </div><!-- End .header-search -->
                         <div class="dropdown cart-dropdown">
                             <a href="/cart" class="dropdown-toggle" role="button">
@@ -173,133 +173,143 @@
 
                             <%if(products && products.length>0){%>
 
-                            <div class="products mb-3">
-                                <% for(let i=0; i< products.length; i++) {%>
-                                    <div class="product product-list">
-                                        <div class="row">
-                                            <div class="col-6 col-lg-3">
-                                                <figure class="product-media">
-                                                    <span class="product-label label-new">New</span>
-                                                    <a href="/productDetails?id=<%=products[i]._id %>">
-                                                        <img src="multerImages/<%= products[i].images[0] %>"
-                                                            alt="Product image" class="product-image">
-                                                    </a>
-                                                </figure><!-- End .product-media -->
-                                            </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                            <div class="col-6 col-lg-3 order-lg-last">
-                                                <div class="product-list-action">
-                                                    <%if(products[i].offerId){%>
-                                                        <p class="text-danger "><s>₹<%=products[i].price%></s></p>
-
-                                                        <div class="product-price">
-                                                            <p class="text-success">₹ <%= products[i].offerPercentage %>
-                                                                    /-</p>
-                                                        </div><!-- End .product-price -->
-                                                        <%}else{%>
-                                                            <div class="product-price">
-                                                                ₹ <%= products[i].price %> /-
-                                                            </div><!-- End .product-price -->
-                                                            <%}%>
-                                                                <div class="ratings-container">
-                                                                    <div class="ratings">
-                                                                        <div class="ratings-val" style="width: 20%;">
-                                                                        </div><!-- End .ratings-val -->
-                                                                    </div><!-- End .ratings -->
-                                                                    <span class="ratings-text">( 2 Reviews )</span>
-                                                                </div><!-- End .rating-container -->
-
-
-                                                                <a onclick="addToWishlist('<%= products[i]._id %>')"
-                                                                    class="btn-product btn-wishlist"><span>add to
-                                                                        wishlist</span></a>
-                                                                <br>
-                                                                <button onclick="addToCart('<%= products[i]._id %>')"
-                                                                    class="btn-product btn-cart"><span>add to
-                                                                        cart</span></button>
-
-
-                                                </div><!-- End .product-list-action -->
-                                            </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                            <div class="col-lg-6">
-                                                <div class="product-body product-action-inner">
-
-
-                                                    <h3 class="product-title"><a href="product.html">
-                                                            <%= products[i].name %>
-                                                        </a></h3><!-- End .product-title -->
-                                                    <div class="product-cat">
-                                                        <a href="#">
-                                                            <%= products[i].category.name %>
-                                                        </a>
-                                                    </div><!-- End .product-cat -->
-
-                                                    <div class="product-content">
-                                                        <p><%= products[i].category.description %> </p>
-                                                    </div><!-- End .product-content -->
-
-                                                    <div class="product-nav product-nav-thumbs">
-                                                        <a href="/productDetails?id=<%=products[i]._id %>"
-                                                        >
-                                                            <img src="multerImages/<%= products[i].images[1] %>"
-                                                                alt="product desc">
-                                                        </a>
-                                                        <a href="/productDetails?id=<%=products[i]._id %>">
-                                                            <img src="multerImages/<%= products[i].images[2] %>"
-                                                                alt="product desc">
-                                                        </a>
-
-                                                        <a href="/productDetails?id=<%=products[i]._id %>">
-                                                            <img src="multerImages/<%= products[i].images[3] %>"
-                                                                alt="product desc">
-                                                        </a>
-                                                    </div><!-- End .product-nav -->
-                                                </div><!-- End .product-body -->
-                                            </div><!-- End .col-lg-6 -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .product -->
-                                    <% } %>
-
-                            </div><!-- End .products -->
-
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">
-
-                                    <li class="page-item <%if(pagination !=2){%>disabled<%}%>">
-                                        <a style="cursor: pointer;" class="page-link page-link-prev" onclick="pagination('1')" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                            <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
-                                        </a>
-                                    </li>
-
-                                    <li class="page-item <%if(pagination !=2){%>active<%}%>" aria-current="page"><a onclick="pagination('1')" class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item <%if(pagination ==2){%>active<%}%> " aria-current="page"><a onclick="pagination('2')" class="page-link" href="#">2</a>
-                                    </li>
-
-                                    <li class="page-item <%if(pagination ==2){%>disabled<%}%>">
-                                        <a style="cursor: pointer;" class="page-link page-link-next" onclick="pagination('2')" aria-label="Next">
-                                            Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-
-                            <%}else{%>
                                 <div class="products mb-3">
+                                    <% for(let i=0; i< products.length; i++) {%>
+                                        <div class="product product-list">
+                                            <div class="row">
+                                                <div class="col-6 col-lg-3">
+                                                    <figure class="product-media">
+                                                        <span class="product-label label-new">New</span>
+                                                        <a href="/productDetails?id=<%=products[i]._id %>">
+                                                            <img src="multerImages/<%= products[i].images[0] %>"
+                                                                alt="Product image" class="product-image">
+                                                        </a>
+                                                    </figure><!-- End .product-media -->
+                                                </div><!-- End .col-sm-6 col-lg-3 -->
+
+                                                <div class="col-6 col-lg-3 order-lg-last">
+                                                    <div class="product-list-action">
+                                                        <%if(products[i].offerId){%>
+                                                            <p class="text-danger "><s>₹<%=products[i].price%></s></p>
+
+                                                            <div class="product-price">
+                                                                <p class="text-success">₹ <%=
+                                                                        products[i].offerPercentage %>
+                                                                        /-</p>
+                                                            </div><!-- End .product-price -->
+                                                            <%}else{%>
+                                                                <div class="product-price">
+                                                                    ₹ <%= products[i].price %> /-
+                                                                </div><!-- End .product-price -->
+                                                                <%}%>
+                                                                    <div class="ratings-container">
+                                                                        <div class="ratings">
+                                                                            <div class="ratings-val"
+                                                                                style="width: 20%;">
+                                                                            </div><!-- End .ratings-val -->
+                                                                        </div><!-- End .ratings -->
+                                                                        <span class="ratings-text">( 2 Reviews )</span>
+                                                                    </div><!-- End .rating-container -->
+
+
+                                                                    <a onclick="addToWishlist('<%= products[i]._id %>')"
+                                                                        class="btn-product btn-wishlist"><span>add to
+                                                                            wishlist</span></a>
+                                                                    <br>
+                                                                    <button
+                                                                        onclick="addToCart('<%= products[i]._id %>')"
+                                                                        class="btn-product btn-cart"><span>add to
+                                                                            cart</span></button>
+
+
+                                                    </div><!-- End .product-list-action -->
+                                                </div><!-- End .col-sm-6 col-lg-3 -->
+
+                                                <div class="col-lg-6">
+                                                    <div class="product-body product-action-inner">
+
+
+                                                        <h3 class="product-title"><a href="product.html">
+                                                                <%= products[i].name %>
+                                                            </a></h3><!-- End .product-title -->
+                                                        <div class="product-cat">
+                                                            <a href="#">
+                                                                <%= products[i].category.name %>
+                                                            </a>
+                                                        </div><!-- End .product-cat -->
+
+                                                        <div class="product-content">
+                                                            <p>
+                                                                <%= products[i].category.description %>
+                                                            </p>
+                                                        </div><!-- End .product-content -->
+
+                                                        <div class="product-nav product-nav-thumbs">
+                                                            <a href="/productDetails?id=<%=products[i]._id %>">
+                                                                <img src="multerImages/<%= products[i].images[1] %>"
+                                                                    alt="product desc">
+                                                            </a>
+                                                            <a href="/productDetails?id=<%=products[i]._id %>">
+                                                                <img src="multerImages/<%= products[i].images[2] %>"
+                                                                    alt="product desc">
+                                                            </a>
+
+                                                            <a href="/productDetails?id=<%=products[i]._id %>">
+                                                                <img src="multerImages/<%= products[i].images[3] %>"
+                                                                    alt="product desc">
+                                                            </a>
+                                                        </div><!-- End .product-nav -->
+                                                    </div><!-- End .product-body -->
+                                                </div><!-- End .col-lg-6 -->
+                                            </div><!-- End .row -->
+                                        </div><!-- End .product -->
+                                        <% } %>
+
+                                </div><!-- End .products -->
+
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+
+                                        <li class="page-item <%if(pagination !=2){%>disabled<%}%>">
+                                            <a style="cursor: pointer;" class="page-link page-link-prev"
+                                                onclick="pagination('1')" aria-label="Previous" tabindex="-1"
+                                                aria-disabled="true">
+                                                <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                            </a>
+                                        </li>
+
+                                        <li class="page-item <%if(pagination !=2){%>active<%}%>" aria-current="page"><a
+                                                onclick="pagination('1')" class="page-link" href="#">1</a>
+                                        </li>
+                                        <li class="page-item <%if(pagination ==2){%>active<%}%> " aria-current="page"><a
+                                                onclick="pagination('2')" class="page-link" href="#">2</a>
+                                        </li>
+
+                                        <li class="page-item <%if(pagination ==2){%>disabled<%}%>">
+                                            <a style="cursor: pointer;" class="page-link page-link-next"
+                                                onclick="pagination('2')" aria-label="Next">
+                                                Next <span aria-hidden="true"><i
+                                                        class="icon-long-arrow-right"></i></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+
+                                <%}else{%>
+                                    <div class="products mb-3">
                                         <div class="product product-list">
                                             <div>
                                                 <div style="display: flex; justify-content: center;">
                                                     <h4 class="text-muted "> No products available</h4>
 
                                                 </div>
-                                                
-                                                
+
+
                                             </div><!-- End .row -->
                                         </div><!-- End .product -->
-    
-                                </div><!-- End .products -->
-                            <%}%>
+
+                                    </div><!-- End .products -->
+                                    <%}%>
                         </div><!-- End .col-lg-9 -->
                         <aside class="col-lg-3 order-lg-first">
                             <div class="sidebar sidebar-shop">
@@ -401,23 +411,30 @@
                 <div class="row">
                     <div class="col-sm-6 col-lg-3">
                         <div class="widget widget-about">
-                            <img src="assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
-                            <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
-    
+                            <img src="assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105"
+                                height="25">
+                            <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna
+                                eros eu erat. </p>
+
                             <div class="social-icons">
-                                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-                                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-                                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-                                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-                                <a href="#" class="social-icon" target="_blank" title="Pinterest"><i class="icon-pinterest"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Facebook"><i
+                                        class="icon-facebook-f"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Twitter"><i
+                                        class="icon-twitter"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Instagram"><i
+                                        class="icon-instagram"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Youtube"><i
+                                        class="icon-youtube"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
+                                        class="icon-pinterest"></i></a>
                             </div><!-- End .soial-icons -->
                         </div><!-- End .widget about-widget -->
                     </div><!-- End .col-sm-6 col-lg-3 -->
-    
+
                     <div class="col-sm-6 col-lg-3">
                         <div class="widget">
                             <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
-    
+
                             <ul class="widget-list">
                                 <li><a href="comingSoon">About Molla</a></li>
                                 <li><a href="comingSoon">How to shop on Molla</a></li>
@@ -427,11 +444,11 @@
                             </ul><!-- End .widget-list -->
                         </div><!-- End .widget -->
                     </div><!-- End .col-sm-6 col-lg-3 -->
-    
+
                     <div class="col-sm-6 col-lg-3">
                         <div class="widget">
                             <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
-    
+
                             <ul class="widget-list">
                                 <li><a href="comingSoon">Payment Methods</a></li>
                                 <li><a href="comingSoon">Money-back guarantee!</a></li>
@@ -442,11 +459,11 @@
                             </ul><!-- End .widget-list -->
                         </div><!-- End .widget -->
                     </div><!-- End .col-sm-6 col-lg-3 -->
-    
+
                     <div class="col-sm-6 col-lg-3">
                         <div class="widget">
                             <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
-    
+
                             <ul class="widget-list">
                                 <li><a href="/login">Sign In</a></li>
                                 <li><a href="cart">View Cart</a></li>
@@ -459,10 +476,11 @@
                 </div><!-- End .row -->
             </div><!-- End .container -->
         </div><!-- End .footer-middle -->
-    
+
         <div class="footer-bottom">
             <div class="container">
-                <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p><!-- End .footer-copyright -->
+                <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
+                <!-- End .footer-copyright -->
                 <figure class="footer-payments">
                     <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
                 </figure><!-- End .footer-payments -->
@@ -471,139 +489,59 @@
     </footer><!-- End .footer -->
     </div><!-- End .page-wrapper -->
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
-    
+
     <!-- Mobile Menu -->
     <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
-    
+
     <div class="mobile-menu-container">
-    <div class="mobile-menu-wrapper">
-        <span class="mobile-menu-close"><i class="icon-close"></i></span>
-    
-        <form action="#" method="get" class="mobile-search">
-            <label for="mobile-search" class="sr-only">Search</label>
-            <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
-            <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-        </form>
-        
-        <nav class="mobile-nav">
-            <ul class="mobile-menu">
-                <li class="active">
-                    <a href="home">Home</a>
-    
-                    
-                </li>
-                <li>
-                    <a href="shopPage">Shop</a>
-                    
-                </li>
-                <li>
-                    <a href="product.html" class="sf-with-ul">Product</a>
-                    <ul>
-                        <li><a href="product.html">Default</a></li>
-                        <li><a href="product-centered.html">Centered</a></li>
-                        <li><a href="product-extended.html"><span>Extended Info<span class="tip tip-new">New</span></span></a></li>
-                        <li><a href="product-gallery.html">Gallery</a></li>
-                        <li><a href="product-sticky.html">Sticky Info</a></li>
-                        <li><a href="product-sidebar.html">Boxed With Sidebar</a></li>
-                        <li><a href="product-fullwidth.html">Full Width</a></li>
-                        <li><a href="product-masonry.html">Masonry Sticky Info</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">Pages</a>
-                    <ul>
-                        <li>
-                            <a href="about.html">About</a>
-    
-                            <ul>
-                                <li><a href="about.html">About 01</a></li>
-                                <li><a href="about-2.html">About 02</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="contact.html">Contact</a>
-    
-                            <ul>
-                                <li><a href="contact.html">Contact 01</a></li>
-                                <li><a href="contact-2.html">Contact 02</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="faq.html">FAQs</a></li>
-                        <li><a href="404.html">Error 404</a></li>
-                        <li><a href="coming-soon.html">Coming Soon</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="blog.html">Blog</a>
-    
-                    <ul>
-                        <li><a href="blog.html">Classic</a></li>
-                        <li><a href="blog-listing.html">Listing</a></li>
-                        <li>
-                            <a href="#">Grid</a>
-                            <ul>
-                                <li><a href="blog-grid-2cols.html">Grid 2 columns</a></li>
-                                <li><a href="blog-grid-3cols.html">Grid 3 columns</a></li>
-                                <li><a href="blog-grid-4cols.html">Grid 4 columns</a></li>
-                                <li><a href="blog-grid-sidebar.html">Grid sidebar</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Masonry</a>
-                            <ul>
-                                <li><a href="blog-masonry-2cols.html">Masonry 2 columns</a></li>
-                                <li><a href="blog-masonry-3cols.html">Masonry 3 columns</a></li>
-                                <li><a href="blog-masonry-4cols.html">Masonry 4 columns</a></li>
-                                <li><a href="blog-masonry-sidebar.html">Masonry sidebar</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Mask</a>
-                            <ul>
-                                <li><a href="blog-mask-grid.html">Blog mask grid</a></li>
-                                <li><a href="blog-mask-masonry.html">Blog mask masonry</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Single Post</a>
-                            <ul>
-                                <li><a href="single.html">Default with sidebar</a></li>
-                                <li><a href="single-fullwidth.html">Fullwidth no sidebar</a></li>
-                                <li><a href="single-fullwidth-sidebar.html">Fullwidth with sidebar</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="elements-list.html">Elements</a>
-                    <ul>
-                        <li><a href="elements-products.html">Products</a></li>
-                        <li><a href="elements-typography.html">Typography</a></li>
-                        <li><a href="elements-titles.html">Titles</a></li>
-                        <li><a href="elements-banners.html">Banners</a></li>
-                        <li><a href="elements-product-category.html">Product Category</a></li>
-                        <li><a href="elements-video-banners.html">Video Banners</a></li>
-                        <li><a href="elements-buttons.html">Buttons</a></li>
-                        <li><a href="elements-accordions.html">Accordions</a></li>
-                        <li><a href="elements-tabs.html">Tabs</a></li>
-                        <li><a href="elements-testimonials.html">Testimonials</a></li>
-                        <li><a href="elements-blog-posts.html">Blog Posts</a></li>
-                        <li><a href="elements-portfolio.html">Portfolio</a></li>
-                        <li><a href="elements-cta.html">Call to Action</a></li>
-                        <li><a href="elements-icon-boxes.html">Icon Boxes</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav><!-- End .mobile-nav -->
-    
-        <div class="social-icons">
-            <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-            <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-            <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-            <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-        </div><!-- End .social-icons -->
-    </div><!-- End .mobile-menu-wrapper -->
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+                    placeholder="Search in..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+
+            <nav class="mobile-nav">
+                <ul class="mobile-menu">
+                    <li class="active">
+                        <a href="home">Home</a>
+
+
+                    </li>
+                    <li>
+                        <a href="shopPage">Shop</a>
+
+                    </li>
+                    <li>
+                        <a href="comingSoon">New</a>
+
+                    </li>
+                    <li>
+                        <a href="comingSoon">Pages</a>
+
+                    </li>
+                    <li>
+                        <a href="comingSoon">Blog</a>
+
+
+                    </li>
+                    <li>
+                        <a href="comingSoon">Elements</a>
+
+                    </li>
+                </ul>
+            </nav><!-- End .mobile-nav -->
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
     </div><!-- End .mobile-menu-container -->
 
 
@@ -637,21 +575,22 @@
     <script src="assets/js/sortPrice.js"></script>
 
 
-<!-- Plugins JS File -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/jquery.hoverIntent.min.js"></script>
-<script src="assets/js/jquery.waypoints.min.js"></script>
-<script src="assets/js/superfish.min.js"></script>
-<script src="assets/js/owl.carousel.min.js"></script>
-<script src="assets/js/wNumb.js"></script>
-<script src="assets/js/bootstrap-input-spinner.js"></script>
-<script src="assets/js/jquery.magnific-popup.min.js"></script>
-<script src="assets/js/nouislider.min.js"></script>
-<!-- Main JS File -->
-<script src="assets/js/main.js"></script>
+    <!-- Plugins JS File -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/superfish.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/wNumb.js"></script>
+    <script src="assets/js/bootstrap-input-spinner.js"></script>
+    <script src="assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/nouislider.min.js"></script>
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
 </body>
 
 
 <!-- Mirrored from portotheme.com/html/molla/category-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 07 Jan 2024 09:05:44 GMT -->
+
 </html>

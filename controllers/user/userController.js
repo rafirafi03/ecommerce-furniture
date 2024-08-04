@@ -2,7 +2,7 @@
 const User = require("../../models/userModel");
 const UserOTPVerification = require("../../models/userOtpVerification");
 const product = require('../../models/productModel')
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const wishlistModel = require("../../models/wishlistModel");
 const cartModel = require('../../models/cartModel')
@@ -34,7 +34,7 @@ const signUpPost = async (req, res) => {
   }
 
       const saltRounds = 10;
-    bcrypt.hash(password, saltRounds).then(async (hashedPassword) => {
+    bcryptjs.hash(password, saltRounds).then(async (hashedPassword) => {
       const newUser = new User({
         name: UserName,
         email,
@@ -73,7 +73,7 @@ const loginPost = async (req, res) => {
     }
 
     
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcryptjs.compare(password, user.password);
 
     if (passwordMatch) {
       
@@ -159,7 +159,7 @@ const sendOTPVerificationEmail = async (result, res,req,referral) => {
 
     // hash the otp
     const saltRounds = 10;
-    const hashedOTP = await bcrypt.hash(otp, saltRounds);
+    const hashedOTP = await bcryptjs.hash(otp, saltRounds);
     const newOTPVerification = new UserOTPVerification({
       userId: _id,
       otp: hashedOTP,
@@ -206,7 +206,7 @@ const verifyPost = async (req, res) => {
             message: "Code has expired. Please request again.",id:user_id,ref
           });
         } else {
-          const validOTP = await bcrypt.compare(otp, hashedOTP);
+          const validOTP = await bcryptjs.compare(otp, hashedOTP);
 
           if (!validOTP) {
             // supplied otp is wrong

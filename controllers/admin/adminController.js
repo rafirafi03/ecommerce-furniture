@@ -2,7 +2,7 @@ const user = require('../../models/userModel');
 const orderModel = require('../../models/orderModel');
 const productModel = require('../../models/productModel');
 const categoryModel = require('../../models/categoryModel')
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 
 // Code for load the login page.
 const loginLoad = async (req, res) => {
@@ -29,7 +29,7 @@ const loginPost = async (req, res) => {
       });
     }
 
-    const passwordMatch = await bcrypt.compare(password, admin.password);
+    const passwordMatch = await bcryptjs.compare(password, admin.password);
 
     if (passwordMatch) {
     

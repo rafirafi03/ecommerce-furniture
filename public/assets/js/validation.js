@@ -24,6 +24,9 @@ function validateInputs() {
   if (userName.trim() === "") {
     document.getElementById("errorName").innerText = "User name is required.";
     isValid = false;
+  } else if(!userName.match(/^[a-zA-Z\s]+$/)) {
+    document.getElementById("errorName").innerText = "User name is required.";
+    isValid = false;
   }
 
   const email = document.getElementById("email").value;
