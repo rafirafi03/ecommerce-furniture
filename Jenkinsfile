@@ -52,16 +52,32 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                withKubeConfig([credentialsId: env.KUBECONFIG_CREDENTIALS_ID]) {
-                    sh 'kubectl apply -f deployment.yaml'
+                script {
+                    try {
+                        withKubeConfig([credentialsId: env.KUBECONFIG_CREDENTIALS_ID]) {
+                            sh 'kubectl apply -f deployment.yaml'
+                        }
+                    } catch (Exception e) {
+                        echo "Error deploying to Kubernetes: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        error("Failed to deploy to Kubernetes")
+                    }
                 }
             }
         }
 
         stage('Apply Kubernetes Service') {
             steps {
-                withKubeConfig([credentialsId: env.KUBECONFIG_CREDENTIALS_ID]) {
-                    sh 'kubectl apply -f service.yaml'
+                script {
+                    try {
+                        withKubeConfig([credentialsId: env.KUBECONFIG_CREDENTIALS_ID]) {
+                            sh 'kubectl apply -f service.yaml'
+                        }
+                    } catch (Exception e) {
+                        echo "Error applying Kubernetes service: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        error("Failed to apply Kubernetes service")
+                    }
                 }
             }
         }
