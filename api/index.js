@@ -16,7 +16,7 @@ mongoose.connection.on("connected", () => {
   console.log("Connected to MongoDB");
 });
 mongoose.connection.on("error", (err) => {
-  console.error("MongoDB connection error:", err);
+  console.error("MongoDB connection error : ", err);
 });
 
 // Set up view engine and middleware
