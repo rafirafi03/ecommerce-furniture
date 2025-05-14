@@ -10,8 +10,9 @@ require("dotenv").config();
 
 const app = express();
 
+const dbUrl = process.env.dbUrl ? process.env.dbUrl : 'mongodb+srv://ahamedrafirafi03:ASJbzrESHgYqEmZa@cluster0.22yemjn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 // MongoDB connection
-mongoose.connect(process.env.dbUrl);
+mongoose.connect(dbUrl);
 mongoose.connection.on("connected", () => {
   console.log("Connected to MongoDB");
 });
