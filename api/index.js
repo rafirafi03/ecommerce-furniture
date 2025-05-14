@@ -18,10 +18,7 @@ const dbUrl = process.env.dbUrl || 'mongodb+srv://ahamedrafirafi03:ASJbzrESHgYqE
 const connectWithRetry = async () => {
   try {
     await mongoose.connect(dbUrl, {
-      maxPoolSize: 10, // Limit the number of connections
-      socketTimeoutMS: 30000, // Reduce socket timeout
-      connectTimeoutMS: 30000, // Reduce connection timeout
-      serverSelectionTimeoutMS: 5000 // Reduce server selection timeout
+      maxPoolSize: 10 // Limit the number of connections
     });
     console.log("Connected to MongoDB");
   } catch (err) {
@@ -37,11 +34,7 @@ connectWithRetry();
 const store = new MongoStore({
   uri: dbUrl,
   collection: 'sessions',
-  expires: 1000 * 60 * 60 * 24 * 7, // 1 week in milliseconds
-  connectionOptions: {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }
+  expires: 1000 * 60 * 60 * 24 * 7 // 1 week in milliseconds
 });
 
 store.on('error', function(error) {
@@ -93,10 +86,9 @@ app.use((err, req, res, next) => {
 });
 
 // Export the app as serverless function
-module.exports = serverless(app, {
-  basePath: '',  // Set this if your app is not at the root path
-  binary: ['image/png', 'image/jpeg', 'image/gif'], // Add binary MIME types if needed
-  provider: {
-    timeout: 50000, // Slightly less than Vercel's 60s limit
-  }
-});
+// For Vercel, we should export the express app directly
+// This is the standard way to export for Vercel serverless functions
+module.exports = app;
+
+// For other environments, you might use serverless-http like this:
+// module.exports = serverless(app);
