@@ -67,19 +67,21 @@ app.get('/_health', (req, res) => {
   res.status(200).send('OK');
 });
 
+console.log('inside index.js is success >>>> <<<<< $@#$@$@#$#$@ }}|{|}{???~!~@!@!')
+
 // Routes with basic error handling
 app.use("/", userRoute);
 app.use("/admin", adminRoute);
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).render('404', { title: 'Page Not Found' });
+  res.status(404).send('404', { title: 'Page Not Found' });
 });
 
 // Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).render('error', { 
+  res.status(500).send('error', { 
     title: 'Something went wrong',
     error: process.env.NODE_ENV === 'production' ? {} : err 
   });

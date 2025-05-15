@@ -57,18 +57,26 @@ const signUpPost = async (req, res) => {
 const loginPost = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    console.log("email and password in user  123456778")
     const user = await User.findOne({ email: email });
+
+    console.log('user finded : ', user)
 
 
 
     if (!user) {
+
+      console.log('not userrrrrrrrrrrrrr')
       // User does not exist
       return res.render("user/login", {
         message: "Invalid email or password.",
       });
     } else if(user.isBlocked) {
+      console.log('user blockeddddddd')
       return res.render('user/login',{ message: "You are blocked by admin."})
     } else if (!user.verified) {
+      console.log('not a userrererer')
       return res.render('user/login',{message:"Not a User. Please signup!"})
     }
 
