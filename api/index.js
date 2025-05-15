@@ -2,7 +2,7 @@ const express = require("express");
 const serverless = require("serverless-http");
 const mongoose = require("mongoose");
 const session = require("express-session");
-const MongoStore = require('connect-mongodb-session')(session); // Add this package
+const MongoStore = require('connect-mongodb-session')(session);
 const path = require("path");
 const nocache = require("nocache");
 const adminRoute = require("../routes/adminRoute");
@@ -11,33 +11,49 @@ require("dotenv").config();
 
 const app = express();
 
-// Improved database connection with timeout and pooling
 const dbUrl = process.env.dbUrl || 'mongodb+srv://ahamedrafirafi03:ASJbzrESHgYqEmZa@cluster0.22yemjn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
-// Connection options to improve performance
-const connectWithRetry = async () => {
-  try {
-    await mongoose.connect(dbUrl, {
-      maxPoolSize: 10 // Limit the number of connections
-    });
-    console.log("Connected to MongoDB");
-  } catch (err) {
-    console.error("MongoDB connection error:", err);
-    console.log("Retrying connection in 5 seconds...");
-    setTimeout(connectWithRetry, 5000);
+// Global cached connection across lambda warm starts
+let cachedConn = null;
+
+async function connectToDatabase() {
+  if (cachedConn) {
+    return cachedConn;
   }
-};
+  cachedConn = await mongoose.connect(dbUrl, {
+    maxPoolSize: 10,
+    // Use these options if needed:
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
+  });
+  console.log("Connected to MongoDB");
+  return cachedConn;
+}
 
-connectWithRetry();
-
-// Create a MongoDB store for sessions
-const store = new MongoStore({
-  uri: dbUrl,
-  collection: 'sessions',
-  expires: 1000 * 60 * 60 * 24 * 7 // 1 week in milliseconds
+// Middleware to ensure DB is connected before handling requests
+app.use(async (req, res, next) => {
+  try {
+    await connectToDatabase();
+    next();
+  } catch (err) {
+    console.error("DB connection failed", err);
+    res.status(500).send("Database connection error");
+  }
 });
 
-store.on('error', function(error) {
+// Create MongoDB store for sessions after DB connection is ready
+// We need to create the store dynamically because it requires an active DB connection
+function createSessionStore() {
+  return new MongoStore({
+    uri: dbUrl,
+    collection: 'sessions',
+    expires: 1000 * 60 * 60 * 24 * 7, // 1 week
+  });
+}
+
+const store = createSessionStore();
+
+store.on('error', (error) => {
   console.error('Session store error:', error);
 });
 
@@ -56,9 +72,9 @@ app.use(session({
   saveUninitialized: false,
   store: store,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week in milliseconds
+    maxAge: 1000 * 60 * 60 * 24 * 7,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax'
+    sameSite: 'lax',
   }
 }));
 
@@ -67,30 +83,22 @@ app.get('/_health', (req, res) => {
   res.status(200).send('OK');
 });
 
-console.log('inside index.js is success >>>> <<<<< $@#$@$@#$#$@ }}|{|}{???~!~@!@!')
+console.log('inside index.js is success >>>> <<<<<');
 
-// Routes with basic error handling
+// Routes
 app.use("/", userRoute);
 app.use("/admin", adminRoute);
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).send('404', { title: 'Page Not Found' });
+  res.status(404).send('404 - Page Not Found');
 });
 
 // Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('error', { 
-    title: 'Something went wrong',
-    error: process.env.NODE_ENV === 'production' ? {} : err 
-  });
+  res.status(500).send('Something went wrong');
 });
 
-// Export the app as serverless function
-// For Vercel, we should export the express app directly
-// This is the standard way to export for Vercel serverless functions
-// module.exports = app;
-
-// For other environments, you might use serverless-http like this:
+// Export the app wrapped with serverless-http for Vercel
 module.exports = serverless(app);
