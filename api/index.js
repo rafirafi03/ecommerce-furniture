@@ -90,7 +90,7 @@ app.use((err, req, res, next) => {
 // Export the app as serverless function
 // For Vercel, we should export the express app directly
 // This is the standard way to export for Vercel serverless functions
-module.exports = app;
+// module.exports = app;
 
 // For other environments, you might use serverless-http like this:
-// module.exports = serverless(app);
+module.exports = serverless(app);
