@@ -13,26 +13,45 @@ const app = express();
 
 const dbUrl = "mongodb+srv://ahamedrafirafi03:ASJbzrESHgYqEmZa@cluster0.22yemjn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
-let store;
+// Configure MongoDB connection options for serverless environment
+const mongooseOptions = {
+  maxPoolSize: 1, // Reduced pool size for serverless
+  serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
+  socketTimeoutMS: 30000, // Timeout after 30 seconds
+};
 
-// Connect to MongoDB once
-async function connectDB() {
-  if (mongoose.connection.readyState === 1) {
-    return; // already connected
+// Initialize store outside request handler
+const store = new MongoStore({
+  uri: dbUrl,
+  collection: "sessions",
+  expires: 1000 * 60 * 60 * 24 * 7, // 7 days
+  connectionOptions: mongooseOptions,
+});
+
+// Handle store errors
+store.on("error", function (error) {
+  console.error("Session store error:", error);
+});
+
+// Connect to MongoDB - will be cached across function invocations
+let isConnected = false;
+const connectDB = async () => {
+  if (isConnected) {
+    return;
   }
-  await mongoose.connect(dbUrl, {
-    maxPoolSize: 10,
-  });
-  // Initialize MongoStore only after DB connected
-  store = new MongoStore({
-    uri: dbUrl,
-    collection: "sessions",
-    expires: 1000 * 60 * 60 * 24 * 7,
-  });
-  store.on("error", function (error) {
-    console.error("Session store error:", error);
-  });
-}
+  
+  try {
+    await mongoose.connect(dbUrl, mongooseOptions);
+    isConnected = true;
+    console.log("MongoDB connected");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    throw error;
+  }
+};
+
+// Initialize connection outside of request handler
+connectDB().catch(console.error);
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
@@ -42,37 +61,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use(nocache());
 app.use(express.static(path.join(__dirname, "../public")));
 
-// Middleware to connect to DB and setup session
-app.use(async (req, res, next) => {
-  try {
-    await connectDB();
-    if (!store) {
-      return next(new Error("Session store not initialized"));
-    }
-    next();
-  } catch (err) {
-    console.error("DB connection error:", err);
-    return res.status(500).send("Database connection failed");
-  }
-});
-
-// Use session after DB and store initialized
+// Configure session middleware
 app.use(
   session({
-    secret: "your-secret-key",
+    secret: process.env.SESSION_SECRET || "mysitesessionsecret",
     resave: false,
     saveUninitialized: false,
     store: store,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
     },
   })
 );
 
+// Health check endpoint
 app.get("/_health", (req, res) => {
-  res.status(200).send("OK");
+  if (mongoose.connection.readyState === 1) {
+    return res.status(200).send("OK");
+  }
+  res.status(503).send("Database not connected");
 });
 
 app.use("/", userRoute);
@@ -86,5 +95,13 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong");
 });
+
+// For local development
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
 module.exports = serverless(app);
