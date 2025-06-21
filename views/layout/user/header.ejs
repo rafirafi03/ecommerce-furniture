@@ -131,7 +131,7 @@
               <!-- End .main-nav -->
 
               
-
+              <% if(userId) {%>
               <a href="/wishlist" class="wishlist-link">
                 <i class="icon-heart-o"></i>
                 <span class="wishlist-count"><%=wishlistCount%></span>
@@ -151,6 +151,8 @@
                 </a>
                 
               </div>
+
+              <%}%>
               <!-- End .cart-dropdown -->
               <div class="dropdown-cart-action ml-5">
                 <% if(userId) {%>

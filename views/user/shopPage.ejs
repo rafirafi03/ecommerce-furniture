@@ -112,13 +112,24 @@
                                     id="q" placeholder="Search in..." required>
                             </div><!-- End .header-search-wrapper -->
                         </div><!-- End .header-search -->
-                        <div class="dropdown cart-dropdown">
-                            <a href="/cart" class="dropdown-toggle" role="button">
-                                <i class="icon-shopping-cart"></i>
-                                <span class="cart-count"></span>
-                            </a>
+                        <% if(userId) {%>
 
-                        </div><!-- End .cart-dropdown -->
+              <a href="/wishlist" class="wishlist-link">
+                <i class="icon-heart-o"></i>
+                <span class="wishlist-count"><%=wishlistCount%></span>
+              </a>
+              <a href="/cart" class="wishlist-link">
+                <i class="icon-shopping-cart"></i>
+                <span class="wishlist-count"><%=wishlistCount%></span>
+              </a>
+              <a href="/profile" class="wishlist-link">
+                <i class="icon-user"></i>
+              </a>
+
+
+            </li>
+
+              <%}%>
                     </div><!-- End .header-right -->
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
@@ -228,12 +239,11 @@
                                                 <div class="col-lg-6">
                                                     <div class="product-body product-action-inner">
 
-
-                                                        <h3 class="product-title"><a href="product.html">
+                                                        <h3 class="product-title"><a href="/productDetails?id=<%=products[i]._id %>">
                                                                 <%= products[i].name %>
                                                             </a></h3><!-- End .product-title -->
                                                         <div class="product-cat">
-                                                            <a href="#">
+                                                            <a href="/productDetails?id=<%=products[i]._id %>">
                                                                 <%= products[i].category.name %>
                                                             </a>
                                                         </div><!-- End .product-cat -->
@@ -267,49 +277,61 @@
 
                                 </div><!-- End .products -->
 
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination">
+                                <% if (products.length> 10) { %>
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            <!-- Prev button -->
+                                            <li class="page-item <% if(pagination != 2){ %>disabled<% } %>">
+                                                <a style="cursor: pointer;" class="page-link page-link-prev"
+                                                    onclick="pagination('1')" aria-label="Previous" tabindex="-1"
+                                                    aria-disabled="true">
+                                                    <span aria-hidden="true"><i
+                                                            class="icon-long-arrow-left"></i></span>Prev
+                                                </a>
+                                            </li>
 
-                                        <li class="page-item <%if(pagination !=2){%>disabled<%}%>">
-                                            <a style="cursor: pointer;" class="page-link page-link-prev"
-                                                onclick="pagination('1')" aria-label="Previous" tabindex="-1"
-                                                aria-disabled="true">
-                                                <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
-                                            </a>
-                                        </li>
+                                            <!-- Page 1 -->
+                                            <li class="page-item <% if(pagination != 2){ %>active<% } %>"
+                                                aria-current="page">
+                                                <a onclick="pagination('1')" class="page-link" href="#">1</a>
+                                            </li>
 
-                                        <li class="page-item <%if(pagination !=2){%>active<%}%>" aria-current="page"><a
-                                                onclick="pagination('1')" class="page-link" href="#">1</a>
-                                        </li>
-                                        <li class="page-item <%if(pagination ==2){%>active<%}%> " aria-current="page"><a
-                                                onclick="pagination('2')" class="page-link" href="#">2</a>
-                                        </li>
+                                            <!-- Only show Page 2 and Next button if products.length > 10 -->
+                                            <!-- Page 2 -->
+                                            <li class="page-item <% if(pagination == 2){ %>active<% } %>"
+                                                aria-current="page">
+                                                <a onclick="pagination('2')" class="page-link" href="#">2</a>
+                                            </li>
 
-                                        <li class="page-item <%if(pagination ==2){%>disabled<%}%>">
-                                            <a style="cursor: pointer;" class="page-link page-link-next"
-                                                onclick="pagination('2')" aria-label="Next">
-                                                Next <span aria-hidden="true"><i
-                                                        class="icon-long-arrow-right"></i></span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
+                                            <!-- Next button -->
+                                            <li class="page-item <% if(pagination == 2){ %>disabled<% } %>">
+                                                <a style="cursor: pointer;" class="page-link page-link-next"
+                                                    onclick="pagination('2')" aria-label="Next">
+                                                    Next <span aria-hidden="true"><i
+                                                            class="icon-long-arrow-right"></i></span>
+                                                </a>
+                                            </li>
+                                            <%}%>
 
-                                <%}else{%>
-                                    <div class="products mb-3">
-                                        <div class="product product-list">
-                                            <div>
-                                                <div style="display: flex; justify-content: center;">
-                                                    <h4 class="text-muted "> No products available</h4>
-
-                                                </div>
+                                        </ul>
+                                    </nav>
 
 
-                                            </div><!-- End .row -->
-                                        </div><!-- End .product -->
+                                    <%}else{%>
+                                        <div class="products mb-3">
+                                            <div class="product product-list">
+                                                <div>
+                                                    <div style="display: flex; justify-content: center;">
+                                                        <h4 class="text-muted "> No products available</h4>
 
-                                    </div><!-- End .products -->
-                                    <%}%>
+                                                    </div>
+
+
+                                                </div><!-- End .row -->
+                                            </div><!-- End .product -->
+
+                                        </div><!-- End .products -->
+                                        <%}%>
                         </div><!-- End .col-lg-9 -->
                         <aside class="col-lg-3 order-lg-first">
                             <div class="sidebar sidebar-shop">
