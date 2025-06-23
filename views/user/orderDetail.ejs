@@ -42,11 +42,14 @@
                         </p>
 
                         <br>
-
+                        
+                        <%if(orders.orderStatus != 'Cancelled') {%>
                         <div style="justify-content: center; display: flex;">
                             <a class="btn btn-secondary print ms-2" href="/invoice?id=<%=orders._id%>"><i
                                 class="icon material-icons md-print">Download Invoice</i></a>
                         </div>
+
+                        <%}%>
 
                         
 

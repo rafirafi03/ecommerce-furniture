@@ -139,13 +139,13 @@ const order = async (req, res) => {
         let total = 0;
 
         if (totalPrice < 1000 && coupon && coupon.coupon) {
-            discountamount = coupon.coupon.discount;
-            total = totalPrice - discountamount + 50;
+            discount = coupon.coupon.discount;
+            total = totalPrice - discount + 50;
         } else if (totalPrice < 1000) {
             total = totalPrice + 50;
         } else if (coupon && coupon.coupon) {
-            discountamount = coupon.coupon.discount;
-            total = totalPrice - discountamount;
+            discount = coupon.coupon.discount;
+            total = totalPrice - discount;
         }
 
         const address = await addressModel.findOne({ user: userId, 'address._id': selectedAddress }, { 'address.$': 1 });

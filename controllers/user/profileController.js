@@ -2,18 +2,19 @@ const user = require("../../models/userModel");
 const userAddress = require("../../models/adressModel");
 const orderModel = require("../../models/orderModel");
 const productModel = require("../../models/productModel");
-const bcryptjs = require('bcryptjs');
-const ejs = require('ejs');
-const path = require('path');
-const puppeteer = require('puppeteer');
-
+const bcryptjs = require("bcryptjs");
+const ejs = require("ejs");
+const path = require("path");
+const puppeteer = require("puppeteer");
 
 const loadProfile = async (req, res) => {
   const userId = req.session.user_id;
 
   const users = await user.findOne({ _id: userId });
   const address = await userAddress.findOne({ user: userId });
-  const orders = await orderModel.find({ user: userId }).populate('product.productId');
+  const orders = await orderModel
+    .find({ user: userId })
+    .populate("product.productId");
   orders.sort(function (a, b) {
     return new Date(b.orderDate) - new Date(a.orderDate);
   });
@@ -87,23 +88,23 @@ const editAddress = async (req, res) => {
       pincode,
     } = req.body;
 
-    await userAddress.findOneAndUpdate(     
-      { "user": userId, "address._id": addressId },
+    await userAddress.findOneAndUpdate(
+      { user: userId, "address._id": addressId },
       {
-          "$set": {
-              "address.$.fullName": fullName,
-              "address.$.country": country,
-              "address.$.address": address,
-              "address.$.district": district,
-              "address.$.state": state,
-              "address.$.pincode": pincode,
-              "address.$.mobile": mobile,
-              "address.$.email": email
-          }
+        $set: {
+          "address.$.fullName": fullName,
+          "address.$.country": country,
+          "address.$.address": address,
+          "address.$.district": district,
+          "address.$.state": state,
+          "address.$.pincode": pincode,
+          "address.$.mobile": mobile,
+          "address.$.email": email,
+        },
       }
-  );
+    );
 
-    res.json({edit:true})
+    res.json({ edit: true });
   } catch (error) {
     console.log(error.message);
   }
@@ -131,44 +132,37 @@ const removeAddress = async (req, res) => {
 };
 
 const PatchResetPass = async (req, res) => {
-
   try {
     const userId = req.session.user_id;
 
-  const users =  await user.findOne({ _id: userId });
+    const users = await user.findOne({ _id: userId });
 
-  let { currentPass, newPass } = req.body.data;
+    let { currentPass, newPass } = req.body.data;
 
-  const passwordCompare = await bcryptjs.compare(currentPass, users.password);
+    const passwordCompare = await bcryptjs.compare(currentPass, users.password);
 
-  if (currentPass === newPass) {
-    res.json({exist:true})
-  } else {
-    if (passwordCompare) {
-      const saltRounds = 10;
-      console.log('yessss')
-      
-      bcryptjs.hash(newPass, saltRounds).then(async (hashedPassword) => {
-  
-        await user.findOneAndUpdate(
-          { _id: userId },
-          { password: hashedPassword }
-        );
-      });
-  
-      res.json({add:true});
+    if (currentPass === newPass) {
+      res.json({ exist: true });
     } else {
-      res.json({add:false});
+      if (passwordCompare) {
+        const saltRounds = 10;
+        console.log("yessss");
+
+        bcryptjs.hash(newPass, saltRounds).then(async (hashedPassword) => {
+          await user.findOneAndUpdate(
+            { _id: userId },
+            { password: hashedPassword }
+          );
+        });
+
+        res.json({ add: true });
+      } else {
+        res.json({ add: false });
+      }
     }
-  }
-
-  
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
   }
-  
-
-  
 };
 
 const loadOrderDetails = async (req, res) => {
@@ -183,29 +177,38 @@ const loadOrderDetails = async (req, res) => {
   }
 };
 
-const invoice = async (req,res)=> {
+const invoice = async (req, res) => {
   try {
-
     const orderId = req.query.id;
 
-    const orders = await orderModel.findOne({_id:orderId}).populate('product.productId');
-      
-      const ejsPagePath = path.join(__dirname, '../../views/user/orderInvoice.ejs');
-      const ejsPage = await ejs.renderFile(ejsPagePath,{orders});
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-      await page.setContent(ejsPage);
-      const pdfBuffer = await page.pdf();
-      await browser.close();
+    const orders = await orderModel
+      .findOne({ _id: orderId })
+      .populate("product.productId");
 
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
-      res.send(pdfBuffer);
+    const ejsPagePath = path.join(
+      __dirname,
+      "../../views/user/orderInvoice.ejs"
+    );
+    const ejsPage = await ejs.renderFile(ejsPagePath, { orders });
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+    await page.setContent(ejsPage, { waitUntil: 'networkidle0' });
+    const pdfBuffer = await page.pdf({
+      format: "A4",
+      printBackground: true,
+    });
+    await browser.close();
 
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
+    res.end(pdfBuffer);
   } catch (error) {
-      console.log(error.message)
+    console.log(error.message);
   }
-}
+};
 
 const cancelOrder = async (req, res) => {
   try {
@@ -219,9 +222,9 @@ const cancelOrder = async (req, res) => {
       { _id: orderId },
       {
         $set: {
-          orderStatus: "Cancelled", 
-          "product.$[].orderStatus": "Cancelled" 
-        }
+          orderStatus: "Cancelled",
+          "product.$[].orderStatus": "Cancelled",
+        },
       }
     );
 
@@ -235,23 +238,21 @@ const cancelOrder = async (req, res) => {
       );
     }
 
-    if (ordersProducts.payment !== 'cash on delivery') {
+    if (ordersProducts.payment !== "cash on delivery") {
       await user.findOneAndUpdate(
-          { _id: userId },
-          {
-              $inc: { wallet: ordersProducts.totalPrice },
-              $push: {
-                  walletHistory : {
-                      date: Date.now(),
-                      amount: ordersProducts.totalPrice
-                  }
-              }
+        { _id: userId },
+        {
+          $inc: { wallet: ordersProducts.totalPrice },
+          $push: {
+            walletHistory: {
+              date: Date.now(),
+              amount: ordersProducts.totalPrice,
+            },
           },
-          { new: true } 
+        },
+        { new: true }
       );
-  }
-
-
+    }
 
     res.json({ success: true });
   } catch (error) {
@@ -259,38 +260,34 @@ const cancelOrder = async (req, res) => {
   }
 };
 
-const returnProduct = async (req,res)=>{
-
+const returnProduct = async (req, res) => {
   try {
+    let { productId, orderId, reason } = req.body;
 
-    let {productId,orderId,reason} = req.body;
-
-    console.log(req.body)
+    console.log(req.body);
 
     const updatedOrder = await orderModel.findOneAndUpdate(
       {
         _id: orderId,
-        'product.productId': productId
+        "product.productId": productId,
       },
       {
         $set: {
-          'product.$[prod].orderStatus': 'return requested',
-          'product.$[prod].returnReason': reason
-        }
+          "product.$[prod].orderStatus": "return requested",
+          "product.$[prod].returnReason": reason,
+        },
       },
       {
-        arrayFilters: [{ 'prod.productId': productId }],
-        new: true 
+        arrayFilters: [{ "prod.productId": productId }],
+        new: true,
       }
     );
 
-      res.json({return:true})
-
-
+    res.json({ return: true });
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
   }
-}
+};
 
 const logout = async (req, res) => {
   try {
@@ -312,5 +309,5 @@ module.exports = {
   loadOrderDetails,
   PatchResetPass,
   returnProduct,
-  invoice
+  invoice,
 };
