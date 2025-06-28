@@ -20,7 +20,6 @@ const addToWishlist = async (req,res) => {
             const wishlistProduct = await wishlistModel.findOne({user: userId, 'product.productId': productId});
             const productPrice = productData.price;
 
-            if (productData.quantity > 0) {
                 if (wishlistProduct) {
                     res.json({status:true, wishlistProduct})
                 } else {
@@ -32,9 +31,6 @@ const addToWishlist = async (req,res) => {
                     await wishlistModel.findOneAndUpdate({ user: userId}, {$set :{ user: userId}, $push: {product: data}}, {upsert: true, new: true});
                     res.json({success: true});
                 }
-            } else {
-                res.status(400).json({ stock: true});
-            }
         } else {
             res.status(401).json({failed: true})
         }

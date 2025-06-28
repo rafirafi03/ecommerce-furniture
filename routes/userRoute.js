@@ -115,6 +115,3 @@ userRoute.get('/logout',auth.isLogin,profileController.logout);
 // userRoute.get('/logout',userController.userLogout)
 
 module.exports = userRoute;
-
-
-

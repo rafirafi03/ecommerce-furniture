@@ -213,24 +213,22 @@
                                                                     ₹ <%= products[i].price %> /-
                                                                 </div><!-- End .product-price -->
                                                                 <%}%>
-                                                                    <div class="ratings-container">
-                                                                        <div class="ratings">
-                                                                            <div class="ratings-val"
-                                                                                style="width: 20%;">
-                                                                            </div><!-- End .ratings-val -->
-                                                                        </div><!-- End .ratings -->
-                                                                        <span class="ratings-text">( 2 Reviews )</span>
-                                                                    </div><!-- End .rating-container -->
 
 
                                                                     <a onclick="addToWishlist('<%= products[i]._id %>')"
                                                                         class="btn-product btn-wishlist"><span>add to
                                                                             wishlist</span></a>
                                                                     <br>
+                                                                    <%if(products[i].quantity>0){%>
                                                                     <button
                                                                         onclick="addToCart('<%= products[i]._id %>')"
                                                                         class="btn-product btn-cart"><span>add to
                                                                             cart</span></button>
+                                                                            <%}else{%>
+                                                                                <button
+                                                                        class="btn-product btn-cart"><span>Out of Stock</span></button>
+                                                                            <%}%>
+
 
 
                                                     </div><!-- End .product-list-action -->

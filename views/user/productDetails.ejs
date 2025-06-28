@@ -224,14 +224,6 @@
                                         </p>
                                     </div><!-- End .product-content -->
 
-                                    <div class="ratings-container">
-                                        <div class="ratings">
-                                            <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                        </div><!-- End .ratings -->
-                                        <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews
-                                            )</a>
-                                    </div><!-- End .rating-container -->
-
                                     <%if(products.offerId){%>
                                         <p class="text-danger"><s>₹ <%=products.price%>/-</s></p>
                                         <div class="product-price text-success">
@@ -244,12 +236,18 @@
                                             <%}%>
 
                                                 <div class="product-details-action">
+                                                    <%if(products.quantity>0){%>
                                                     <a style="cursor: pointer; color:black"
                                                         onclick="addToCart('<%= products._id %>')"
                                                         class="btn-product btn-cart"
                                                         onmouseover="this.style.color='white'"
                                                         onmouseout="this.style.color='black'" role="button"><span>add to
                                                             cart</span></a>
+                                                    <%}else{%>
+                                                        <a style="cursor: pointer; color:black"
+                                                        class="btn-product btn-cart"
+                                                        onmouseover="this.style.color='white'"
+                                                        onmouseout="this.style.color='black'" role="button"><span>Out of Stock</span></a> <%}%>
 
                                                     <div class="details-action-wrapper">
                                                         <a onclick="addToWishlist('<%=products._id %>')"
@@ -259,21 +257,7 @@
                                                     </div><!-- End .details-action-wrapper -->
                                                 </div><!-- End .product-details-action -->
 
-                                                <div class="product-details-footer">
-
-
-                                                    <div class="social-icons social-icons-sm">
-                                                        <span class="social-label">Share:</span>
-                                                        <a href="#" class="social-icon" title="Facebook"
-                                                            target="_blank"><i class="icon-facebook-f"></i></a>
-                                                        <a href="#" class="social-icon" title="Twitter"
-                                                            target="_blank"><i class="icon-twitter"></i></a>
-                                                        <a href="#" class="social-icon" title="Instagram"
-                                                            target="_blank"><i class="icon-instagram"></i></a>
-                                                        <a href="#" class="social-icon" title="Pinterest"
-                                                            target="_blank"><i class="icon-pinterest"></i></a>
-                                                    </div>
-                                                </div><!-- End .product-details-footer -->
+                                                
                                 </div><!-- End .product-details -->
                             </div><!-- End .col-md-6 -->
                         </div><!-- End .row -->

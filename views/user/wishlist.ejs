@@ -65,7 +65,6 @@
             <div class="header-left">
               <div class="header-dropdown">
                 <a href="#">Eng</a>
-                
               </div>
               <!-- End .header-dropdown -->
             </div>
@@ -119,22 +118,22 @@
               <nav class="main-nav">
                 <ul class="menu sf-arrows">
                   <li class="megamenu-container active">
-                    <a href="/" >Home</a>
+                    <a href="/">Home</a>
                   </li>
                   <li>
-                    <a href="/shopPage" >Shop</a>
+                    <a href="/shopPage">Shop</a>
                   </li>
                   <li>
-                    <a href="comingSoon" >New</a>
+                    <a href="comingSoon">New</a>
                   </li>
                   <li>
-                    <a href="comingSoon" >Pages</a>
+                    <a href="comingSoon">Pages</a>
                   </li>
                   <li>
                     <a href="comingSoon">Blog</a>
                   </li>
                   <li>
-                    <a href="comingSoon">Elements</a> 
+                    <a href="comingSoon">Elements</a>
                   </li>
                 </ul>
                 <!-- End .menu -->
@@ -164,7 +163,6 @@
                 </form>
               </div>
               <!-- End .header-search -->
-              
 
               <div class="dropdown cart-dropdown">
                 <a href="cart" class="dropdown-toggle" role="button">
@@ -252,56 +250,61 @@
                   <%}else{%>
                   <td class="price-col"><%= prod.productId.price %></td>
                   <%}%> <%if(prod.productId.quantity> 5) {%>
-                    <%if(prod.productId.isListed === false) {%>
-                      <td class="stock-col">
-                        <span class="text-danger">Not available</span>
-                      </td>
-                      <%}else{%>
+                  <%if(prod.productId.isListed === false) {%>
+                  <td class="stock-col">
+                    <span class="text-danger">Not available</span>
+                  </td>
+                  <%}else{%>
                   <td class="stock-col">
                     <span class="text-success">In Stock</span>
                   </td>
-                  <%}%>
-                  <%} else if(prod.productId.quantity < 6){%>
-                    <%if(prod.productId.isListed === false) {%>
-                      <td class="stock-col">
-                        <span class="text-danger">Not available</span>
-                      </td>
-                      <%}else{%>
+                  <%}%> <%} else if(prod.productId.quantity < 6 && prod.productId.quantity >0){%>
+                  <%if(prod.productId.isListed === false) {%>
+                  <td class="stock-col">
+                    <span class="text-danger">Not available</span>
+                  </td>
+                  <%}else{%>
                   <td class="stock-col">
                     <span class="text-warning">Few left</span>
                   </td>
-                  <%}%>
-                  <%} else {%>
-                    <%if(prod.productId.isListed === false) {%>
-                      <td class="stock-col">
-                        <span class="text-danger">Not available</span>
-                      </td>
-                      <%}else{%>
+                  <%}%> <%} else {%> <%if(prod.productId.isListed === false) {%>
+                  <td class="stock-col">
+                    <span class="text-danger">Not available</span>
+                  </td>
+                  <%}else{%>
                   <td class="stock-col">
                     <span class="text-danger">Out of Stock</span>
                   </td>
+                  <%}%> <%}%> <%if(prod.productId.isListed === false) {%>
+                  <td class="action-col">
+                    <button
+                      disabled
+                      type="button"
+                      class="btn btn-block btn-outline-primary-2"
+                    >
+                      Not available
+                    </button>
+                  </td>
+                  <%}else if(prod.productId.quantity<=0){%>
+                  <td class="action-col">
+                    <button
+                      type="button"
+                      class="btn btn-block btn-outline-primary-2"
+                    >
+                      <i class="icon-cart-plus"></i>Out of Stock
+                    </button>
+                  </td>
+                  <%}else{%>
+                  <td class="action-col">
+                    <button
+                      type="button"
+                      onclick="addToCart('<%= prod.productId._id %>')"
+                      class="btn btn-block btn-outline-primary-2"
+                    >
+                      <i class="icon-cart-plus"></i>Add to Cart
+                    </button>
+                  </td>
                   <%}%>
-                  <%}%>
-                  <%if(prod.productId.isListed === false) {%>
-                    <td class="action-col">
-                      <button disabled
-                        type="button"
-                        class="btn btn-block btn-outline-primary-2"
-                      >
-                        Not available
-                      </button>
-                    </td>
-                    <%}else{%> 
-                      <td class="action-col">
-                        <button
-                          type="button"
-                          onclick="addToCart('<%= prod.productId._id %>')"
-                          class="btn btn-block btn-outline-primary-2"
-                        >
-                          <i class="icon-cart-plus"></i>Add to Cart
-                        </button>
-                      </td>
-                      <%}%>
                   <td class="remove-col">
                     <button
                       class="btn-remove"
@@ -553,21 +556,18 @@
             </li>
             <li>
               <a href="shopPage">Shop</a>
-              
             </li>
             <li>
               <a href="comingSoon">New</a>
-              
             </li>
             <li>
-              <a href="comingSoon">Pages</a>             
+              <a href="comingSoon">Pages</a>
             </li>
             <li>
               <a href="comingSoon">Blog</a>
             </li>
             <li>
               <a href="comingSoon">Elements</a>
-              
             </li>
           </ul>
         </nav>

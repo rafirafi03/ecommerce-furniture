@@ -25,15 +25,6 @@ function addToWishlist(id) {
                     window.location.href = '/wishlist'
                 }
             });
-        } else if (data.stock) {
-            Swal.fire({
-                title : 'Out of Stock',
-                text : 'Come again later',
-                icon : 'error',
-                confirmButtonText : 'ok',
-                confirmButtonColor : '#cc9966',
-                timer : 2000
-            });
         } else if (data.status) {
             Swal.fire({
                 icon : 'warning',

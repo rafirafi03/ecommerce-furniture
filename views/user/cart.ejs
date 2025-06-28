@@ -74,7 +74,7 @@
                                                             <%}%>
                                                         
                                                       </td>
-                                                    <%} else if(prod.productId.quantity < 6){%>
+                                                    <%} else if(prod.productId.quantity < 6 && prod.productId.quantity > 0){%>
                                                         <td class="stock-col">
                                                             <%if(prod.productId.isListed){%>
                                                             <span class="text-warning">Few left</span>
