@@ -192,10 +192,10 @@ const invoice = async (req, res) => {
     const ejsPage = await ejs.renderFile(ejsPagePath, { orders });
     const browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
-    await page.setContent(ejsPage, { waitUntil: 'networkidle0' });
+    await page.setContent(ejsPage, { waitUntil: "networkidle0" });
     const pdfBuffer = await page.pdf({
       format: "A4",
       printBackground: true,
@@ -260,13 +260,131 @@ const cancelOrder = async (req, res) => {
   }
 };
 
+const cancelFailedOrder = async (req, res) => {
+  try {
+    const orderId = req.body.id;
+
+    const userId = req.session.user_id;
+
+    const ordersProducts = await orderModel.findOne({ _id: orderId });
+
+    await orderModel.findOneAndUpdate(
+      { _id: orderId },
+      {
+        $set: {
+          orderStatus: "Cancelled",
+          "product.$[].orderStatus": "Cancelled",
+        },
+      }
+    );
+
+    if (ordersProducts.payment !== "cash on delivery") {
+      await user.findOneAndUpdate(
+        { _id: userId },
+        {
+          $inc: { wallet: ordersProducts.totalPrice },
+          $push: {
+            walletHistory: {
+              date: Date.now(),
+              amount: ordersProducts.totalPrice,
+            },
+          },
+        },
+        { new: true }
+      );
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const cancelIndividualProduct = async (req, res) => {
+  try {
+    const { productId, orderId } = req.body;
+
+    const order = await orderModel.findById(orderId);
+    const product = await productModel.findById(productId);
+    if (!order) return res.status(404).json({ message: "Order not found" });
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    const userId = order.user;
+    const productItem = order.product.find(
+      (item) => item.productId.toString() === productId
+    );
+
+    console.log(productItem, "productItemmmmm 12345");
+
+    if (!productItem)
+      return res.status(404).json({ message: "Product not found in order" });
+    if (productItem.orderStatus === "Cancelled")
+      return res.status(400).json({ message: "Product already cancelled" });
+
+    const refundAmount = product.price * productItem.quantity;
+
+    console.log(refundAmount, "refundd amounttttt  123456");
+
+    const updatedOrder = await orderModel.findOneAndUpdate(
+      { _id: orderId, "product.productId": productId },
+      {
+        $set: {
+          "product.$[prod].orderStatus": "Cancelled",
+          "product.$[prod].paymentStatus": "refunded",
+        },
+        $inc: {
+          totalPrice: -refundAmount,
+        },
+      },
+      {
+        arrayFilters: [{ "prod.productId": productId }],
+        new: true,
+      }
+    );
+
+    const allCancelled = updatedOrder.product.every(
+      (item) => item.orderStatus === "Cancelled"
+    );
+
+    if (allCancelled) {
+      await orderModel.findByIdAndUpdate(orderId, {
+        $set: { orderStatus: "Cancelled" },
+      });
+    }
+
+    await user.findByIdAndUpdate(userId, {
+      $inc: { wallet: refundAmount },
+      $push: {
+        walletHistory: {
+          amount: refundAmount,
+          date: new Date(),
+        },
+      },
+    });
+
+    await productModel.findOneAndUpdate(
+      { _id: productId },
+      { $inc: { quantity: productItem.quantity } }
+    );
+
+    res.json({
+      success: true,
+      message: "Product cancelled and amount refunded",
+      refundAmount,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 const returnProduct = async (req, res) => {
   try {
     let { productId, orderId, reason } = req.body;
 
     console.log(req.body);
 
-    const updatedOrder = await orderModel.findOneAndUpdate(
+    await orderModel.findOneAndUpdate(
       {
         _id: orderId,
         "product.productId": productId,
@@ -306,6 +424,8 @@ module.exports = {
   editAddress,
   removeAddress,
   cancelOrder,
+  cancelFailedOrder,
+  cancelIndividualProduct,
   loadOrderDetails,
   PatchResetPass,
   returnProduct,

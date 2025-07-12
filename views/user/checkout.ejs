@@ -913,7 +913,36 @@ fetch('/checkoutAddAddress',{
     },
     "theme": {
         "color": "#3399cc"
-    }
+    },
+    "modal": {
+                // ❌ Razorpay popup closed or payment failed
+                "ondismiss": function () {
+                    // Send request to backend to mark order as failed and restock
+                    fetch('/paymentFailed', {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ orderId: order.receipt })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Payment Failed',
+                                text: 'Your order was not completed and items were restocked.',
+                                icon: 'error',
+                                confirmButtonColor: "#c96",
+                                confirmButtonText: 'OK',
+                                timer: 3000
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error notifying server of payment failure:', err);
+                    });
+                }
+            }
 };
 let raz = new Razorpay(options);
             raz.open();

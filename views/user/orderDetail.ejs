@@ -31,7 +31,7 @@
                             <b>Discount : ₹ <%=orders.discountAmount%>.00</b>
                             <br>
                             <%if(orders.shippingCharge){%>
-                                <b>Shipping : ₹ <%=orders.discountAmount%>.00</b>
+                                <b>Shipping : ₹ <%=orders.shippingCharge%>.00</b>
                                 <%}else{%>
                                     <b>Shipping : ₹ 0.00</b>
                                     <%}%>
@@ -43,7 +43,7 @@
 
                         <br>
                         
-                        <%if(orders.orderStatus != 'Cancelled') {%>
+                        <%if(orders.orderStatus != 'pending' && orders.orderStatus != 'Cancelled') {%>
                         <div style="justify-content: center; display: flex;">
                             <a class="btn btn-secondary print ms-2" href="/invoice?id=<%=orders._id%>"><i
                                 class="icon material-icons md-print">Download Invoice</i></a>
@@ -77,7 +77,7 @@
                                                             Quantity : <%=val.quantity%> <br>
                                                                 Total : ₹ <%=(val.productId.price *
                                                                     val.quantity).toFixed(2)%> <br>
-                                                                    Payment status : <%=orders.paymentStatus%> <br>
+                                                                    Payment status : <%=val.paymentStatus%> <br>
                                                                         Status : <%=val.orderStatus%>
                                                     </p>
                                                     <br>
@@ -86,6 +86,11 @@
                                                             onclick="openReturnModal('<%=val.productId._id%>','<%=orders._id%>')"
                                                             data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                                             Return Product
+                                                        </button>
+                                                        <%} else if(val.orderStatus==='out for delivery' || val.orderStatus==='shipped' || val.orderStatus==='placed') {%>
+                                                            <button type="button" class="btn btn-primary"
+                                                            onclick="cancelInidvidualProduct('<%=orders._id%>','<%=val.productId._id%>',)">
+                                                            Cancel Product
                                                         </button>
                                                         <%}%>
                                                 </div>
@@ -103,11 +108,17 @@
                                     </button>
                             </div>
                             <%}else if(orders.orderStatus==='pending' ){%>
-                                <button type="submit" onclick="continueOrder('<%=orders._id%>')"
-                                    class="btn btn-outline-primary-2 btn-cancel-order btn-block">
-                                    <span class="btn-text">Continue Order</span>
-                                    <span class="btn-hover-text">Continue</span>
-                                </button>
+
+                                    <button type="submit" onclick="continueOrder('<%=orders._id%>')"
+                                        class="btn btn-outline-primary-2 btn-cancel-order btn-block">
+                                        <span class="btn-text">Continue Order</span>
+                                        <span class="btn-hover-text">Continue</span>
+                                    </button>
+                                    <button type="submit" onclick="cancelFailedOrder('<%=orders._id%>')"
+                                        class="btn btn-outline-danger btn-cancel-order btn-block">
+                                        <span class="btn-text">Cancel Order</span>
+                                        <span class="btn-hover-text">Cancel</span>
+                                    </button>
                                 <%}else if(orders.orderStatus!=='delivered' ){%>
                                     <button type="submit" onclick="cancelOrder('<%=orders._id%>')"
                                         class="btn btn-outline-primary-2 btn-cancel-order btn-block">
@@ -407,6 +418,96 @@
                                         Swal.fire({
                                             title: 'Cancelled',
                                             text: "You'r order has been cancelled !!",
+                                            icon: 'success',
+                                            confirmButtonColor: '#c96',
+                                            confirmButtonText: 'Ok',
+                                            timer: 2000
+                                        }).then((result) => {
+                                            location.href = '/profile'
+                                        })
+                                    }
+                                })
+                        } catch (error) {
+                            console.log(error.message)
+                        }
+                    }
+                })
+
+
+            }
+
+
+            function cancelFailedOrder(id) {
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to cancel this order !!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#c96',
+                    confirmButtonText: 'Yes'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            fetch('/cancelFailedOrder', {
+                                method: 'PATCH',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ id: id })
+                            })
+                                .then((response => response.json()))
+                                .then(data => {
+                                    if (data.success === true) {
+                                        Swal.fire({
+                                            title: 'Cancelled',
+                                            text: "You'r order has been cancelled !!",
+                                            icon: 'success',
+                                            confirmButtonColor: '#c96',
+                                            confirmButtonText: 'Ok',
+                                            timer: 2000
+                                        }).then((result) => {
+                                            location.href = '/profile'
+                                        })
+                                    }
+                                })
+                        } catch (error) {
+                            console.log(error.message)
+                        }
+                    }
+                })
+
+
+            }
+
+
+            function cancelInidvidualProduct(orderId, productId) {
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to cancel this order !!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#c96',
+                    confirmButtonText: 'Yes'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            fetch('/cancelIndividualProduct', {
+                                method: 'PATCH',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ orderId, productId })
+                            })
+                                .then((response => response.json()))
+                                .then(data => {
+                                    if (data.success === true) {
+                                        Swal.fire({
+                                            title: 'Cancelled',
+                                            text: "You'r Product has been cancelled !!",
                                             icon: 'success',
                                             confirmButtonColor: '#c96',
                                             confirmButtonText: 'Ok',

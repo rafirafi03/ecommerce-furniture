@@ -56,7 +56,7 @@ const returnProduct = async (req,res)=>{
 
        console.log(req.body)
 
-       const updatedOrder = await orderModel.findOneAndUpdate(
+       await orderModel.findOneAndUpdate(
         {
           _id: orderId,
           'product.productId': id
@@ -85,7 +85,7 @@ const returnCancel = async (req,res)=> {
         
         let {id,orderId} = req.body;
 
-        const updatedOrder = await orderModel.findOneAndUpdate(
+        await orderModel.findOneAndUpdate(
             {
               _id: orderId,
               'product.productId': id

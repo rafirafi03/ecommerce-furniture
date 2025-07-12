@@ -91,7 +91,13 @@ userRoute.get('/orderDetails',auth.isLogin,profileController.loadOrderDetails);
 
 userRoute.patch('/cancelOrder',auth.isLogin,profileController.cancelOrder);
 
+userRoute.patch('/cancelFailedOrder',auth.isLogin,profileController.cancelFailedOrder);
+
+userRoute.patch('/cancelIndividualProduct',auth.isLogin,profileController.cancelIndividualProduct);
+
 userRoute.patch('/razorpayVerify',checkoutController.razorpayVerify);
+
+userRoute.patch('/paymentFailed',checkoutController.paymentFailed);
 
 userRoute.patch('/continueOrder',checkoutController.continueOrder);
 
