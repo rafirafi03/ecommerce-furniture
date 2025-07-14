@@ -5,7 +5,6 @@
         <div class="content-header">
             <div>
                 <h2 class="content-title card-title">Order List</h2>
-                <p>Lorem ipsum dolor sit amet.</p>
             </div>
             <div>
                 <input type="text" placeholder="Search order ID" class="form-control bg-white" />
@@ -40,23 +39,15 @@
                                         <td><span class="badge rounded-pill alert-danger">Cancelled</span></td>
                                         <%}else if(val.orderStatus==='delivered' ){%>
                                             <td><span class="badge rounded-pill alert-success">Delivered</span></td>
-                                            <%}else{%>
-                                                <td><span class="badge rounded-pill alert-warning">Pending</span></td>
+                                            <%}else if(val.orderStatus==='returned'){%>
+                                                <td><span class="badge rounded-pill alert-danger">Returned</span></td>
+                                                <%} else {%>
+                                                    <td><span class="badge rounded-pill alert-danger">Returned</span></td>
                                                 <%}%>
                                                     <td class="text-end">
                                                         <a href="orderDetail?id=<%=val._id%>"
                                                             class="btn btn-md rounded font-sm">Detail</a>
-                                                        <div class="dropdown">
-                                                            <a href="#" data-bs-toggle="dropdown"
-                                                                class="btn btn-light rounded btn-sm font-sm"> <i
-                                                                    class="material-icons md-more_horiz"></i> </a>
-                                                            <div class="dropdown-menu">
-                                                                <a class="dropdown-item" href="#">View detail</a>
-                                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                            </div>
-                                                        </div>
-                                                        <!-- dropdown //end -->
+                                                        
                                                     </td>
                                 </tr>
                                 <%})%>

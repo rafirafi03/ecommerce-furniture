@@ -31,6 +31,10 @@ const orderSchema = new Schema({
         type: Number,
         default: 1,
       },
+      offerAmount: {
+        type: Number,
+        default: null
+      },
       orderStatus: {
         type: String,
         dafault: "pending",

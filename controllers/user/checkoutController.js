@@ -4,6 +4,7 @@ const addressModel = require("../../models/adressModel");
 const orderModel = require("../../models/orderModel");
 const productModel = require("../../models/productModel");
 const couponModel = require("../../models/couponModel");
+const offerModel = require("../../models/offerModel");
 const razorpay = require("razorpay");
 const crypto = require("crypto");
 const env = require("dotenv");
@@ -148,13 +149,13 @@ const order = async (req, res) => {
 
     let discount = 0;
     let total = 0;
-    let shippingAmount = 0
+    let shippingAmount = 0;
 
     if (totalPrice < 1000 && coupon && coupon.coupon) {
       discount = coupon.coupon.discount;
       total = totalPrice - discount + 50;
     } else if (totalPrice < 1000) {
-      shippingAmount = 50
+      shippingAmount = 50;
       total = totalPrice + shippingAmount;
     } else if (coupon && coupon.coupon) {
       discount = coupon.coupon.discount;
@@ -174,11 +175,29 @@ const order = async (req, res) => {
         ? "failed"
         : "pending";
 
+    const updatedProducts = [];
+
+    for (let i = 0; i < products.product.length; i++) {
+      const item = products.product[i];
+      const productDoc = item.productId;
+      const quantity = item.quantity;
+
+      let offerPrice = productDoc.offerPercentage
+        ? productDoc.offerPercentage
+        : null;
+
+      updatedProducts.push({
+        productId: productDoc._id,
+        quantity: quantity,
+        offerAmount: offerPrice,
+      });
+    }
+
     const newOrder = new orderModel({
       user: userId,
       deliveryAddress: address.address[0],
       payment: selectedPayment,
-      product: products.product,
+      product: updatedProducts,
       shippingCharge: shippingAmount,
       discountAmount: discount,
       totalPrice: total ? total : totalPrice,
@@ -244,12 +263,10 @@ const order = async (req, res) => {
       razorpayInstance.orders.create(options, function (err, order) {
         if (err) {
           console.log(err);
-          res
-            .status(500)
-            .json({
-              success: false,
-              message: "An error occurred while creating the order.",
-            });
+          res.status(500).json({
+            success: false,
+            message: "An error occurred while creating the order.",
+          });
         } else {
           res.json({ success: false, order });
         }
@@ -257,12 +274,10 @@ const order = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "An error occurred while processing the order.",
-      });
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while processing the order.",
+    });
   }
 };
 

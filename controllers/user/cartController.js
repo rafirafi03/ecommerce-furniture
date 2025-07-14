@@ -36,24 +36,10 @@ const addToCart = async (req, res) => {
             const userId = req.session.user_id;
             const productData = await products.findById(productId);
             const cartProduct = await cartModel.findOne({ user: userId, 'product.productId': productId });
-            const productPrice = productData.price;
 
             if (productData.quantity > 0) {
                 if (cartProduct) {
                     res.json({ status:true, cartProduct });
-                }else if(productData.offerId) {
-                    const data = {
-                        productId: productId,
-                    };
-
-                    await cartModel.findOneAndUpdate({ user: userId }, { $set: { user: userId }, $push: { product: data } }, { upsert: true, new: true });
-
-                    await wishlistModel.findOneAndUpdate(
-                        { user: userId},
-                        {$pull : {product : {productId : productId}}},
-                        {new: true}
-                    );
-                    res.json({ success: true });
                 }else {
                     const data = {
                         productId: productId,

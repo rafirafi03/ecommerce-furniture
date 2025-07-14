@@ -264,10 +264,6 @@ const cancelFailedOrder = async (req, res) => {
   try {
     const orderId = req.body.id;
 
-    const userId = req.session.user_id;
-
-    const ordersProducts = await orderModel.findOne({ _id: orderId });
-
     await orderModel.findOneAndUpdate(
       { _id: orderId },
       {
@@ -277,22 +273,6 @@ const cancelFailedOrder = async (req, res) => {
         },
       }
     );
-
-    if (ordersProducts.payment !== "cash on delivery") {
-      await user.findOneAndUpdate(
-        { _id: userId },
-        {
-          $inc: { wallet: ordersProducts.totalPrice },
-          $push: {
-            walletHistory: {
-              date: Date.now(),
-              amount: ordersProducts.totalPrice,
-            },
-          },
-        },
-        { new: true }
-      );
-    }
 
     res.json({ success: true });
   } catch (error) {
