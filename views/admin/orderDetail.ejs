@@ -61,8 +61,7 @@
                                                         <option value="delivered">delivered</option>
                                                     </select>
                                                     <%}%>
-                                                        <a class="btn btn-secondary print ms-2" href="#"><i
-                                                                class="icon material-icons md-print"></i></a>
+
                     </div>
                 </div>
             </header>
@@ -150,7 +149,7 @@
                                                 </div>
                                             </a>
                                         </td>
-                                        <td>₹ <%=val.productId.price%>.00</td>
+                                        <td>₹ <%=val.productId.price%></td>
                                         <td>
                                             <%=val.quantity%>
                                         </td>
@@ -175,7 +174,7 @@
                                                 <article class="float-end">
                                                     <dl class="dlist">
                                                         <dt>Subtotal:</dt>
-                                                        <dd>₹ <%=orders.totalPrice+orders.discountAmount%>.00</dd>
+                                                        <dd>₹ <%=orders.totalPrice+orders.discountAmount%></dd>
                                                     </dl>
                                                     <%if(orders.shippingCharge){%>
                                                         <dl class="dlist">
@@ -196,7 +195,7 @@
 
                                                                 <dl class="dlist">
                                                                     <dt>Grand total:</dt>
-                                                                    <dd><b class="h5"></b>₹ <%=orders.totalPrice%>.00
+                                                                    <dd><b class="h5"></b>₹ <%=orders.totalPrice%>
                                                                     </dd>
                                                                 </dl>
                                                                 <dl class="dlist">

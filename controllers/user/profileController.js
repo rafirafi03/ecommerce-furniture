@@ -301,7 +301,7 @@ const cancelIndividualProduct = async (req, res) => {
     if (productItem.orderStatus === "Cancelled")
       return res.status(400).json({ message: "Product already cancelled" });
 
-    const refundAmount = product.price * productItem.quantity;
+    const refundAmount = productItem.offerAmount ? productItem.offerAmount * productItem.quantity : product.price * productItem.quantity;
 
     console.log(refundAmount, "refundd amounttttt  123456");
 
@@ -332,6 +332,7 @@ const cancelIndividualProduct = async (req, res) => {
       });
     }
 
+    
     await user.findByIdAndUpdate(userId, {
       $inc: { wallet: refundAmount },
       $push: {

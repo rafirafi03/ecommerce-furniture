@@ -5,6 +5,7 @@ const bcryptjs = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const wishlistModel = require("../../models/wishlistModel");
 const cartModel = require("../../models/cartModel");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 // // signup
@@ -97,14 +98,19 @@ const loadHome = async (req, res) => {
   try {
     const userId = req.session.user_id;
 
-    const wishlistCount = await wishlistModel.countDocuments({
-        user: userId,
-        product: { $exists: true, $not: { $size: 0 } },
-      });
-    const cartCount = await cartModel.countDocuments({
-      user: userId,
-      product: { $exists: true, $not: { $size: 0 } },
-    });
+    const wishlistResult = await wishlistModel.aggregate([
+      { $match: { user: new mongoose.Types.ObjectId(userId) } },
+      { $project: { productCount: { $size: "$product" } } },
+    ]);
+
+    const wishlistCount =
+      wishlistResult.length > 0 ? wishlistResult[0].productCount : 0;
+
+    const cartResult = await cartModel.aggregate([
+      { $match: { user: new mongoose.Types.ObjectId(userId) } },
+      { $project: { productCount: { $size: "$product" } } },
+    ]);
+    const cartCount = cartResult.length > 0 ? cartResult[0].productCount : 0;
 
     const products = await product
       .find({ isListed: true })

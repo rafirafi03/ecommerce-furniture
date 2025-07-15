@@ -9,7 +9,7 @@
                     <li class="breadcrumb-item active" aria-current="page">Details</li>
                 </ol>
 
-                
+
             </div><!-- End .container -->
         </nav><!-- End .breadcrumb-nav -->
 
@@ -42,91 +42,103 @@
                         </p>
 
                         <br>
-                        
-                        <%if(orders.orderStatus != 'pending' && orders.orderStatus != 'Cancelled') {%>
-                        <div style="justify-content: center; display: flex;">
-                            <a class="btn btn-secondary print ms-2" href="/invoice?id=<%=orders._id%>"><i
-                                class="icon material-icons md-print">Download Invoice</i></a>
-                        </div>
 
-                        <%}%>
-
-                        
-
-                        <div class="container mt-5">
-                            <h3 class="mb-4 text-center">Ordered Products</h3>
-
-                            <div class="card mt-3">
-                                <div class="row">
-                                    <% orders.product.forEach((val)=>{%>
-                                        <div class="card-body d-flex justify-content-start mt-3">
-                                            <div class="product-card d-flex">
-                                                <div class="product-image">
-                                                    <a href="">
-                                                        <img src="/multerimages/<%=val.productId.images[0]%>" alt=""
-                                                            class="img-thumbnail" style="max-width: 200px;">
-                                                    </a>
-                                                </div>
-                                                <div class="mx-3" style="width: 180px;">
-                                                    <h5 class="product-details"><a href="">
-                                                            <%= val.productId.name%>
-                                                        </a></h5>
-                                                    <p class="product-details">
-                                                        <br>
-                                                        Price : ₹ <%=val.productId.price%>.00 <br>
-                                                            Quantity : <%=val.quantity%> <br>
-                                                                Total : ₹ <%=(val.productId.price *
-                                                                    val.quantity).toFixed(2)%> <br>
-                                                                    Payment status : <%=val.paymentStatus%> <br>
-                                                                        Status : <%=val.orderStatus%>
-                                                    </p>
-                                                    <br>
-                                                    <%if(val.orderStatus==='delivered'){%>
-                                                        <button type="button" class="btn btn-primary"
-                                                            onclick="openReturnModal('<%=val.productId._id%>','<%=orders._id%>')"
-                                                            data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                            Return Product
-                                                        </button>
-                                                        <%} else if(val.orderStatus==='out for delivery' || val.orderStatus==='shipped' || val.orderStatus==='placed') {%>
-                                                            <button type="button" class="btn btn-primary"
-                                                            onclick="cancelInidvidualProduct('<%=orders._id%>','<%=val.productId._id%>',)">
-                                                            Cancel Product
-                                                        </button>
-                                                        <%}%>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <%})%>
-                                            <br>
-
-                                </div>
-
-                                <%if(orders.orderStatus==='Cancelled'){%>
-                                    <button disabled class="btn btn-outline-primary-2 btn-cancel-order btn-block">
-                                        <span class="btn-text">Order Cancelled</span>
-                                        <span class="btn-hover-text">Order Cancelled</span>
-                                    </button>
+                        <%if(orders.orderStatus !='pending' && orders.orderStatus !='Cancelled' ) {%>
+                            <div style="justify-content: center; display: flex;">
+                                <a class="btn btn-secondary print ms-2" href="/invoice?id=<%=orders._id%>"><i
+                                        class="icon material-icons md-print">Download Invoice</i></a>
                             </div>
-                            <%}else if(orders.orderStatus==='pending' ){%>
 
-                                    <button type="submit" onclick="continueOrder('<%=orders._id%>')"
-                                        class="btn btn-outline-primary-2 btn-cancel-order btn-block">
-                                        <span class="btn-text">Continue Order</span>
-                                        <span class="btn-hover-text">Continue</span>
-                                    </button>
-                                    <button type="submit" onclick="cancelFailedOrder('<%=orders._id%>')"
-                                        class="btn btn-outline-danger btn-cancel-order btn-block">
-                                        <span class="btn-text">Cancel Order</span>
-                                        <span class="btn-hover-text">Cancel</span>
-                                    </button>
-                                <%}else if(orders.orderStatus!=='delivered' ){%>
-                                    <button type="submit" onclick="cancelOrder('<%=orders._id%>')"
-                                        class="btn btn-outline-primary-2 btn-cancel-order btn-block">
-                                        <span class="btn-text">Cancell Order</span>
-                                        <span class="btn-hover-text">Cancel</span>
-                                    </button>
-                                    <%}%>
-                        </div>
+                            <%}%>
+
+
+
+                                <div class="container mt-5">
+                                    <h3 class="mb-4 text-center">Ordered Products</h3>
+
+                                    <div class="card mt-3">
+                                        <div class="row">
+                                            <% orders.product.forEach((val)=>{%>
+                                                <div class="card-body d-flex justify-content-start mt-3">
+                                                    <div class="product-card d-flex">
+                                                        <div class="product-image">
+                                                            <a href="">
+                                                                <img src="/multerimages/<%=val.productId.images[0]%>"
+                                                                    alt="" class="img-thumbnail"
+                                                                    style="max-width: 200px;">
+                                                            </a>
+                                                        </div>
+                                                        <div class="mx-3" style="width: 180px;">
+                                                            <h5 class="product-details"><a href="">
+                                                                    <%= val.productId.name%>
+                                                                </a></h5>
+                                                            <p class="product-details">
+                                                                <br>
+                                                                Price : ₹ <%=val.productId.price%>.00 <br>
+                                                                    Quantity : <%=val.quantity%> <br>
+                                                                        Total : ₹ <%=(val.productId.price *
+                                                                            val.quantity).toFixed(2)%> <br>
+                                                                            Payment status : <%=val.paymentStatus%> <br>
+                                                                                Status : <%=val.orderStatus%>
+                                                            </p>
+                                                            <br>
+                                                            <%if(val.orderStatus==='delivered'){%>
+                                                                <button type="button" class="btn btn-primary"
+                                                                    onclick="openReturnModal('<%=val.productId._id%>','<%=orders._id%>')"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#staticBackdrop">
+                                                                    Return Product
+                                                                </button>
+                                                                <%} else if(val.orderStatus==='out for delivery' ||
+                                                                    val.orderStatus==='shipped' ||
+                                                                    val.orderStatus==='placed' ) {%>
+                                                                    <button type="button" class="btn btn-primary"
+                                                                        onclick="cancelInidvidualProduct('<%=orders._id%>','<%=val.productId._id%>',)">
+                                                                        Cancel Product
+                                                                    </button>
+                                                                    <%}%>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <%})%>
+                                                    <br>
+
+                                        </div>
+
+                                        <%if(orders.orderStatus==='Cancelled'){%>
+                                            <button disabled
+                                                class="btn btn-outline-primary-2 btn-cancel-order btn-block">
+                                                <span class="btn-text">Order Cancelled</span>
+                                                <span class="btn-hover-text">Order Cancelled</span>
+                                            </button>
+                                            <%}else if(orders.orderStatus==='returned' ){%>
+                                                <button disabled
+                                                class="btn btn-outline-primary-2 btn-cancel-order btn-block">
+                                                <span class="btn-text">Order Returned</span>
+                                                <span class="btn-hover-text">Order Returned</span>
+                                            </button>
+
+                                            <%}else if(orders.orderStatus==='pending' ){%>
+
+                                                <button type="submit" onclick="continueOrder('<%=orders._id%>')"
+                                                    class="btn btn-outline-primary-2 btn-cancel-order btn-block">
+                                                    <span class="btn-text">Continue Order</span>
+                                                    <span class="btn-hover-text">Continue</span>
+                                                </button>
+                                                <button type="submit" onclick="cancelFailedOrder('<%=orders._id%>')"
+                                                    class="btn btn-outline-danger btn-cancel-order btn-block">
+                                                    <span class="btn-text">Cancel Order</span>
+                                                    <span class="btn-hover-text">Cancel</span>
+                                                </button>
+                                                <%}else if(orders.orderStatus!=='delivered' ){%>
+                                                    <button type="submit" onclick="cancelOrder('<%=orders._id%>')"
+                                                        class="btn btn-outline-primary-2 btn-cancel-order btn-block">
+                                                        <span class="btn-text">Cancell Order</span>
+                                                        <span class="btn-hover-text">Cancel</span>
+                                                    </button>
+                                                    <%}%>
+                                    </div>
+                                </div>
 
                     </div>
                 </div>
@@ -666,7 +678,7 @@
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <script>
             function razorpay(order, id) {
-               
+
                 var options = {
                     "key": "rzp_test_1sHKSD9RFByTBQ", // Enter the Key ID generated from the Dashboard
                     "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise

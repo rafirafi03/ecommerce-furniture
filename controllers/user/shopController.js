@@ -2,20 +2,22 @@ const product = require("../../models/productModel");
 const categoryModel = require("../../models/categoryModel");
 const cartModel = require("../../models/cartModel");
 const wishlistModel = require("../../models/wishlistModel");
+const mongoose = require('mongoose')
 
 // Code for load the product detail page.
 const loadProductDetail = async (req, res) => {
   try {
     const id = req.query.id;
-    const userId = req.session.user_id
+    const userId = req.session.user_id;
 
-    let cartCount = 0
+    let cartCount = 0;
 
-    if(userId) {
-        cartCount = await cartModel.countDocuments({
-        user: userId,
-        product: { $exists: true, $not: { $size: 0 } },
-      });
+    if (userId) {
+      const cartResult = await cartModel.aggregate([
+        { $match: { user: new mongoose.Types.ObjectId(userId) } },
+        { $project: { productCount: { $size: "$product" } } },
+      ]);
+      cartCount = cartResult.length > 0 ? cartResult[0].productCount : 0;
     }
 
     const products = await product
@@ -37,18 +39,22 @@ const loadShop = async (req, res) => {
     const userId = req.session.user_id;
 
     let cartCount = 0;
-    let wishlistCount = 0
+    let wishlistCount = 0;
 
     if (userId) {
-      cartCount = await cartModel.countDocuments({
-        user: userId,
-        product: { $exists: true, $not: { $size: 0 } },
-      });
+      const wishlistResult = await wishlistModel.aggregate([
+        { $match: { user: new mongoose.Types.ObjectId(userId) } },
+        { $project: { productCount: { $size: "$product" } } },
+      ]);
 
-      wishlistCount = await wishlistModel.countDocuments({
-        user: userId,
-        product: { $exists: true, $not: { $size: 0}}
-      })
+      wishlistCount =
+        wishlistResult.length > 0 ? wishlistResult[0].productCount : 0;
+
+      const cartResult = await cartModel.aggregate([
+        { $match: { user: new mongoose.Types.ObjectId(userId) } },
+        { $project: { productCount: { $size: "$product" } } },
+      ]);
+      cartCount = cartResult.length > 0 ? cartResult[0].productCount : 0;
     }
 
     let productsQuery = product.find({ isListed: true }).populate("category");
@@ -89,7 +95,7 @@ const loadShop = async (req, res) => {
       pagination,
       cartCount,
       wishlistCount,
-      userId
+      userId,
     });
   } catch (error) {
     console.log(error);

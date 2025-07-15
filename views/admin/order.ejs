@@ -39,11 +39,17 @@
                                         <td><span class="badge rounded-pill alert-danger">Cancelled</span></td>
                                         <%}else if(val.orderStatus==='delivered' ){%>
                                             <td><span class="badge rounded-pill alert-success">Delivered</span></td>
+                                        <%}else if(val.orderStatus==='shipped' ){%>
+                                            <td><span class="badge rounded-pill alert-success">shipped</span></td>
+                                        <%}else if(val.orderStatus==='out for delivery' ){%>
+                                            <td><span class="badge rounded-pill alert-success">out for delivery</span></td>
                                             <%}else if(val.orderStatus==='returned'){%>
                                                 <td><span class="badge rounded-pill alert-danger">Returned</span></td>
+                                                <%} else if(val.orderStatus==='placed') {%>
+                                                    <td><span class="badge rounded-pill alert-success">Placed</span></td>
                                                 <%} else {%>
-                                                    <td><span class="badge rounded-pill alert-danger">Returned</span></td>
-                                                <%}%>
+                                                    <td><span class="badge rounded-pill alert-danger">Pending</span></td>
+                                                    <%}%>
                                                     <td class="text-end">
                                                         <a href="orderDetail?id=<%=val._id%>"
                                                             class="btn btn-md rounded font-sm">Detail</a>

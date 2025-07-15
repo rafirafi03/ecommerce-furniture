@@ -1,6 +1,6 @@
 const orderModel = require("../../models/orderModel");
-const productModel = require('../../models/productModel');
-const userModel = require('../../models/userModel');
+const productModel = require("../../models/productModel");
+const userModel = require("../../models/userModel");
 
 const getOrder = async (req, res) => {
   try {
@@ -57,14 +57,16 @@ const returnProduct = async (req, res) => {
 
     const order = await orderModel.findById(orderId);
     const product = await productModel.findById(id);
-    console.log(order.user,"order. userrrr")
+    console.log(order.user, "order. userrrr");
     const userId = order.user;
 
     const productItem = order.product.find(
       (item) => item.productId.toString() === id
     );
 
-    const refundAmount = product.price * productItem.quantity;
+    const refundAmount = productItem.offerAmount
+      ? productItem.offerAmount * productItem.quantity
+      : product.price * productItem.quantity;
 
     const updatedOrder = await orderModel.findOneAndUpdate(
       {
@@ -75,6 +77,9 @@ const returnProduct = async (req, res) => {
         $set: {
           "product.$[prod].orderStatus": "returned",
           "product.$[prod].paymentStatus": "refunded",
+        },
+        $inc: {
+          totalPrice: -refundAmount,
         },
       },
       {
@@ -88,10 +93,10 @@ const returnProduct = async (req, res) => {
     );
 
     if (allReturned) {
-          await orderModel.findByIdAndUpdate(orderId, {
-            $set: { orderStatus: "returned" },
-          });
-        }
+      await orderModel.findByIdAndUpdate(orderId, {
+        $set: { orderStatus: "returned" },
+      });
+    }
 
     await productModel.findOneAndUpdate(
       { _id: id },
