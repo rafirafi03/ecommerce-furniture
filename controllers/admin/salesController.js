@@ -90,12 +90,20 @@ const salesReport = async (req, res) => {
     ]);
 
     const ejsPagePath = path.resolve(__dirname, "../../views/admin/report.ejs");
+
+    if(!ejsPagePath) {
+      console.log(' no ejs page path')
+    }
     const ejsPage = await ejs.renderFile(ejsPagePath, {
       orders,
       products,
       categories,
       revenue,
     });
+
+    if(!ejsPage) {
+      console.log('no ejs page')
+    }
     const browser = await puppeteer.launch({
       headless: true,
       args: [
@@ -109,7 +117,13 @@ const salesReport = async (req, res) => {
         "--disable-gpu",
       ],
     });
+
+    if(!browser) {
+      console.log('no puppeteer launch, browser')
+    }
     const page = await browser.newPage();
+
+    if(!page) console.log('no page')
     await page.setContent(ejsPage, { waitUntil: "networkidle0" });
     const pdfBuffer = await page.pdf({
       format: "A4",
