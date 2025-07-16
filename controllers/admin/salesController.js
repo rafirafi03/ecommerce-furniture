@@ -89,7 +89,7 @@ const salesReport = async (req, res) => {
       },
     ]);
 
-    const ejsPagePath = path.join(__dirname, "../../views/admin/report.ejs");
+    const ejsPagePath = path.resolve(__dirname, "../../views/admin/report.ejs");
     const ejsPage = await ejs.renderFile(ejsPagePath, {
       orders,
       products,

@@ -33,7 +33,7 @@
           </div>
 
           <div class="login-error" id="error-div-date"></div>
-
+          <%if(orders && orders.length>0){%>
           <div class="col-md-2 col-2 mt-2">
             <a class="badge btn-secondary print ms-2" href="/admin/salesReport"><i
                 class="icon material-icons md-print"></i>pdf</a>
@@ -43,6 +43,7 @@
             <a class="badge btn-primary print ms-2" href="/admin/salerReportExcel"><i
                 class="icon material-icons md-print"></i>excel</a>
           </div>
+          <%}%>
         </div>
       </header>
       <h6 class="text-success text-center">
