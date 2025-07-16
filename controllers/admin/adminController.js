@@ -41,8 +41,6 @@ const loginPost = async (req, res) => {
 
       return res.redirect("/admin/home"); 
     } else {
-
-      console.log('invalid email or passs')
       
       return res.render("admin/login", {
         message: "Invalid email or password.",
