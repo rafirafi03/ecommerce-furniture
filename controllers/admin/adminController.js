@@ -23,8 +23,6 @@ const loginPost = async (req, res) => {
     });
 
     if (!admin) {
-
-      console.log('not admin')
       // Admin does not exist
       return res.render("admin/login", {
         message: "Invalid email or password.",
