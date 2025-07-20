@@ -326,8 +326,6 @@ const paymentFailed = async (req, res) => {
     const userId = req.session.user_id;
     const { orderId } = req.body;
 
-    console.log("hurekkaaaaaaaaaaaaaaa");
-
     const cart = await cartModel.findOne({ user: userId });
 
     // ✅ Restock products
