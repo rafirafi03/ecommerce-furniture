@@ -53,11 +53,8 @@ const returnProduct = async (req, res) => {
   try {
     let { id, orderId } = req.body;
 
-    console.log(req.body);
-
     const order = await orderModel.findById(orderId);
     const product = await productModel.findById(id);
-    console.log(order.user, "order. userrrr");
     const userId = order.user;
 
     const productItem = order.product.find(
