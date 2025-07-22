@@ -106,6 +106,8 @@ const salesReport = async (req, res) => {
     }
     const browser = await puppeteer.launch({
       headless: true,
+      // Use the executable path if available in environment
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
@@ -115,6 +117,10 @@ const salesReport = async (req, res) => {
         "--no-zygote",
         "--single-process",
         "--disable-gpu",
+        "--disable-web-security",
+        "--disable-features=VizDisplayCompositor",
+        "--run-all-compositor-stages-before-draw",
+        "--memory-pressure-off"
       ],
     });
 
@@ -135,7 +141,8 @@ const salesReport = async (req, res) => {
     res.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
     res.end(pdfBuffer);
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
+    res.status(500).json({ error: 'Failed to generate PDF report' });
   }
 };
 
