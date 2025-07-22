@@ -106,7 +106,6 @@ const salesReport = async (req, res) => {
       console.log('no ejs page')
     }
 
-    // Enhanced Puppeteer configuration for Render
     const browser = await puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
