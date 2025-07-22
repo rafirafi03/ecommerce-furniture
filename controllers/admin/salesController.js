@@ -104,25 +104,55 @@ const salesReport = async (req, res) => {
     if(!ejsPage) {
       console.log('no ejs page')
     }
-    const browser = await puppeteer.launch({
-      headless: true,
-      // Use the executable path if available in environment
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-accelerated-2d-canvas",
-        "--no-first-run",
-        "--no-zygote",
-        "--single-process",
-        "--disable-gpu",
-        "--disable-web-security",
-        "--disable-features=VizDisplayCompositor",
-        "--run-all-compositor-stages-before-draw",
-        "--memory-pressure-off"
-      ],
-    });
+
+    // Enhanced Puppeteer configuration for Render
+    let browser;
+    try {
+      // First try: Let Puppeteer find Chrome automatically
+      browser = await puppeteer.launch({
+        headless: true,
+        args: [
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
+          "--disable-dev-shm-usage",
+          "--disable-accelerated-2d-canvas",
+          "--no-first-run",
+          "--no-zygote",
+          "--single-process",
+          "--disable-gpu",
+          "--disable-web-security",
+          "--disable-features=VizDisplayCompositor",
+          "--run-all-compositor-stages-before-draw",
+          "--memory-pressure-off"
+        ],
+      });
+    } catch (error) {
+      console.log('First attempt failed, trying with explicit path:', error.message);
+      
+      // Second try: Use explicit path if available
+      if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+        browser = await puppeteer.launch({
+          headless: true,
+          executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+          args: [
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage",
+            "--disable-accelerated-2d-canvas",
+            "--no-first-run",
+            "--no-zygote",
+            "--single-process",
+            "--disable-gpu",
+            "--disable-web-security",
+            "--disable-features=VizDisplayCompositor",
+            "--run-all-compositor-stages-before-draw",
+            "--memory-pressure-off"
+          ],
+        });
+      } else {
+        throw new Error('Could not launch browser: ' + error.message);
+      }
+    }
 
     if(!browser) {
       console.log('no puppeteer launch, browser')
@@ -138,10 +168,10 @@ const salesReport = async (req, res) => {
     await browser.close();
 
     res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=sales-report.pdf");
     res.end(pdfBuffer);
   } catch (error) {
-    console.error(error.message);
+    console.log('PDF generation error:', error.message);
     res.status(500).json({ error: 'Failed to generate PDF report' });
   }
 };
