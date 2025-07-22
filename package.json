@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sparticuz/chromium": "^138.0.2",
     "bcryptjs": "^2.4.3",
     "connect-mongodb-session": "^5.0.0",
     "crypto": "^1.0.1",
