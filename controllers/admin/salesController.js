@@ -110,6 +110,7 @@ const salesReport = async (req, res) => {
     try {
       // First try: Let Puppeteer find Chrome automatically
       browser = await puppeteer.launch({
+        enableExtensions: true,
         headless: true,
         args: [
           "--no-sandbox",
