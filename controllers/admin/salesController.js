@@ -2,7 +2,7 @@ const orderModel = require("../../models/orderModel");
 const path = require("path");
 const ejs = require("ejs");
 const puppeteer = require("puppeteer");
-const chromium = require('@sparticuz/chromium');
+const chromium = require("@sparticuz/chromium");
 const ExcelJS = require("exceljs");
 const xlsx = require("xlsx");
 const productModel = require("../../models/productModel");
@@ -92,8 +92,8 @@ const salesReport = async (req, res) => {
 
     const ejsPagePath = path.resolve(__dirname, "../../views/admin/report.ejs");
 
-    if(!ejsPagePath) {
-      console.log(' no ejs page path')
+    if (!ejsPagePath) {
+      console.log(" no ejs page path");
     }
     const ejsPage = await ejs.renderFile(ejsPagePath, {
       orders,
@@ -102,34 +102,33 @@ const salesReport = async (req, res) => {
       revenue,
     });
 
-    if(!ejsPage) {
-      console.log('no ejs page')
+    if (!ejsPage) {
+      console.log("no ejs page");
     }
-
     const browser = await puppeteer.launch({
       args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
     });
 
+    if (!browser) {
+      console.log("no puppeteer launch, browser");
+    }
     const page = await browser.newPage();
+
+    if (!page) console.log("no page");
     await page.setContent(ejsPage, { waitUntil: "networkidle0" });
-    
     const pdfBuffer = await page.pdf({
       format: "A4",
       printBackground: true,
     });
-    
     await browser.close();
 
     res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", "attachment; filename=sales-report.pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
     res.end(pdfBuffer);
-    
   } catch (error) {
-    console.log('PDF generation error:', error.message);
-    res.status(500).json({ error: 'Failed to generate PDF report' });
+    console.log(error.message);
   }
 };
 
