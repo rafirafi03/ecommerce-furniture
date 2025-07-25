@@ -146,7 +146,6 @@ const PatchResetPass = async (req, res) => {
     } else {
       if (passwordCompare) {
         const saltRounds = 10;
-        console.log("yessss");
 
         bcryptjs.hash(newPass, saltRounds).then(async (hashedPassword) => {
           await user.findOneAndUpdate(
@@ -294,8 +293,6 @@ const cancelIndividualProduct = async (req, res) => {
       (item) => item.productId.toString() === productId
     );
 
-    console.log(productItem, "productItemmmmm 12345");
-
     if (!productItem)
       return res.status(404).json({ message: "Product not found in order" });
     if (productItem.orderStatus === "Cancelled")
@@ -303,7 +300,6 @@ const cancelIndividualProduct = async (req, res) => {
 
     const refundAmount = productItem.offerAmount ? productItem.offerAmount * productItem.quantity : product.price * productItem.quantity;
 
-    console.log(refundAmount, "refundd amounttttt  123456");
 
     const updatedOrder = await orderModel.findOneAndUpdate(
       { _id: orderId, "product.productId": productId },
@@ -362,8 +358,6 @@ const cancelIndividualProduct = async (req, res) => {
 const returnProduct = async (req, res) => {
   try {
     let { productId, orderId, reason } = req.body;
-
-    console.log(req.body);
 
     await orderModel.findOneAndUpdate(
       {

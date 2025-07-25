@@ -54,22 +54,17 @@ const loginPost = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    console.log("email and password in user  123456778");
     const user = await User.findOne({ email: email });
 
-    console.log("user finded : ", user);
 
     if (!user) {
-      console.log("not userrrrrrrrrrrrrr");
       // User does not exist
       return res.render("user/login", {
         message: "Invalid email or password.",
       });
     } else if (user.isBlocked) {
-      console.log("user blockeddddddd");
       return res.render("user/login", { message: "You are blocked by admin." });
     } else if (!user.verified) {
-      console.log("not a userrererer");
       return res.render("user/login", {
         message: "Not a User. Please signup!",
       });
@@ -168,8 +163,6 @@ const sendOTPVerificationEmail = async (result, res, req, referral) => {
       html: `<p>Enter <b>${otp}</b> in the app to verify your email address and complete the Signup</p><p>This code <b>expires in 30 seconds</b>.</p>`,
     };
 
-    console.log(mailoptions, ":mailoptionsinside");
-
     // hash the otp
     const saltRounds = 10;
     const hashedOTP = await bcryptjs.hash(otp, saltRounds);
@@ -179,7 +172,6 @@ const sendOTPVerificationEmail = async (result, res, req, referral) => {
       createdAt: Date.now(),
       expiresAt: expirationTime,
     });
-    console.log(newOTPVerification, ":newotpverficationinside");
 
     // save otp record
     await newOTPVerification.save();
